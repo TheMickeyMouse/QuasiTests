@@ -64,16 +64,16 @@ namespace Test {
                      });
         postProcessingQuad.BindMeshes(screenQuad);
 
-        const char* vert = "res\\TestPostProcessing\\vertex.vert";
-        postProcessingQuad.UseShaderFromFile(vert, "res\\TestPostProcessing\\none.frag");
+        const std::string vert = res("vertex.vert");
+        postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));
         // inv shader
-        shaderInv = Graphics::Shader::FromFile(vert, "res\\TestPostProcessing\\invert.frag");
+        shaderInv = Graphics::Shader::FromFile(vert, res("invert.frag"));
         // hsl shader
-        shaderHsv = Graphics::Shader::FromFile(vert, "res\\TestPostProcessing\\hsv.frag");
+        shaderHsv = Graphics::Shader::FromFile(vert, res("hsv.frag"));
         // blur shader
-        shaderBlur = Graphics::Shader::FromFile(vert, "res\\TestPostProcessing\\simple_blur.frag");
+        shaderBlur = Graphics::Shader::FromFile(vert, res("simple_blur.frag"));
         // edge detect shader
-        shaderEdgeDetect = Graphics::Shader::FromFile(vert, "res\\TestPostProcessing\\simple_ed.frag");
+        shaderEdgeDetect = Graphics::Shader::FromFile(vert, res("simple_ed.frag"));
 
         currShader = &postProcessingQuad.GetShader();
         renderResult.Activate(0);

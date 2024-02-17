@@ -9,7 +9,7 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>(1024, 512);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile("res\\TestAdvancedLighting\\untitled.obj");
+        mloader.LoadFile(res("untitled.obj"));
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         // cube = std::move(model.objects[0].mesh);
@@ -26,7 +26,7 @@ namespace Test {
         }
         scene.BindMeshes(meshes);
 
-        scene.UseShaderFromFile("res\\TestAdvancedLighting\\shader.vert", "res\\TestAdvancedLighting\\shader.frag");
+        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f));
 
         camera.trans = { 10, 5, 5 };

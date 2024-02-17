@@ -34,6 +34,8 @@ namespace Test {
         Maths::fvec3 lightPos = { 10, 10, 10 };
         Maths::color3f lightColor = Maths::color3f::BETTER_WHITE();
         float ambientStrength = 0.05f, specularStrength = 0.5f;
+
+        DEFINE_TEST_T(TestAdvancedLighting, ADVANCED)
     public:
         TestAdvancedLighting() = default;
         ~TestAdvancedLighting() override = default;

@@ -9,6 +9,8 @@ namespace Test {
         Graphics::Mesh<VertexColor3D> mesh;
 
         Maths::mat3D projection = Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
+
+        DEFINE_TEST_T(TestDynamicVertexGeometry, BASIC)
     public:
         TestDynamicVertexGeometry() {}
         ~TestDynamicVertexGeometry() override {}

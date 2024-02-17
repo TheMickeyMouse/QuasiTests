@@ -9,10 +9,10 @@
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
                 render = gdevice.CreateNewRender<Vertex>(128, 128);
-        render.UseShaderFromFile("res\\DemoFlappyBird\\shader.vert", "res\\DemoFlappyBird\\shader.frag");
+        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f }));
 
-        font = Graphics::Font::LoadFile("res\\DemoFlappyBird\\consola.ttf");
+        font = Graphics::Font::LoadFile(res("consola.ttf"));
         font.SetSize(48);
         font.RenderBitmap();
         font.GetTexture().Activate(0);

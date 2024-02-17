@@ -173,14 +173,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\DemoFlappyBird.cpp">
+    <ClCompile Include="src\Advanced\TestAdvancedLighting.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -203,99 +205,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>GLEW_STATIC;OPENGL_EXPORTS</PreprocessorDefinitions>
-      <EnablePREfast>false</EnablePREfast>
-      <OmitFramePointers>false</OmitFramePointers>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
-    </ClCompile>
-    <ClCompile Include="src\TestAdvancedLighting.cpp">
-      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <Optimization>Disabled</Optimization>
-      <SupportJustMyCode>true</SupportJustMyCode>
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <CallingConvention>Cdecl</CallingConvention>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -308,19 +248,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestBatchedColored.cpp">
+    <ClCompile Include="src\Advanced\TestFontRender.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -343,29 +285,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -378,19 +328,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestBatchedTextured.cpp">
+    <ClCompile Include="src\Advanced\TestPostProcessing.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -413,29 +365,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -448,19 +408,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestClearColor.cpp">
+    <ClCompile Include="src\Basic\TestBatchedTextured.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -483,29 +445,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -518,19 +488,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestCubeRender.cpp">
+    <ClCompile Include="src\Basic\TestClearColor.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -553,29 +525,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -588,19 +568,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestDynamicQuadGeometry.cpp">
+    <ClCompile Include="src\Basic\TestCubeRender.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -623,29 +605,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -658,19 +648,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestDynamicTris.cpp">
+    <ClCompile Include="src\Basic\TestDynamicQuadGeometry.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -693,29 +685,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -728,19 +728,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestDynamicVertexGeometry.cpp">
+    <ClCompile Include="src\Basic\TestDynamicVertexGeometry.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -763,29 +765,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -798,19 +808,21 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="src\TestFontRender.cpp">
+    <ClCompile Include="src\Demos\DemoFlappyBird.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</AssemblerListingLocation>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</BrowseInformationFile>
       <CompileAs>CompileAsCpp</CompileAs>
       <ConformanceMode>true</ConformanceMode>
       <DiagnosticsFormat>Column</DiagnosticsFormat>
@@ -833,29 +845,37 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleDependenciesFile>
+      <ModuleOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ModuleOutputFile>
       <OmitDefaultLibName>false</OmitDefaultLibName>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\vc143.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.pch</PrecompiledHeaderOutputFile>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessKeepComments>false</PreprocessKeepComments>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
       <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</SourceDependenciesFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <SpectreMitigation>false</SpectreMitigation>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\Testing.tlog\</TrackerLogDirectory>
       <TranslateIncludes>false</TranslateIncludes>
       <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
       <TreatWarningAsError>false</TreatWarningAsError>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>C:\Users\User\RiderProjects\OpenGL\out\Debug\Win32\int\Testing\</XMLDocumentationFileName>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>false</IntelJCCErratum>
       <BuildStlModules>false</BuildStlModules>
@@ -868,152 +888,12 @@
       <OmitFramePointers>false</OmitFramePointers>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
       <AdditionalOptions>
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="src\TestMenu.cpp">
-      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <Optimization>Disabled</Optimization>
-      <SupportJustMyCode>true</SupportJustMyCode>
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <CallingConvention>Cdecl</CallingConvention>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>GLEW_STATIC;OPENGL_EXPORTS</PreprocessorDefinitions>
-      <EnablePREfast>false</EnablePREfast>
-      <OmitFramePointers>false</OmitFramePointers>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
-    </ClCompile>
-    <ClCompile Include="src\TestPostProcessing.cpp">
-      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <Optimization>Disabled</Optimization>
-      <SupportJustMyCode>true</SupportJustMyCode>
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <CallingConvention>Cdecl</CallingConvention>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>GLEW_STATIC;OPENGL_EXPORTS</PreprocessorDefinitions>
-      <EnablePREfast>false</EnablePREfast>
-      <OmitFramePointers>false</OmitFramePointers>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>src;src\Graphics\GLs;src\Graphics\Graphicals;src\Graphics\Primitives;src\Maths;src\Graphics\Utils\Fonts;src\Graphics\Utils\Textures;src\IO;src\vendor\imgui;src\vendor\freetype;src\vendor;src\test;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLFW\include;C:\Users\User\RiderProjects\OpenGL\Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <UseStandardPreprocessor>true</UseStandardPreprocessor>
-      <LinkCompiled>true</LinkCompiled>
-    </ClCompile>
-    <ClCompile Include="src\TestTexturedSquare.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -1086,53 +966,54 @@
     <ClCompile Include="Testing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\DemoFlappyBird.h" />
+    <ClInclude Include="src\Advanced\TestAdvancedLighting.h" />
+    <ClInclude Include="src\Advanced\TestFontRender.h" />
+    <ClInclude Include="src\Advanced\TestPostProcessing.h" />
+    <ClInclude Include="src\Basic\TestBatchedTextured.h" />
+    <ClInclude Include="src\Basic\TestClearColor.h" />
+    <ClInclude Include="src\Basic\TestCubeRender.h" />
+    <ClInclude Include="src\Basic\TestDynamicQuadGeometry.h" />
+    <ClInclude Include="src\Basic\TestDynamicVertexGeometry.h" />
+    <ClInclude Include="src\Demos\DemoFlappyBird.h" />
     <ClInclude Include="src\Test.h" />
-    <ClInclude Include="src\TestAdvancedLighting.h" />
-    <ClInclude Include="src\TestBatchedColored.h" />
-    <ClInclude Include="src\TestBatchedTextured.h" />
-    <ClInclude Include="src\TestClearColor.h" />
-    <ClInclude Include="src\TestCubeRender.h" />
-    <ClInclude Include="src\TestDynamicQuadGeometry.h" />
-    <ClInclude Include="src\TestDynamicTris.h" />
-    <ClInclude Include="src\TestDynamicVertexGeometry.h" />
-    <ClInclude Include="src\TestFontRender.h" />
     <ClInclude Include="src\TestingFramework.h" />
-    <ClInclude Include="src\TestPostProcessing.h" />
-    <ClInclude Include="src\TestTexturedSquare.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\DemoFlappyBird\consola.ttf" />
-    <Content Include="res\DemoFlappyBird\shader.frag" />
-    <Content Include="res\DemoFlappyBird\shader.vert" />
-    <Content Include="res\TestAdvancedLighting\openglscene.obj" />
-    <Content Include="res\TestAdvancedLighting\shader.frag" />
-    <Content Include="res\TestAdvancedLighting\shader.vert" />
-    <Content Include="res\TestAdvancedLighting\untitled.mtl" />
-    <Content Include="res\TestAdvancedLighting\untitled.obj" />
-    <Content Include="res\TestBatchedTextured\img1.png" />
-    <Content Include="res\TestBatchedTextured\img2.png" />
-    <Content Include="res\TestBatchedTextured\shader.frag" />
-    <Content Include="res\TestBatchedTextured\shader.vert" />
-    <Content Include="res\TestCubeRender\shader.frag" />
-    <Content Include="res\TestCubeRender\shader.vert" />
-    <Content Include="res\TestFontRender\arial.ttf" />
-    <Content Include="res\TestFontRender\arialbd.ttf" />
-    <Content Include="res\TestFontRender\arialbi.ttf" />
-    <Content Include="res\TestFontRender\ariali.ttf" />
-    <Content Include="res\TestFontRender\JetBrainsMono-Bold.ttf" />
-    <Content Include="res\TestFontRender\JetBrainsMono-BoldItalic.ttf" />
-    <Content Include="res\TestFontRender\JetBrainsMono-Italic.ttf" />
-    <Content Include="res\TestFontRender\JetBrainsMono-Regular.ttf" />
-    <Content Include="res\TestFontRender\shader.frag" />
-    <Content Include="res\TestFontRender\shader.vert" />
-    <Content Include="res\TestPostProcessing\hsv.frag" />
-    <Content Include="res\TestPostProcessing\invert.frag" />
-    <Content Include="res\TestPostProcessing\none.frag" />
-    <Content Include="res\TestPostProcessing\simple_blur.frag" />
-    <Content Include="res\TestPostProcessing\simple_ed.frag" />
-    <Content Include="res\TestPostProcessing\vertex.vert" />
-    <Content Include="res\TestTexturedSquare\image.png" />
+    <Content Include="res\Advanced\TestAdvancedLighting\openglscene.obj" />
+    <Content Include="res\Advanced\TestAdvancedLighting\shader.frag" />
+    <Content Include="res\Advanced\TestAdvancedLighting\shader.vert" />
+    <Content Include="res\Advanced\TestAdvancedLighting\untitled.mtl" />
+    <Content Include="res\Advanced\TestAdvancedLighting\untitled.obj" />
+    <Content Include="res\Advanced\TestFontRender\arial.ttf" />
+    <Content Include="res\Advanced\TestFontRender\arialbd.ttf" />
+    <Content Include="res\Advanced\TestFontRender\arialbi.ttf" />
+    <Content Include="res\Advanced\TestFontRender\ariali.ttf" />
+    <Content Include="res\Advanced\TestFontRender\JetBrainsMono-Bold.ttf" />
+    <Content Include="res\Advanced\TestFontRender\JetBrainsMono-BoldItalic.ttf" />
+    <Content Include="res\Advanced\TestFontRender\JetBrainsMono-Italic.ttf" />
+    <Content Include="res\Advanced\TestFontRender\JetBrainsMono-Regular.ttf" />
+    <Content Include="res\Advanced\TestFontRender\shader.frag" />
+    <Content Include="res\Advanced\TestFontRender\shader.vert" />
+    <Content Include="res\Advanced\TestPostProcessing\hsv.frag" />
+    <Content Include="res\Advanced\TestPostProcessing\invert.frag" />
+    <Content Include="res\Advanced\TestPostProcessing\none.frag" />
+    <Content Include="res\Advanced\TestPostProcessing\simple_blur.frag" />
+    <Content Include="res\Advanced\TestPostProcessing\simple_ed.frag" />
+    <Content Include="res\Advanced\TestPostProcessing\vertex.vert" />
+    <Content Include="res\Basic\TestBatchedTextured\image.png" />
+    <Content Include="res\Basic\TestBatchedTextured\img1.png" />
+    <Content Include="res\Basic\TestBatchedTextured\shader.frag" />
+    <Content Include="res\Basic\TestBatchedTextured\shader.vert" />
+    <Content Include="res\Basic\TestCubeRender\shader.frag" />
+    <Content Include="res\Basic\TestCubeRender\shader.vert" />
+    <Content Include="res\Demos\DemoFlappyBird\consola.ttf" />
+    <Content Include="res\Demos\DemoFlappyBird\shader.frag" />
+    <Content Include="res\Demos\DemoFlappyBird\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="res\Advanced\" />
+    <Folder Include="res\Basic\" />
+    <Folder Include="res\Demos\" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

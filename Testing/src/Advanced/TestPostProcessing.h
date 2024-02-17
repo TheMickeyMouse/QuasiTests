@@ -31,6 +31,8 @@ namespace Test {
         Graphics::Shader shaderInv, shaderHsv, shaderBlur, shaderEdgeDetect, *currShader;
 
         bool usePostProcessing = true;
+
+        DEFINE_TEST_T(TestPostProcessing, ADVANCED)
     public:
         TestPostProcessing() = default;
         ~TestPostProcessing() override = default;

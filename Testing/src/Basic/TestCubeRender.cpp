@@ -34,7 +34,7 @@ namespace Test {
 
         render.BindMeshes(cube);
 
-        render.UseShaderFromFile("res\\TestCubeRender\\shader.vert", "res\\TestCubeRender\\shader.frag");
+        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(projection);
     }
 

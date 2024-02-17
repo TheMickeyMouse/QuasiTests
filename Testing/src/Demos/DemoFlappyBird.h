@@ -38,6 +38,8 @@ namespace Test {
 
         int score = 0;
         bool isEnd = false;
+
+        DEFINE_TEST_T(DemoFlappyBird, DEMO)
     public:
         DemoFlappyBird() = default;
         ~DemoFlappyBird() override = default;

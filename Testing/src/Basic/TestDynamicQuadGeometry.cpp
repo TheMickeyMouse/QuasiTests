@@ -26,12 +26,14 @@ namespace Test {
     }
 
     void TestDynamicQuadGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
+        quads.back().SetTransform(Maths::mat3D::transform(modelTranslation, modelScale.with_z(1), { 0.0f, 0.0f, modelRotation }));
+
         render.ResetData();
         render.Render();
     }
 
     void TestDynamicQuadGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        uint quadCount = quads.size();
+        const uint quadCount = quads.size();
 
         auto& verts = quads.back().GetVertices();
         ImGui::DragFloat3("Quad Vertex 1", verts[0].Position.begin());
@@ -39,10 +41,17 @@ namespace Test {
         ImGui::DragFloat3("Quad Vertex 3", verts[2].Position.begin());
         ImGui::DragFloat3("Quad Vertex 4", verts[3].Position.begin());
 
+        ImGui::DragFloat2("Current Tri Translation", modelTranslation.begin());
+        ImGui::DragFloat2("Current Tri Scale      ", modelScale.begin(), 0.10f);
+        ImGui::DragFloat ("Current Tri Rotation   ", &modelRotation, 0.05f);
+
         if (ImGui::Button("Add Quad") && !isMax) {
             if (quadCount >= MAX_QUAD) { isMax = true; } else {
                 quads.push_back(NewQuad());
                 quads.back().Bind(render);
+                modelTranslation = 0;
+                modelScale = 1;
+                modelRotation = 0.0f;
 
                 isMin = false;
             }
@@ -54,6 +63,10 @@ namespace Test {
             if (quadCount <= 1) { isMin = true; } else {
                 quads.back().Unbind();
                 quads.pop_back();
+                modelTranslation = 0;
+                modelScale = 1;
+                modelRotation = 0.0f;
+
                 isMax = false;
             }
         }

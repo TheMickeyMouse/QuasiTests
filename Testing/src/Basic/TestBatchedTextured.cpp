@@ -7,8 +7,8 @@ namespace Test {
     void TestBatchedTextured::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(8, 4);
 
-        textures[0] = Graphics::Texture("res\\TestBatchedTextured\\img1.png", false);
-        textures[1] = Graphics::Texture("res\\TestBatchedTextured\\img2.png", false);
+        textures[0] = Graphics::Texture(res("image.png"), true);
+        textures[1] = Graphics::Texture(res("img1.png"), false);
 
         textures[0].Activate();
         textures[1].Activate();
@@ -38,7 +38,7 @@ namespace Test {
         render.BindMeshes(mesh);
         render.SetProjection(projection);
 
-        render.UseShaderFromFile("res\\TestBatchedTextured\\shader.vert", "res\\TestBatchedTextured\\shader.frag");
+        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
         const int slots[] = { textures[0].Slot(), textures[1].Slot(), };
         render.GetShader().Bind();
@@ -50,6 +50,8 @@ namespace Test {
         Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
+        mesh.ApplyMaterial(&Vertex::Color, color);
+
         render.SetCamera(mat);
         render.ResetData();
         render.Render();
@@ -59,6 +61,7 @@ namespace Test {
         ImGui::DragFloat3("Translation", modelTranslation.begin());
         ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
         ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
+        ImGui::ColorEdit4("Texture Color", color.begin());
     }
 
     void TestBatchedTextured::OnDestroy(Graphics::GraphicsDevice& gdevice) {

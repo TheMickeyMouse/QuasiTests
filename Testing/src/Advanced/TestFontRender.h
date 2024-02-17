@@ -46,6 +46,8 @@ New Line with `<br>`<br>
         Maths::fvec3 modelTranslation = 0;
         Maths::fvec3 modelScale = 1;
         Maths::fvec3 modelRotation = 0;
+
+        DEFINE_TEST_T(TestFontRender, ADVANCED)
     public:
         TestFontRender() {}
         ~TestFontRender() override {}

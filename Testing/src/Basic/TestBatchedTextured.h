@@ -21,10 +21,14 @@ namespace Test {
         Graphics::Mesh<Vertex> mesh;
         Graphics::Texture textures[2];
 
+        Maths::colorf color = 1;
+
         Maths::mat3D projection = Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
         Maths::fvec3 modelTranslation = 0;
         Maths::fvec3 modelScale = 1;
         Maths::fvec3 modelRotation = 0;
+
+        DEFINE_TEST_T(TestBatchedTextured, BASIC)
     public:
         TestBatchedTextured() {}
         ~TestBatchedTextured() override {}

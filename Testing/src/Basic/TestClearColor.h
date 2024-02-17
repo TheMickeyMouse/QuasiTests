@@ -5,6 +5,8 @@ namespace Test {
     class TestClearColor : public Test {
     private:
         Maths::colorf clearColor = Maths::colorf::BETTER_BLUE();
+
+        DEFINE_TEST_T(TestClearColor, BASIC)
     public:
         TestClearColor() {}
         ~TestClearColor() override {}
