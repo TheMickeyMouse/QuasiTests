@@ -35,7 +35,6 @@ namespace Test {
     }
 
     void TestBatchedColored::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
         //shader.SetUniform4F("u_Color", color);
         Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
                                                    modelScale,
@@ -48,15 +47,12 @@ namespace Test {
     }
 
     void TestBatchedColored::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
-        
         ImGui::DragFloat3("Translation", modelTranslation.begin());
         ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
         ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
     }
 
     void TestBatchedColored::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
     }
 }

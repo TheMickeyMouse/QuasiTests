@@ -4,8 +4,6 @@
 
 namespace Test {
     void TestAdvancedLighting::OnInit(Graphics::GraphicsDevice& gdevice) {
-        Test::OnInit(gdevice);
-
         scene = gdevice.CreateNewRender<Vertex>(1024, 512);
 
 #pragma region Model Data

@@ -17,9 +17,10 @@ namespace Test {
         TestBatchedColored() {}
         ~TestBatchedColored() override {}
 
-        OPENGL_API void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit(Graphics::GraphicsDevice& gdevice) override;
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
+        void OnRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
     };
 }

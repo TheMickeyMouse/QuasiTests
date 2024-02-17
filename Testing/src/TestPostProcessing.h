@@ -19,7 +19,7 @@ namespace Test {
         Graphics::Mesh<VertexTexture2D> screenQuad;
 
         Maths::mat3D projection = Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f);
-        Maths::fvec3 modelTranslation = 0;
+        Maths::fvec3 modelTranslation = { 0, 0, -3.5 };
         Maths::fvec3 modelScale       = 1;
         Maths::fvec3 modelRotation    = 0;
 
@@ -35,10 +35,10 @@ namespace Test {
         TestPostProcessing() = default;
         ~TestPostProcessing() override = default;
 
-        OPENGL_API void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnUpdate(float deltaTime) override;
-        OPENGL_API void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit(Graphics::GraphicsDevice& gdevice) override;
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;
+        void OnRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
     };
 }

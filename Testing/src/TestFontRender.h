@@ -1,7 +1,7 @@
 #pragma once
 #include "Mesh.h"
 #include "Test.h"
-#include "Font.h"
+#include "Fonts/Font.h"
 
 namespace Test {
     class TestFontRender : Test {
@@ -50,9 +50,10 @@ New Line with `<br>`<br>
         TestFontRender() {}
         ~TestFontRender() override {}
 
-        OPENGL_API void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit(Graphics::GraphicsDevice& gdevice) override;
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
+        void OnRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
     };
 }

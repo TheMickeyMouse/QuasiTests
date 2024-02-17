@@ -30,8 +30,6 @@ namespace Test {
     }
 
     void TestDynamicTris::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
-
         tris.back().SetTransform(ModelMatrix());
         
         render.ResetData();
@@ -39,8 +37,6 @@ namespace Test {
     }
 
     void TestDynamicTris::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
-
         ImGui::DragFloat2("Current Tri Translation", modelTranslation.begin());
         ImGui::DragFloat2("Current Tri Scale      ", modelScale.begin(), 0.10f);
         ImGui::DragFloat ("Current Tri Rotation   ", &modelRotation, 0.05f);
@@ -78,7 +74,6 @@ namespace Test {
     }
 
     void TestDynamicTris::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
     }
 

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Test.h"
-#include "Texture.h"
+#include "Textures/Texture.h"
 #include "Mesh.h"
 
 namespace Test {
@@ -20,9 +20,10 @@ namespace Test {
         TestTexturedSquare() {}
         ~TestTexturedSquare() override {}
 
-        OPENGL_API void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit(Graphics::GraphicsDevice& gdevice) override;
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
+        void OnRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
     };
 }

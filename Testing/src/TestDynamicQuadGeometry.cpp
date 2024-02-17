@@ -26,15 +26,11 @@ namespace Test {
     }
 
     void TestDynamicQuadGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
-
         render.ResetData();
         render.Render();
     }
 
     void TestDynamicQuadGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
-
         uint quadCount = quads.size();
 
         auto& verts = quads.back().GetVertices();
@@ -66,7 +62,6 @@ namespace Test {
     }
 
     void TestDynamicQuadGeometry::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
     }
 

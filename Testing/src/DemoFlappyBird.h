@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 
-#include "Font.h"
+#include "Fonts\Font.h"
 #include "Geometry.h"
 #include "Mesh.h"
 #include "Test.h"
@@ -42,13 +42,13 @@ namespace Test {
         DemoFlappyBird() = default;
         ~DemoFlappyBird() override = default;
 
-        OPENGL_API void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnUpdate(float deltaTime) override;
-        OPENGL_API void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        OPENGL_API void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit(Graphics::GraphicsDevice& gdevice) override;
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;
+        void OnRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        OPENGL_API void ManageSpikes();
-        OPENGL_API void CheckPlayerCollisions();
+        void ManageSpikes(Graphics::GraphicsDevice& gdevice);
+        void CheckPlayerCollisions();
     };
 }

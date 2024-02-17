@@ -4,60 +4,15 @@
 #include "Keyboard.h"
 #include "Quad.h"
 #include "Random.h"
-#include "..\IO\TimeType.h"
 #include "Tri.h"
 
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
-        Test::OnInit(gdevice);
-
-        render = gdevice.CreateNewRender<Vertex>(128, 128);
-        render.UseShader(
-            GLSL_SHADER(
-                330,
-                (
-                    layout(location = 0) in vec4 position;
-                    layout(location = 1) in vec4 color;
-                    layout(location = 2) in vec2 texCoord;
-                    layout(location = 3) in int rtype;
-
-                    out vec4 v_color;
-                    out vec2 v_TexCoord;
-                    flat out int v_rtype;
-
-                    uniform mat4 u_projection;
-                    uniform mat4 u_view;
-
-                    void main() {
-                       gl_Position = u_projection * u_view * position;
-                       v_rtype = rtype;
-                       v_TexCoord = texCoord;
-                       v_color = color;
-                    }
-                ),
-                (
-                    layout(location = 0) out vec4 color;
-
-                    in vec4 v_color;
-                    in vec2 v_TexCoord;
-                    flat in int v_rtype;
-
-                    uniform sampler2D u_font;
-
-                    void main() {
-                       color = v_color;
-                       if (v_rtype == 1) {
-                           float alpha = texture(u_font, v_TexCoord).r;
-                           alpha = smoothstep(0.492, 0.508, alpha);
-                           color.a = alpha;
-                       }
-                    }
-                )
-            )
-        );
+                render = gdevice.CreateNewRender<Vertex>(128, 128);
+        render.UseShaderFromFile("res\\DemoFlappyBird\\shader.vert", "res\\DemoFlappyBird\\shader.frag");
         render.SetProjection(Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f }));
 
-        font = Graphics::Font::LoadFile(GL_WIN_FONTS "consolab.ttf");
+        font = Graphics::Font::LoadFile("res\\DemoFlappyBird\\consola.ttf");
         font.SetSize(48);
         font.RenderBitmap();
         font.GetTexture().Activate(0);
@@ -76,31 +31,27 @@ namespace Test {
 
         render.BindMeshes({ &mBg, &mPlayer });
 
-        time = IO::Time.currentTime;
+        time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;
         Graphics::Render::SetClearColor(Maths::colorf::BETTER_BLACK());
     }
 
-    void DemoFlappyBird::OnUpdate(float deltaTime) {
-        Test::OnUpdate(deltaTime);
-
+    void DemoFlappyBird::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         if (!isEnd) {
-            if (IO::Keyboard.KeyOnPress(IO::Key::SPACE)) {
+            if (gdevice.GetIO().Keyboard.KeyOnPress(IO::Key::SPACE)) {
                 velocityY = 250;
             }
 
             yPos += velocityY * deltaTime;
             velocityY -= 400 * deltaTime;
-            score = (int)(IO::Time.currentTime - time);
+            score = (int)(gdevice.GetIO().Time.currentTime - time);
         }
 
-        ManageSpikes();
+        ManageSpikes(gdevice);
         CheckPlayerCollisions();
     }
 
     void DemoFlappyBird::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
-
         render.GetShader().Bind();
         render.GetShader().SetUniformTex("u_font", font.GetTexture());
 
@@ -120,25 +71,22 @@ namespace Test {
     }
 
     void DemoFlappyBird::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
-
         ImGui::Text("Spike Count: %d", spikes.size());
     }
 
     void DemoFlappyBird::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
         Graphics::Render::SetClearColor(0);
     }
 
-    void DemoFlappyBird::ManageSpikes() {
+    void DemoFlappyBird::ManageSpikes(Graphics::GraphicsDevice& gdevice) {
         if (isEnd) return;
-        nextSpawnTime += IO::Time.deltaTime;
+        nextSpawnTime += gdevice.GetIO().Time.deltaTime;
         if (nextSpawnTime > 2) {
             nextSpawnTime -= 2;
-            const float midY = Maths::rand.getf(-100.0f, 100.0f);
-            Maths::Geometry::ftriangle2d top = { { -50,  220 }, { 50,  220 }, { Maths::rand.getf(-15.0f, 15.0f), midY + 90 } };
-            Maths::Geometry::ftriangle2d bot = { { -50, -220 }, { 50, -220 }, { Maths::rand.getf(-15.0f, 15.0f), midY - 90 } };
+            const float midY = gdevice.GetRand().getf(-100.0f, 100.0f);
+            Maths::Geometry::ftriangle2d top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().getf(-15.0f, 15.0f), midY + 90 } };
+            Maths::Geometry::ftriangle2d bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().getf(-15.0f, 15.0f), midY - 90 } };
 
             spikes.emplace_back(
                 Graphics::Primitives::Tri::FromGeometry(top)
@@ -157,7 +105,7 @@ namespace Test {
         }
 
         for (Spike& spike : spikes) {
-            spike.xOff -= 150 * IO::Time.DeltaTimef();
+            spike.xOff -= 150 * gdevice.GetIO().Time.DeltaTimef();
             spike.mesh.SetTransform(Maths::mat3D::translate_mat({ spike.xOff, 0, 0 }));
         }
 

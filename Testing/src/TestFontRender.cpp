@@ -10,70 +10,17 @@ namespace Test {
     void TestFontRender::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(1024, 1024);
 
-        render.UseShader(
-            GLSL_SHADER(
-                330,
-                (
-                    layout(location = 0) in vec4 position;
-                    layout(location = 1) in vec4 color;
-                    layout(location = 2) in vec2 texCoord;
-                    layout(location = 3) in int isText;
-
-                    out vec4 v_color;
-                    out vec2 v_texCoord;
-                    flat out int v_isText;
-
-                    uniform mat4 u_projection;
-                    uniform mat4 u_view;
-
-                    void main() {
-                        gl_Position = u_projection * u_view * position;
-                        v_color = color;
-                        v_texCoord = texCoord;
-                        v_isText = isText;
-                    }
-                ),
-                (
-                    layout(location = 0) out vec4 color;
-
-                    in vec4 v_color;
-                    in vec2 v_texCoord;
-                    flat in int v_isText;
-
-                    uniform sampler2D u_font;
-                    uniform float u_thickness;
-                    uniform float u_softness;
-                    uniform vec2  u_shadowOffset;
-                    uniform float u_shadowSoftness;
-                    uniform vec4  u_shadowColor;
-
-                    void main() {
-                        color = v_color;
-                        if (v_isText == 1) {
-                           float alpha = texture(u_font, v_texCoord).r;
-
-                           vec4 shadow = u_shadowColor;
-                           vec2 shadowCoord = v_texCoord - u_shadowOffset / vec2(textureSize(u_font, 0));
-                           float shadowAlpha = texture(u_font, shadowCoord).r;
-
-                           shadow.a = shadow.a * smoothstep(0.5 - u_shadowSoftness, 0.5 + u_shadowSoftness, shadowAlpha);
-                           alpha = smoothstep(1.0 - u_thickness - u_softness, 1.0 - u_thickness + u_softness, alpha);
-
-                           color = mix(shadow, color, alpha);
-                        }
-                    }
-                )
-            ));
+        render.UseShaderFromFile("res\\TestFontRender\\shader.vert", "res\\TestFontRender\\shader.frag");
         render.SetProjection(projection);
 
-        font = Graphics::Font::LoadFile(GL_WIN_FONTS "arial.ttf");
-        font.AddDefaultFontStyle(GL_WIN_FONTS "arialbd.ttf", Graphics::FontStyle::BOLD);
-        font.AddDefaultFontStyle(GL_WIN_FONTS "ariali.ttf",  Graphics::FontStyle::ITALIC);
-        font.AddDefaultFontStyle(GL_WIN_FONTS "arialbi.ttf", Graphics::FontStyle::BOLD_ITALIC);
-        font.AddMonoFontStyle(GL_USER_FONTS "JetBrainsMono-Medium.ttf");
-        font.AddMonoFontStyle(GL_USER_FONTS "JetBrainsMono-Bold.ttf",       Graphics::FontStyle::BOLD);
-        font.AddMonoFontStyle(GL_USER_FONTS "JetBrainsMono-Italic.ttf",     Graphics::FontStyle::ITALIC);
-        font.AddMonoFontStyle(GL_USER_FONTS "JetBrainsMono-BoldItalic.ttf", Graphics::FontStyle::BOLD_ITALIC);
+        font = Graphics::Font::LoadFile("res\\TestFontRender\\arial.ttf");
+        font.AddDefaultFontStyle("res\\TestFontRender\\arialbd.ttf", Graphics::FontStyle::BOLD);
+        font.AddDefaultFontStyle("res\\TestFontRender\\ariali.ttf",  Graphics::FontStyle::ITALIC);
+        font.AddDefaultFontStyle("res\\TestFontRender\\arialbi.ttf", Graphics::FontStyle::BOLD_ITALIC);
+        font.AddMonoFontStyle("res\\TestFontRender\\JetBrainsMono-Regular.ttf");
+        font.AddMonoFontStyle("res\\TestFontRender\\JetBrainsMono-Bold.ttf",       Graphics::FontStyle::BOLD);
+        font.AddMonoFontStyle("res\\TestFontRender\\JetBrainsMono-Italic.ttf",     Graphics::FontStyle::ITALIC);
+        font.AddMonoFontStyle("res\\TestFontRender\\JetBrainsMono-BoldItalic.ttf", Graphics::FontStyle::BOLD_ITALIC);
 
         font.SetSize(48);
         font.RenderBitmap();
@@ -120,7 +67,6 @@ namespace Test {
     }
 
     void TestFontRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
         Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
@@ -160,14 +106,12 @@ namespace Test {
     }
 
     void TestFontRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
-        
         ImGui::DragFloat3("Translation", modelTranslation.begin());
         ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
         ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
 
-        ImGui::GetIO().AddKeyEvent(ImGuiKey_Backspace, IO::Keyboard.KeyPressed(IO::Key::BACKSPACE) && string.size() > 1);
-        ImGui::GetIO().AddKeyEvent(ImGuiKey_Enter, IO::Keyboard.KeyPressed(IO::Key::ENTER));
+        ImGui::GetIO().AddKeyEvent(ImGuiKey_Backspace, gdevice.GetIO().Keyboard.KeyPressed(IO::Key::BACKSPACE) && string.size() > 1);
+        ImGui::GetIO().AddKeyEvent(ImGuiKey_Enter, gdevice.GetIO().Keyboard.KeyPressed(IO::Key::ENTER));
         ImGui::InputTextMultiline("String", &string);
         
         ImGui::ColorEdit4("Color",       color.begin());
@@ -204,7 +148,6 @@ namespace Test {
     }
 
     void TestFontRender::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
     }
 }

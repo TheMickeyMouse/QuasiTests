@@ -24,10 +24,12 @@ namespace Test {
     public:
         TestManager();
         ~TestManager() override;
-        
-        void OnUpdate(float deltaTime = IO::Time.DeltaTimef()) override;
+
+        void OnInit(Graphics::GraphicsDevice& gdevice) override {}
+        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime = NAN) override;
         void OnRender(Graphics::GraphicsDevice& gdevice) override;
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
+        void OnDestroy(Graphics::GraphicsDevice& gdevice) override {}
     };
 
     inline TestManager::TestManager() {
@@ -52,21 +54,18 @@ namespace Test {
             delete currentTest;
     }
 
-    inline void TestManager::OnUpdate(float deltaTime) {
-        Test::OnUpdate(deltaTime);
-        // TODO: make it when dt = -1, auto calc dt
+    inline void TestManager::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
+        deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTimef() : deltaTime;
         if (currentTest)
-            currentTest->OnUpdate(deltaTime);
+            currentTest->OnUpdate(gdevice, deltaTime);
     }
     
     inline void TestManager::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
         if (currentTest)
             currentTest->OnRender(gdevice);
     }
 
     inline void TestManager::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
         if (!currentTest) return;
         
         ImGui::Begin("Test");

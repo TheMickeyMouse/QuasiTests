@@ -36,15 +36,11 @@ namespace Test {
     }
 
     void TestDynamicVertexGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnRender(gdevice);
-
         render.ResetData();
         render.Render();
     }
 
     void TestDynamicVertexGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Test::OnImGuiRender(gdevice);
- 
         VertexColor3D* vertices = mesh.GetVertices().data();
         ImGui::DragFloat3("Red    Vertex [0]", vertices[0].Position.begin());
         ImGui::DragFloat3("Green  Vertex [1]", vertices[1].Position.begin());
@@ -58,7 +54,6 @@ namespace Test {
     }
 
     void TestDynamicVertexGeometry::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        Test::OnDestroy(gdevice);
         render.Destroy();
     }
 }
