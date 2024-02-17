@@ -1105,6 +1105,11 @@
     <Content Include="res\DemoFlappyBird\consola.ttf" />
     <Content Include="res\DemoFlappyBird\shader.frag" />
     <Content Include="res\DemoFlappyBird\shader.vert" />
+    <Content Include="res\TestAdvancedLighting\openglscene.obj" />
+    <Content Include="res\TestAdvancedLighting\shader.frag" />
+    <Content Include="res\TestAdvancedLighting\shader.vert" />
+    <Content Include="res\TestAdvancedLighting\untitled.mtl" />
+    <Content Include="res\TestAdvancedLighting\untitled.obj" />
     <Content Include="res\TestBatchedTextured\img1.png" />
     <Content Include="res\TestBatchedTextured\img2.png" />
     <Content Include="res\TestBatchedTextured\shader.frag" />

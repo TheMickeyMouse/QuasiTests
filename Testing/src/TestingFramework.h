@@ -13,6 +13,7 @@
 #include "TestFontRender.h"
 
 #include "DemoFlappyBird.h"
+#include "TestAdvancedLighting.h"
 #include "TestPostProcessing.h"
 #include "TimeType.h"
 
@@ -45,6 +46,7 @@ namespace Test {
             menu->RegisterTest<TestCubeRender>           ("Cube 3D Rendering Test  ");
             menu->RegisterTest<TestFontRender>           ("Font Rendering Test     ");
             menu->RegisterTest<TestPostProcessing>       ("Post Processing Test    ");
+            menu->RegisterTest<TestAdvancedLighting>     ("Advanced Lighting Test  ");
             menu->RegisterTest<DemoFlappyBird>           ("Flappy Bird Demo        ");
         }
     }

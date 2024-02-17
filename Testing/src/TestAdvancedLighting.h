@@ -5,12 +5,35 @@
 
 namespace Test {
     class TestAdvancedLighting : Test {
+    public:
+        struct Vertex {
+            Maths::fvec3 Position, Normal;
+            int MaterialId;
+
+            GL_VERTEX_T(Vertex);
+            GL_VERTEX_FIELD((Position)(Normal)(MaterialId));
+            GL_VERTEX_CUSTOM_TRANSFORM(mat) {
+                return {
+                    .Position = mat * Position,
+                    .Normal = mat.inv().transpose() * Normal.with_w(0),
+                    .MaterialId = MaterialId
+                };
+            }
+        };
+
     private:
-        using Vertex = Graphics::OBJVertex;
         Graphics::RenderObject<Vertex> scene;
 
-        Graphics::OBJModel model;
+        // Graphics::Mesh<Vertex> light, cube;
+
+        // Graphics::OBJModel model;
+        std::vector<Graphics::Mesh<Vertex>> meshes;
+        std::vector<Graphics::MTLMaterial> materials;
         Graphics::CameraController camera;
+
+        Maths::fvec3 lightPos = { 10, 10, 10 };
+        Maths::color3f lightColor = Maths::color3f::BETTER_WHITE();
+        float ambientStrength = 0.05f, specularStrength = 0.5f;
     public:
         TestAdvancedLighting() = default;
         ~TestAdvancedLighting() override = default;
@@ -20,5 +43,7 @@ namespace Test {
         void OnRender(Graphics::GraphicsDevice& gdevice) override;
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+
+        void UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material);
     };
 }
