@@ -2,7 +2,6 @@
 
 #include "imgui.h"
 #include "misc/cpp/imgui_stdlib.h"
-#include "Keyboard.h"
 #include "Graphics/Utils/Fonts/Font.h"
 #include "stdu/rich_string.h"
 
@@ -110,8 +109,6 @@ namespace Test {
         ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
         ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
 
-        ImGui::GetIO().AddKeyEvent(ImGuiKey_Backspace, gdevice.GetIO().Keyboard.KeyPressed(IO::Key::BACKSPACE) && string.size() > 1);
-        ImGui::GetIO().AddKeyEvent(ImGuiKey_Enter, gdevice.GetIO().Keyboard.KeyPressed(IO::Key::ENTER));
         ImGui::InputTextMultiline("String", &string);
         
         ImGui::ColorEdit4("Color",       color.begin());

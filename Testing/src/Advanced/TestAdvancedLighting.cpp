@@ -29,8 +29,16 @@ namespace Test {
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f));
 
-        camera.trans = { 10, 5, 5 };
+        camera.position = { 3.3716135, 9.015127, 0.29202303 };
+        camera.yaw = -3.4856012f; camera.pitch = -1.166767f;
         camera.speed = 3;
+        camera.sensitivity = 0.12f;
+        camera.fov = 90;
+        camera.fovRange = { 1, 90 };
+        camera.zoomRatio = 0.5;
+        camera.smoothZoom = 120;
+
+        camera.Toggle(gdevice);
     }
 
     void TestAdvancedLighting::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -45,25 +53,27 @@ namespace Test {
         scene.GetShader().SetUniform3F("lightPosition", lightPos.begin());
         scene.GetShader().SetUniform3F("lightColor", lightColor.begin());
         scene.GetShader().SetUniform1F("ambientStrength", ambientStrength);
-        scene.GetShader().SetUniform3F("viewPosition", camera.trans.begin());
+        const Maths::fvec3 view = camera.position * Maths::fvec3 { -1, 1, -1 };
+        scene.GetShader().SetUniform3F("viewPosition", view.begin());
         scene.GetShader().SetUniform1F("specularIntensity", specularStrength);
 
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
         }
 
+        scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
         scene.ResetData();
         scene.Render();
     }
 
     void TestAdvancedLighting::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        camera.ImGuiEdit();
-
         ImGui::DragFloat3("Light Position", lightPos.begin());
         ImGui::ColorEdit3("Light Color", lightColor.begin());
         ImGui::DragFloat("Ambient Strength", &ambientStrength, 0.01f);
         ImGui::DragFloat("Specular Strength", &specularStrength, 0.01f);
+
+        camera.ImGuiEdit();
     }
 
     void TestAdvancedLighting::OnDestroy(Graphics::GraphicsDevice& gdevice) {

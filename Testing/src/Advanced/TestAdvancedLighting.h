@@ -31,9 +31,9 @@ namespace Test {
         std::vector<Graphics::MTLMaterial> materials;
         Graphics::CameraController camera;
 
-        Maths::fvec3 lightPos = { 10, 10, 10 };
-        Maths::color3f lightColor = Maths::color3f::BETTER_WHITE();
-        float ambientStrength = 0.05f, specularStrength = 0.5f;
+        Maths::fvec3 lightPos = { 10, 27, 10 };
+        Maths::color3f lightColor = 1;
+        float ambientStrength = 0.25f, specularStrength = 0.6f;
 
         DEFINE_TEST_T(TestAdvancedLighting, ADVANCED)
     public:
