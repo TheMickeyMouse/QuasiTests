@@ -53,8 +53,7 @@ namespace Test {
         scene.GetShader().SetUniform3F("lightPosition", lightPos.begin());
         scene.GetShader().SetUniform3F("lightColor", lightColor.begin());
         scene.GetShader().SetUniform1F("ambientStrength", ambientStrength);
-        const Maths::fvec3 view = camera.position * Maths::fvec3 { -1, 1, -1 };
-        scene.GetShader().SetUniform3F("viewPosition", view.begin());
+        scene.GetShader().SetUniform3F("viewPosition", camera.position.begin());
         scene.GetShader().SetUniform1F("specularIntensity", specularStrength);
 
         for (uint i = 0; i < materials.size(); ++i) {

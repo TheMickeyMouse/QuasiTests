@@ -103,7 +103,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\Graphics\GLs;$(SolutionDir)OpenGL\src\Graphics\Graphicals;$(SolutionDir)OpenGL\src\Graphics\Utils;$(SolutionDir)OpenGL\src\IO;$(SolutionDir)OpenGL\src\Maths;$(SolutionDir)OpenGL\src\vendor\imgui;$(SolutionDir)OpenGL\src\vendor\freetype;$(SolutionDir)OpenGL\src\stdu;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\Graphics\GLs;$(SolutionDir)OpenGL\src\Graphics\Graphicals;$(SolutionDir)OpenGL\src\Graphics\Utils;$(SolutionDir)OpenGL\src\IO;$(SolutionDir)OpenGL\src\Maths;$(SolutionDir)OpenGL\src\vendor\imgui;$(SolutionDir)OpenGL\src\vendor\freetype;$(SolutionDir)OpenGL\src\stdu;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include;$(ProjectDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -333,6 +333,7 @@
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
+    <ClCompile Include="src\Advanced\TestMaterialMaps.cpp" />
     <ClCompile Include="src\Advanced\TestPostProcessing.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -968,6 +969,7 @@
   <ItemGroup>
     <ClInclude Include="src\Advanced\TestAdvancedLighting.h" />
     <ClInclude Include="src\Advanced\TestFontRender.h" />
+    <ClInclude Include="src\Advanced\TestMaterialMaps.h" />
     <ClInclude Include="src\Advanced\TestPostProcessing.h" />
     <ClInclude Include="src\Basic\TestBatchedTextured.h" />
     <ClInclude Include="src\Basic\TestClearColor.h" />
@@ -994,6 +996,11 @@
     <Content Include="res\Advanced\TestFontRender\JetBrainsMono-Regular.ttf" />
     <Content Include="res\Advanced\TestFontRender\shader.frag" />
     <Content Include="res\Advanced\TestFontRender\shader.vert" />
+    <Content Include="res\Advanced\TestMaterialMaps\boxes.obj" />
+    <Content Include="res\Advanced\TestMaterialMaps\diffuse.png" />
+    <Content Include="res\Advanced\TestMaterialMaps\shader.frag" />
+    <Content Include="res\Advanced\TestMaterialMaps\shader.vert" />
+    <Content Include="res\Advanced\TestMaterialMaps\specular.png" />
     <Content Include="res\Advanced\TestPostProcessing\hsv.frag" />
     <Content Include="res\Advanced\TestPostProcessing\invert.frag" />
     <Content Include="res\Advanced\TestPostProcessing\none.frag" />
@@ -1011,7 +1018,6 @@
     <Content Include="res\Demos\DemoFlappyBird\shader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="res\Advanced\" />
     <Folder Include="res\Basic\" />
     <Folder Include="res\Demos\" />
   </ItemGroup>

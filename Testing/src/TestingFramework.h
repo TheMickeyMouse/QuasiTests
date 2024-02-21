@@ -2,7 +2,6 @@
 
 #include <functional>
 
-#include "imgui.h"
 #include "Test.h"
 #include "Basic/TestClearColor.h"
 #include "Basic/TestBatchedTextured.h"
@@ -13,6 +12,7 @@
 #include "Advanced/TestFontRender.h"
 #include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestPostProcessing.h"
+#include "Advanced/TestMaterialMaps.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -84,14 +84,6 @@ namespace Test {
             menu->RegisterTest<TestClearColor>           ("Clear Color Test        ");
             menu->AddDescription("Clears the screen with a color.");
 
-            // menu->RegisterTest<TestTexturedSquare>       ("Texture Square Test     ");
-            // menu->AddDescription("Draws a single textured square.");
-            // ! DELETED.
-
-            // menu->RegisterTest<TestBatchedColored>       ("Colored Batching Test   ");
-            // menu->AddDescription("Draws 2 colored squares.");
-            // ! DELETED.
-
             menu->RegisterTest<TestBatchedTextured>      ("Texture Batching Test   ");
             menu->AddDescription("Draws 2 textured squares.");
 
@@ -100,10 +92,6 @@ namespace Test {
 
             menu->RegisterTest<TestDynamicQuadGeometry>  ("Dyn Quad Geometry Test  ");
             menu->AddDescription("Draws up to 8 Unique Modifiable squares.");
-
-            // menu->RegisterTest<TestDynamicTris>          ("Dyn Tris Test           ");
-            // menu->AddDescription("Clears the screen with a color.");
-            // ! DELETED.
 
             menu->RegisterTest<TestCubeRender>           ("Cube 3D Rendering Test  ");
             menu->AddDescription("Draws a 3D cube.");
@@ -122,12 +110,15 @@ namespace Test {
             menu->RegisterTest<TestAdvancedLighting>("Advanced Lighting Test  ");
             menu->AddDescription("Draws a simple scene with lighting.");
 
+            menu->RegisterTest<TestMaterialMaps>    ("Material Map Test  ");
+            menu->AddDescription("Draws materials with texture maps.");
+
             // =========================================================================
 
             menu->DeclareTestType(TestType::DEMO);
             menu->AddSectionDescription("Simple OpenGL 'Games' created to explore the limitations of the engine. \nJust to see what's possible without over-development.");
 
-            menu->RegisterTest<DemoFlappyBird>           ("Flappy Bird Demo        ");
+            menu->RegisterTest<DemoFlappyBird>("Flappy Bird Demo        ");
             menu->AddDescription("A dumb-down version of Flappy Bird.");
 
             menu->DeclareTestType(TestType::OTHER);
