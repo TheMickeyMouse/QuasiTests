@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "Test.h"
+
 #include "Basic/TestClearColor.h"
 #include "Basic/TestBatchedTextured.h"
 #include "Basic/TestDynamicVertexGeometry.h"
@@ -10,9 +11,10 @@
 #include "Basic/TestCubeRender.h"
 
 #include "Advanced/TestFontRender.h"
-#include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestPostProcessing.h"
+#include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestMaterialMaps.h"
+#include "Advanced/TestLightCasters.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -110,8 +112,11 @@ namespace Test {
             menu->RegisterTest<TestAdvancedLighting>("Advanced Lighting Test  ");
             menu->AddDescription("Draws a simple scene with lighting.");
 
-            menu->RegisterTest<TestMaterialMaps>    ("Material Map Test  ");
+            menu->RegisterTest<TestMaterialMaps>    ("Material Map Test       ");
             menu->AddDescription("Draws materials with texture maps.");
+
+            menu->RegisterTest<TestLightCasters>    ("Light Casters Test      ");
+            menu->AddDescription("Draws a scene with many types of light casting.");
 
             // =========================================================================
 
