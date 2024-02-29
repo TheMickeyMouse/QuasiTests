@@ -15,6 +15,7 @@
 #include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestMaterialMaps.h"
 #include "Advanced/TestLightCasters.h"
+#include "Advanced/TestStencilOutline.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -83,19 +84,19 @@ namespace Test {
             menu->DeclareTestType(TestType::BASIC);
             menu->AddSectionDescription("Simple OpenGL Tests to make sure the renderer is working. \nTests mostly involve: Texture Rendering and Vertex manipulation");
 
-            menu->RegisterTest<TestClearColor>           ("Clear Color Test        ");
+            menu->RegisterTest<TestClearColor>("Clear Color");
             menu->AddDescription("Clears the screen with a color.");
 
-            menu->RegisterTest<TestBatchedTextured>      ("Texture Batching Test   ");
+            menu->RegisterTest<TestBatchedTextured>("Texture Batching");
             menu->AddDescription("Draws 2 textured squares.");
 
-            menu->RegisterTest<TestDynamicVertexGeometry>("Dyn Vertex Geometry Test");
+            menu->RegisterTest<TestDynamicVertexGeometry>("Dyn Vertex Geometry");
             menu->AddDescription("Draws 2 Modifiable squares.");
 
-            menu->RegisterTest<TestDynamicQuadGeometry>  ("Dyn Quad Geometry Test  ");
+            menu->RegisterTest<TestDynamicQuadGeometry>("Dyn Quad Geometry");
             menu->AddDescription("Draws up to 8 Unique Modifiable squares.");
 
-            menu->RegisterTest<TestCubeRender>           ("Cube 3D Rendering Test  ");
+            menu->RegisterTest<TestCubeRender>("Cube 3D Rendering");
             menu->AddDescription("Draws a 3D cube.");
 
             // =========================================================================
@@ -103,27 +104,30 @@ namespace Test {
             menu->DeclareTestType(TestType::ADVANCED);
             menu->AddSectionDescription("Advanced OpenGL Tests focused on more realistic rendering. \nIncluding: Text Rendering, Post Processing Effects and Lighting");
 
-            menu->RegisterTest<TestFontRender>      ("Font Rendering Test     ");
+            menu->RegisterTest<TestFontRender>("Font Rendering");
             menu->AddDescription("Draws text (not 100% finished yet: markdown).");
 
-            menu->RegisterTest<TestPostProcessing>  ("Post Processing Test    ");
+            menu->RegisterTest<TestPostProcessing>("Post Processing");
             menu->AddDescription("Draws a simple scene with post processing.");
 
-            menu->RegisterTest<TestAdvancedLighting>("Advanced Lighting Test  ");
+            menu->RegisterTest<TestAdvancedLighting>("Advanced Lighting");
             menu->AddDescription("Draws a simple scene with lighting.");
 
-            menu->RegisterTest<TestMaterialMaps>    ("Material Map Test       ");
+            menu->RegisterTest<TestMaterialMaps>("Material Map");
             menu->AddDescription("Draws materials with texture maps.");
 
-            menu->RegisterTest<TestLightCasters>    ("Light Casters Test      ");
+            menu->RegisterTest<TestLightCasters>("Light Casters");
             menu->AddDescription("Draws a scene with many types of light casting.");
+
+            menu->RegisterTest<TestStencilOutline>("Stencil Outline");
+            menu->AddDescription("Draws an outline using the stencil buffer.");
 
             // =========================================================================
 
             menu->DeclareTestType(TestType::DEMO);
             menu->AddSectionDescription("Simple OpenGL 'Games' created to explore the limitations of the engine. \nJust to see what's possible without over-development.");
 
-            menu->RegisterTest<DemoFlappyBird>("Flappy Bird Demo        ");
+            menu->RegisterTest<DemoFlappyBird>("Flappy Bird");
             menu->AddDescription("A dumb-down version of Flappy Bird.");
 
             menu->DeclareTestType(TestType::OTHER);

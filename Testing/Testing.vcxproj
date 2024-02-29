@@ -415,6 +415,7 @@
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
+    <ClCompile Include="src\Advanced\TestStencilOutline.cpp" />
     <ClCompile Include="src\Basic\TestBatchedTextured.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -973,6 +974,7 @@
     <ClInclude Include="src\Advanced\TestLightCasters.h" />
     <ClInclude Include="src\Advanced\TestMaterialMaps.h" />
     <ClInclude Include="src\Advanced\TestPostProcessing.h" />
+    <ClInclude Include="src\Advanced\TestStencilOutline.h" />
     <ClInclude Include="src\Basic\TestBatchedTextured.h" />
     <ClInclude Include="src\Basic\TestClearColor.h" />
     <ClInclude Include="src\Basic\TestCubeRender.h" />
@@ -1013,6 +1015,8 @@
     <Content Include="res\Advanced\TestPostProcessing\simple_blur.frag" />
     <Content Include="res\Advanced\TestPostProcessing\simple_ed.frag" />
     <Content Include="res\Advanced\TestPostProcessing\vertex.vert" />
+    <Content Include="res\Advanced\TestStencilOutline\outline.frag" />
+    <Content Include="res\Advanced\TestStencilOutline\vertex.vert" />
     <Content Include="res\Basic\TestBatchedTextured\image.png" />
     <Content Include="res\Basic\TestBatchedTextured\img1.png" />
     <Content Include="res\Basic\TestBatchedTextured\shader.frag" />

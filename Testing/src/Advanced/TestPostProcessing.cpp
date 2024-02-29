@@ -13,24 +13,15 @@ namespace Test {
         cubes.reserve(9);
 
         constexpr float s = 0.5f;
+        for (int i = 0; i < 8; ++i) {
+            cubes.push_back(
+                Graphics::MeshUtils::CubeMesh(0, s, s, s)
+                .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::color_id(i))
+            );
+            cubes[i].SetTransform(Maths::mat3D::translate_mat((Maths::Corner3D)i));
+        }
         cubes.push_back(Graphics::MeshUtils::CubeMesh(0, s, s, s)
             .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_GRAY()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({  1,  1,  1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_WHITE()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({  1,  1, -1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_YELLOW()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({  1, -1,  1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_PURPLE()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({  1, -1, -1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_RED()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({ -1,  1,  1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_CYAN()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({ -1,  1, -1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_LIME()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({ -1, -1,  1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_BLUE()));
-        cubes.push_back(Graphics::MeshUtils::CubeMesh({ -1, -1, -1 }, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_BLACK()));
 
         scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
