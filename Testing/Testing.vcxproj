@@ -77,7 +77,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)out\$(Configuration)\$(Platform)\out\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)out\$(Configuration)\$(Platform)\int\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\Graphics\GLs;$(SolutionDir)OpenGL\src\Graphics\Graphicals;$(SolutionDir)OpenGL\src\Graphics\Primitives;$(SolutionDir)OpenGL\src\Graphics\Utils;$(SolutionDir)OpenGL\src\Graphics\Utils\Textures;$(SolutionDir)OpenGL\src\IO;$(SolutionDir)OpenGL\src\Maths;$(SolutionDir)OpenGL\src\vendor\imgui;$(SolutionDir)OpenGL\src\vendor\freetype;$(SolutionDir)OpenGL\src\stdu;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include</IncludePath>
+    <IncludePath>$(SolutionDir)OpenGL\src;$(SolutionDir)OpenGL\src\Debug;$(SolutionDir)OpenGL\src\Graphics\GLs;$(SolutionDir)OpenGL\src\Graphics\Graphicals;$(SolutionDir)OpenGL\src\Graphics\Primitives;$(SolutionDir)OpenGL\src\Graphics\Utils;$(SolutionDir)OpenGL\src\Graphics\Utils\Textures;$(SolutionDir)OpenGL\src\IO;$(SolutionDir)OpenGL\src\Maths;$(SolutionDir)OpenGL\src\vendor\imgui;$(SolutionDir)OpenGL\src\vendor\freetype;$(SolutionDir)OpenGL\src\stdu;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
