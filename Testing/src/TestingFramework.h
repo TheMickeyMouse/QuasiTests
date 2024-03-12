@@ -16,6 +16,7 @@
 #include "Advanced/TestMaterialMaps.h"
 #include "Advanced/TestLightCasters.h"
 #include "Advanced/TestStencilOutline.h"
+#include "Advanced/TestCubeMap.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -121,6 +122,9 @@ namespace Test {
 
             menu->RegisterTest<TestStencilOutline>("Stencil Outline");
             menu->AddDescription("Draws an outline using the stencil buffer.");
+
+            menu->RegisterTest<TestCubeMap>("Cube Map");
+            menu->AddDescription("Draws a skybox using a cubemap texture.");
 
             // =========================================================================
 

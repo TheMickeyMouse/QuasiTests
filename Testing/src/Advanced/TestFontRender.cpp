@@ -25,7 +25,7 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate();
 
-        const Maths::fvec2 size = font.GetTexture().GetSize();
+        const Maths::fvec2 size = font.GetTexture().Size2D();
         const float x = size.x / size.y;
         Vertex atlVertices[] = { 
             { { -100.0f * x, -100.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },

@@ -253,6 +253,7 @@
       </AdditionalOptions>
       <UseStandardPreprocessor>true</UseStandardPreprocessor>
     </ClCompile>
+    <ClCompile Include="src\Advanced\TestCubeMap.cpp" />
     <ClCompile Include="src\Advanced\TestFontRender.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -970,6 +971,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Advanced\TestAdvancedLighting.h" />
+    <ClInclude Include="src\Advanced\TestCubeMap.h" />
     <ClInclude Include="src\Advanced\TestFontRender.h" />
     <ClInclude Include="src\Advanced\TestLightCasters.h" />
     <ClInclude Include="src\Advanced\TestMaterialMaps.h" />
@@ -990,6 +992,14 @@
     <Content Include="res\Advanced\TestAdvancedLighting\shader.vert" />
     <Content Include="res\Advanced\TestAdvancedLighting\untitled.mtl" />
     <Content Include="res\Advanced\TestAdvancedLighting\untitled.obj" />
+    <Content Include="res\Advanced\TestCubeMap\fragment.frag" />
+    <Content Include="res\Advanced\TestCubeMap\left.png" />
+    <Content Include="res\Advanced\TestCubeMap\front.png" />
+    <Content Include="res\Advanced\TestCubeMap\right.png" />
+    <Content Include="res\Advanced\TestCubeMap\back.png" />
+    <Content Include="res\Advanced\TestCubeMap\up.png" />
+    <Content Include="res\Advanced\TestCubeMap\down.png" />
+    <Content Include="res\Advanced\TestCubeMap\vertex.vert" />
     <Content Include="res\Advanced\TestFontRender\arial.ttf" />
     <Content Include="res\Advanced\TestFontRender\arialbd.ttf" />
     <Content Include="res\Advanced\TestFontRender\arialbi.ttf" />

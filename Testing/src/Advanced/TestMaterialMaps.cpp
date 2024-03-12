@@ -5,25 +5,18 @@
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {
-        scene = gdevice.CreateNewRender<Vertex>();
+        scene = gdevice.CreateNewRender<VertexTextureNormal3D>();
         lightScene = gdevice.CreateNewRender<VertexColor3D>(8, 12);
 
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("boxes.obj"));
 
-        auto m = mloader.GetModel().RetrieveMeshes();
-        meshes.reserve(m.size());
-        std::ranges::transform(m, std::back_inserter(meshes),
-           [](const Graphics::Mesh<Graphics::OBJVertex>& m) -> Graphics::Mesh<Vertex> {
-               return m.Convert<Vertex>(
-                   [](const Graphics::OBJVertex& v) -> Vertex {
-                       return { v.Position, v.TextureCoordinate, v.Normal };
-                   }); });
+        meshes = mloader.GetModel().RetrieveMeshes();
 
         scene.BindMeshes(meshes);
 
-        diffuseMap = Graphics::Texture(res("diffuse.png"), true);
-        specularMap = Graphics::Texture(res("specular.png"), true);
+        diffuseMap = Graphics::Texture::LoadPNG(res("diffuse.png"));
+        specularMap = Graphics::Texture::LoadPNG(res("specular.png"));
         diffuseMap.Activate(0);
         specularMap.Activate(1);
 

@@ -32,14 +32,14 @@ namespace Test {
         fbo.Bind();
 
         renderResult = Graphics::Texture {
-            nullptr, (uint)winX, (uint)winY,
-            true, Graphics::TextureFormat::RGB, (Graphics::TextureInternalFormat)Graphics::TextureFormat::RGB
+            nullptr, { winX, winY },
+            { .load = { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 } }
         };
 
         fbo.Attach(renderResult);
 
         depthStencilAttachment = Graphics::RenderBuffer {
-            Graphics::TextureInternalFormat::DEPTH_24_STENCIL_8, gdevice.GetWindowSize()
+            Graphics::TextureIFormat::DEPTH_24_STENCIL_8, gdevice.GetWindowSize()
         };
 
         fbo.Bind();

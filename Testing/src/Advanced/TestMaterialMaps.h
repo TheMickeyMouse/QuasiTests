@@ -6,27 +6,11 @@
 
 namespace Test {
     class TestMaterialMaps : Test {
-    public:
-        struct Vertex {
-            Maths::fvec3 Position;
-            Maths::fvec2 TextureCoordinate;
-            Maths::fvec3 Normal;
-
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(TextureCoordinate)(Normal));
-            GL_VERTEX_CUSTOM_TRANSFORM(mat) {
-                return {
-                    .Position = mat * Position,
-                    .TextureCoordinate = TextureCoordinate,
-                    .Normal = mat * Normal.with_w(0)
-                };
-            }
-        };
     private:
-        Graphics::RenderObject<Vertex> scene;
+        Graphics::RenderObject<VertexTextureNormal3D> scene;
         Graphics::RenderObject<VertexColor3D> lightScene;
 
-        std::vector<Graphics::Mesh<Vertex>> meshes;
+        std::vector<Graphics::Mesh<VertexTextureNormal3D>> meshes;
         Graphics::Mesh<VertexColor3D> lightSource;
         Graphics::CameraController camera;
 

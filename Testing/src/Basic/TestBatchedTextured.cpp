@@ -7,8 +7,9 @@ namespace Test {
     void TestBatchedTextured::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(8, 4);
 
-        textures[0] = Graphics::Texture(res("image.png"), true);
-        textures[1] = Graphics::Texture(res("img1.png"), false);
+        using namespace Graphics;
+        textures[0] = Texture::LoadPNG(res("image.png"));
+        textures[1] = Texture::LoadPNG(res("img1.png"), { .params = { TextureParamPair::NearestSample() } });
 
         textures[0].Activate();
         textures[1].Activate();
@@ -25,12 +26,12 @@ namespace Test {
             { { +80.00f, +80.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },
         };
 
-        Graphics::TriIndices indices[] = {
+        TriIndices indices[] = {
             { 0, 1, 2 }, { 2, 3, 0 },
             { 4, 5, 6 }, { 6, 7, 4 }
         };
 
-        mesh = Graphics::Mesh(
+        mesh = Mesh(
             std::vector(vertices, vertices + 8),
             std::vector(indices, indices + 4)
         );
