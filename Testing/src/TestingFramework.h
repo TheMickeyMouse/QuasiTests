@@ -31,7 +31,7 @@ namespace Test {
 
         struct TestSection {
             TestType type;
-            Maths::urange span;
+            Maths::rangez span;
             std::string description;
         };
 

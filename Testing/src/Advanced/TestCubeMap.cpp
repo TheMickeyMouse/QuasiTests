@@ -1,16 +1,20 @@
 #include "TestCubeMap.h"
+#include "MeshUtils.h"
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
-        skybox = Graphics::MeshUtils::CubeMesh(0, 10, 10, 10)
-                .Convert<Vertex>([](const VertexColor3D& v) -> Vertex { return { v.Position, 2 * v.Color.as_rgbf() - 1, 0 }; });
+        skybox = Graphics::MeshUtils::CubeMeshNorm(
+            [](const Graphics::VertexNormal3D& v, uint) -> Vertex {
+                return { v.Position, v.Position * 2, v.Normal }; });
         scene.BindMeshes(skybox);
 
         cubemap = Graphics::Texture::LoadCubemapPNG(
             { res("right.png"), res("left.png"),
               res("up.png"),    res("down.png"),
               res("front.png"), res("back.png") });
+
+        auto v = Maths::fvec3 { 1, 2, 3 }.swizzle<"zxy">();
 
         cubemap.Activate();
 

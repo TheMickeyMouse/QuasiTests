@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 
-#include "Fonts\Font.h"
+#include "Font.h"
 #include "Geometry.h"
 #include "Mesh.h"
 #include "Test.h"

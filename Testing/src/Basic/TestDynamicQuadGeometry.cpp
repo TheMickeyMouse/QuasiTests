@@ -16,7 +16,7 @@ namespace Test {
     };
     
     void TestDynamicQuadGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {
-        render = gdevice.CreateNewRender<VertexColor3D>(8 * 4, 8 * 2);
+        render = gdevice.CreateNewRender<Graphics::VertexColor3D>(8 * 4, 8 * 2);
 
         render.UseShader(Graphics::Shader::StdColored);
         render.SetProjection(projection);
@@ -33,7 +33,7 @@ namespace Test {
     }
 
     void TestDynamicQuadGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        const uint quadCount = quads.size();
+        const usize quadCount = quads.size();
 
         auto& verts = quads.back().GetVertices();
         ImGui::DragFloat3("Quad Vertex 1", verts[0].Position.begin());
@@ -78,9 +78,9 @@ namespace Test {
         render.Destroy();
     }
 
-    Graphics::Mesh<VertexColor3D> TestDynamicQuadGeometry::NewQuad() {
+    Graphics::Mesh<Graphics::VertexColor3D> TestDynamicQuadGeometry::NewQuad() {
         Graphics::Primitives::Quad quad = { 0, { 50, 0, 0 }, { 0, 50, 0 } };
-        return quad.IntoMesh<VertexColor3D>()
-                   .ApplyMaterial(&VertexColor3D::Color, COLORS[quads.size()]);
+        return quad.IntoMesh<Graphics::VertexColor3D>()
+                   .ApplyMaterial(&Graphics::VertexColor3D::Color, COLORS[quads.size()]);
     }
 }

@@ -12,8 +12,8 @@ namespace Test {
         bool isMin = false;
         bool isMax = false;
 
-        Graphics::RenderObject<VertexColor3D> render;
-        std::vector<Graphics::Mesh<VertexColor3D>> quads;
+        Graphics::RenderObject<Graphics::VertexColor3D> render;
+        std::vector<Graphics::Mesh<Graphics::VertexColor3D>> quads;
 
         Maths::mat3D projection = Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
 
@@ -23,8 +23,8 @@ namespace Test {
 
         DEFINE_TEST_T(TestDynamicQuadGeometry, BASIC)
     public:
-        TestDynamicQuadGeometry() {}
-        ~TestDynamicQuadGeometry() override {}
+        TestDynamicQuadGeometry() = default;
+        ~TestDynamicQuadGeometry() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
@@ -32,7 +32,7 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        Graphics::Mesh<VertexColor3D> NewQuad();
+        Graphics::Mesh<Graphics::VertexColor3D> NewQuad();
         
         static Maths::colorf COLORS[8];
     };

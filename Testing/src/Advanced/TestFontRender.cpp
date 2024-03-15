@@ -66,7 +66,7 @@ namespace Test {
     }
 
     void TestFontRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
+        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
         render.SetCamera(mat);

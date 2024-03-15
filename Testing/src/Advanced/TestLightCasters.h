@@ -2,7 +2,7 @@
 #include "CameraController.h"
 #include "Light.h"
 #include "Test.h"
-#include "Model Loading/OBJModel.h"
+#include "OBJModel.h"
 
 namespace Test {
     class TestLightCasters : public Test {
@@ -29,8 +29,8 @@ namespace Test {
         static constexpr int MAX_LIGHTS = 8;
         Graphics::CameraController camera;
 
-        Graphics::RenderObject<VertexColor3D> lightScene;
-        std::vector<Graphics::Mesh<VertexColor3D>> lightMeshes;
+        Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
+        std::vector<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;
 
         float ambientStrength = 0.03f, specularStrength = 1.2f;
 

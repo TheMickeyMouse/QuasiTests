@@ -7,11 +7,11 @@
 namespace Test {
     class TestMaterialMaps : Test {
     private:
-        Graphics::RenderObject<VertexTextureNormal3D> scene;
-        Graphics::RenderObject<VertexColor3D> lightScene;
+        Graphics::RenderObject<Graphics::VertexTextureNormal3D> scene;
+        Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
 
-        std::vector<Graphics::Mesh<VertexTextureNormal3D>> meshes;
-        Graphics::Mesh<VertexColor3D> lightSource;
+        std::vector<Graphics::Mesh<Graphics::VertexTextureNormal3D>> meshes;
+        Graphics::Mesh<Graphics::VertexColor3D> lightSource;
         Graphics::CameraController camera;
 
         Maths::fvec3 lightPos = { 0, 8, 2 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "CameraController.h"
 #include "Test.h"
-#include "Model Loading/OBJModel.h"
+#include "OBJModel.h"
 
 namespace Test {
     class TestAdvancedLighting : Test {

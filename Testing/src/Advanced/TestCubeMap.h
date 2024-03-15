@@ -7,7 +7,7 @@
 namespace Test {
     class TestCubeMap : Test {
     public:
-        using Vertex = VertexTextureNormal3D;
+        using Vertex = Graphics::VertexTextureNormal3D;
     private:
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> skybox;

@@ -4,24 +4,31 @@
 #include "imgui.h"
 #include "Mesh.h"
 #include "Quad.h"
+#include "MeshUtils.h"
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {
-                scene = gdevice.CreateNewRender<VertexColor3D>(72, 108);
-        postProcessingQuad = gdevice.CreateNewRender<VertexTexture2D>(4, 2);
+        scene = gdevice.CreateNewRender<Graphics::VertexColor3D>(72, 108);
+        postProcessingQuad = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
 
         cubes.reserve(9);
 
         constexpr float s = 0.5f;
         for (int i = 0; i < 8; ++i) {
             cubes.push_back(
-                Graphics::MeshUtils::CubeMesh(0, s, s, s)
-                .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::color_id(i))
+                Graphics::MeshUtils::SimpleCubeMesh(
+                    [=](const Maths::fvec3& v, uint) -> Graphics::VertexColor3D {
+                        return { v, Maths::colorf::color_id(i) };
+                    }, Maths::mat4x4::scale_mat(s))
             );
             cubes[i].SetTransform(Maths::mat3D::translate_mat((Maths::Corner3D)i));
         }
-        cubes.push_back(Graphics::MeshUtils::CubeMesh(0, s, s, s)
-            .ApplyMaterial(&VertexColor3D::Color, Maths::colorf::BETTER_GRAY()));
+        cubes.push_back(
+            Graphics::MeshUtils::SimpleCubeMesh(
+                [](const Maths::fvec3& v, uint) -> Graphics::VertexColor3D {
+                    return { v, Maths::colorf::BETTER_GRAY() };
+                }, Maths::mat4x4::scale_mat(s))
+        );
 
         scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
@@ -48,10 +55,10 @@ namespace Test {
         fbo.Unbind();
 
         screenQuad = Graphics::Primitives::Quad { 0, Maths::fvec3::RIGHT(), Maths::fvec3::UP() }
-                    .IntoMesh<VertexTexture2D>(
-                        [](Maths::fvec3 v) -> Maths::fvec2 { return v.xy(); }, &VertexTexture2D::Position)
-                    .Convert<VertexTexture2D>([](const VertexTexture2D& v) {
-                        return VertexTexture2D { v.Position, (v.Position + 1) * 0.5f };
+                    .IntoMesh<Graphics::VertexTexture2D>(
+                        [](Maths::fvec3 v) -> Maths::fvec2 { return v.xy(); })
+                    .Convert<Graphics::VertexTexture2D>([](const Graphics::VertexTexture2D& v) {
+                        return Graphics::VertexTexture2D { v.Position, (v.Position + 1) * 0.5f };
                      });
         postProcessingQuad.BindMeshes(screenQuad);
 
@@ -76,7 +83,7 @@ namespace Test {
     }
 
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
+        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
 
         scene.SetCamera(mat);
 

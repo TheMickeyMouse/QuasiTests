@@ -48,7 +48,7 @@ namespace Test {
     }
 
     void TestBatchedTextured::OnRender(Graphics::GraphicsDevice& gdevice) {
-        Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
+        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
         mesh.ApplyMaterial(&Vertex::Color, color);

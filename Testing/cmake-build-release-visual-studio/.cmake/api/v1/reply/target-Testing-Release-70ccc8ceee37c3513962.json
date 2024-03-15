@@ -1,0 +1,1456 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Testing.exe"
+		},
+		{
+			"path" : "Testing.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"add_compile_options",
+			"add_compile_definitions",
+			"target_include_directories",
+			"set_source_files_properties"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 64,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 7,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 98,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 145,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 148,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 151,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 154,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 157,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 160,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 163,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 166,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 169,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 172,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 5,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				2,
+				6,
+				8,
+				12,
+				29
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 6,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				4
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				10
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 8,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				14
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				16
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 10,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				18
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 11,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				20
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 12,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				22
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 13,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				24
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "/Zc:preprocessor"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 14,
+					"define" : "GLEW_STATIC"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "OPENGL_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/GLs"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Graphicals"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Meshes"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Textures"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Fonts"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Graphics/Utils/Model Loading"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/IO"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/Maths"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/imgui"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/vendor/freetype"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../OpenGL/src/stdu"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLEW/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/User/RiderProjects/OpenGL/Testing/../Dependencies/GLFW/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				28
+			]
+		}
+	],
+	"id" : "Testing::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -MD",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /INCREMENTAL:NO /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Testing",
+	"nameOnDisk" : "Testing.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				26,
+				27
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				28,
+				29
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/Advanced/TestAdvancedLighting.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestAdvancedLighting.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/Advanced/TestCubeMap.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestCubeMap.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 2,
+			"path" : "src/Advanced/TestFontRender.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestFontRender.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/Advanced/TestLightCasters.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestLightCasters.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/Advanced/TestMaterialMaps.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestMaterialMaps.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 3,
+			"path" : "src/Advanced/TestPostProcessing.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestPostProcessing.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/Advanced/TestStencilOutline.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Advanced/TestStencilOutline.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 4,
+			"path" : "src/Basic/TestBatchedTextured.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Basic/TestBatchedTextured.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 5,
+			"path" : "src/Basic/TestClearColor.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Basic/TestClearColor.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 6,
+			"path" : "src/Basic/TestCubeRender.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Basic/TestCubeRender.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 7,
+			"path" : "src/Basic/TestDynamicQuadGeometry.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Basic/TestDynamicQuadGeometry.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 8,
+			"path" : "src/Basic/TestDynamicVertexGeometry.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Basic/TestDynamicVertexGeometry.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 9,
+			"path" : "src/Demos/DemoFlappyBird.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Demos/DemoFlappyBird.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/Test.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/TestingFramework.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 10,
+			"path" : "src/TestMenu.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "Testing.cpp",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "EXECUTABLE"
+}

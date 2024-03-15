@@ -1,12 +1,13 @@
 #include "TestMaterialMaps.h"
 
 #include "imgui.h"
-#include "Model Loading/OBJModelLoader.h"
+#include "OBJModelLoader.h"
+#include "MeshUtils.h"
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {
-        scene = gdevice.CreateNewRender<VertexTextureNormal3D>();
-        lightScene = gdevice.CreateNewRender<VertexColor3D>(8, 12);
+        scene = gdevice.CreateNewRender<Graphics::VertexTextureNormal3D>();
+        lightScene = gdevice.CreateNewRender<Graphics::VertexColor3D>(8, 12);
 
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("boxes.obj"));
@@ -27,7 +28,7 @@ namespace Test {
         scene.GetShader().SetUniformTex("specularMap", specularMap);
         scene.GetShader().Unbind();
 
-        lightSource = Graphics::MeshUtils::CubeMesh(0, 1, 1, 1);
+        lightSource = Graphics::MeshUtils::SimpleCubeMesh([](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, 1 }; });
         lightScene.BindMeshes(lightSource);
         lightScene.UseShader(Graphics::Shader::StdColored);
 
@@ -49,7 +50,7 @@ namespace Test {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
 
-        lightSource.ApplyMaterial(&VertexColor3D::Color, lightColor.with_alpha(1));
+        lightSource.ApplyMaterial(&Graphics::VertexColor3D::Color, lightColor.with_alpha(1));
         lightSource.SetTransform(Maths::mat3D::translate_mat(lightPos));
         lightScene.ResetData();
         lightScene.Render();

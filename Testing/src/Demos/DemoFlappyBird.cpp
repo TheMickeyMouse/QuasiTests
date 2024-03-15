@@ -5,10 +5,11 @@
 #include "Quad.h"
 #include "Random.h"
 #include "Tri.h"
+#include "MeshUtils.h"
 
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
-                render = gdevice.CreateNewRender<Vertex>(128, 128);
+        render = gdevice.CreateNewRender<Vertex>(128, 128);
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f }));
 
@@ -17,10 +18,10 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate(0);
 
-        mPlayer = Graphics::MeshUtils::CircleMesh(30.0f, 32)
-                 .Convert<Vertex>([](const Maths::fvec2 pos) -> Vertex {
-                     return { pos, 1, 0, 0 };
-                 });
+        mPlayer = Graphics::MeshUtils::SimpleCircleMesh(32,
+            [](const Maths::fvec2& pos, uint) {
+                 return Vertex { pos, 1, 0, 0 };
+        }, Maths::mat3D::scale_mat(30.0f));
         using Graphics::Primitives::Quad;
         mBg = Quad { { 0, 240, 0 }, { 320, 0, 0 }, { 0, 20, 0 } }
              .IntoMesh<Vertex>([](Maths::fvec3 v) -> Maths::fvec2 { return v.xy(); }, &Vertex::Position)
@@ -59,7 +60,7 @@ namespace Test {
         mPlayer.SetTransform(Maths::mat3D::translate_mat({ -150, yPos, 0 }));
         mText.Replace(font.RenderText(std::to_string(score), 80,
             TextAlign { { -20, 20, 100, 140 } }.SpaceOut(1, -16))
-            .Convert<Vertex>([](Font::Vertex v) -> Vertex {
+            .Convert<Vertex>([](const Font::Vertex& v) -> Vertex {
                 return { v.Position, v.Color, v.TextureCoord, 1 };
             }));
 

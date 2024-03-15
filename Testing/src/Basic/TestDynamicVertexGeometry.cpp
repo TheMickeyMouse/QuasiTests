@@ -4,13 +4,13 @@
 
 namespace Test {
     void TestDynamicVertexGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {
-        render = gdevice.CreateNewRender<VertexColor3D>(8, 4);
+        render = gdevice.CreateNewRender<Graphics::VertexColor3D>(8, 4);
 
         render.UseShader(Graphics::Shader::StdColored);
         render.SetProjection(projection);
 
         using namespace Maths;
-        VertexColor3D vertices[] = {
+        Graphics::VertexColor3D vertices[] = {
             { { -240.0f, -80.0f, 0.0f }, colorf::RED()   },
             { { -80.00f, -80.0f, 0.0f }, colorf::GREEN() },
             { { -80.00f, +80.0f, 0.0f }, colorf::BLUE()  },
@@ -41,7 +41,7 @@ namespace Test {
     }
 
     void TestDynamicVertexGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        VertexColor3D* vertices = mesh.GetVertices().data();
+        Graphics::VertexColor3D* vertices = mesh.GetVertices().data();
         ImGui::DragFloat3("Red    Vertex [0]", vertices[0].Position.begin());
         ImGui::DragFloat3("Green  Vertex [1]", vertices[1].Position.begin());
         ImGui::DragFloat3("Blue   Vertex [2]", vertices[2].Position.begin());

@@ -3,8 +3,8 @@
 
 namespace Test {
     class TestStencilOutline : Test {
-        Graphics::RenderObject<VertexColor3D> scene;
-        std::vector<Graphics::Mesh<VertexColor3D>> meshes;
+        Graphics::RenderObject<Graphics::VertexColor3D> scene;
+        std::vector<Graphics::Mesh<Graphics::VertexColor3D>> meshes;
 
         Maths::mat3D projection = Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f);
         Maths::fvec3 modelTranslation = { 0, 0, -3.5 };

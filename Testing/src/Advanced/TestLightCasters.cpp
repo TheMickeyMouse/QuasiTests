@@ -1,12 +1,13 @@
 #include "TestLightCasters.h"
 
 #include "imgui.h"
-#include "Model Loading/OBJModelLoader.h"
+#include "OBJModelLoader.h"
+#include "MeshUtils.h"
 
 namespace Test {
     void TestLightCasters::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
-        lightScene = gdevice.CreateNewRender<VertexColor3D>();
+        lightScene = gdevice.CreateNewRender<Graphics::VertexColor3D>();
 
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("lights.obj"));
@@ -17,7 +18,7 @@ namespace Test {
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                    [&](Graphics::OBJVertex v) {
+                    [&](const Graphics::OBJVertex& v) {
                         return Vertex { v.Position, v.Normal, obj.materialIndex };
                     }));
         }
@@ -116,7 +117,7 @@ namespace Test {
 
             for (uint i = 0; i < lights.size(); ++i) {
                 lights[i].ImGuiEdit(std::format("Light {}", i + 1).c_str());
-                lightMeshes[i].ApplyMaterial(&VertexColor3D::Color, lights[i].color);
+                lightMeshes[i].ApplyMaterial(&Graphics::VertexColor3D::Color, lights[i].color);
                 lightMeshes[i].SetTransform(Maths::mat3D::translate_mat(lights[i].Position()));
             }
             ImGui::TreePop();
@@ -170,8 +171,7 @@ namespace Test {
         lights.back().color = color;
 
         lightMeshes.emplace_back(
-            Graphics::MeshUtils::CubeMesh(0, 0.75f, 0.75f, 0.75f)
-            .ApplyMaterial(&VertexColor3D::Color, color)
+            Graphics::MeshUtils::SimpleCubeMesh([&](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, color }; })
         );
         lightMeshes.back().SetTransform(Maths::mat3D::translate_mat(point.position));
         lightMeshes.back().Bind(lightScene);

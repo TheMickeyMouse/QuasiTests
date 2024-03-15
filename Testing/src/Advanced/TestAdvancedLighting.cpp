@@ -1,7 +1,7 @@
 #include "TestAdvancedLighting.h"
 
 #include "imgui.h"
-#include "Model Loading/OBJModelLoader.h"
+#include "OBJModelLoader.h"
 
 
 namespace Test {
@@ -20,7 +20,7 @@ namespace Test {
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                    [&](Graphics::OBJVertex v) {
+                    [&](const Graphics::OBJVertex& v) {
                         return Vertex { v.Position, v.Normal, obj.materialIndex };
                     }));
         }
