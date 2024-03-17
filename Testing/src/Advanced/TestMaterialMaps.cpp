@@ -55,18 +55,17 @@ namespace Test {
         lightScene.ResetData();
         lightScene.Render();
 
-        scene.GetShader().Bind();
-        scene.GetShader().SetUniform3F("lightPosition", lightPos.begin());
-        scene.GetShader().SetUniform3F("lightColor", lightColor.begin());
-        scene.GetShader().SetUniform1F("ambientStrength", ambientStrength);
-        scene.GetShader().SetUniform3F("viewPosition", camera.position.begin());
-        scene.GetShader().SetUniform1F("specularIntensity", specularStrength);
-
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
 
         scene.ResetData();
-        scene.Render();
+        scene.Render({
+            { "lightPosition",     lightPos },
+            { "lightColor",        lightColor },
+            { "ambientStrength",   ambientStrength },
+            { "viewPosition",      camera.position },
+            { "specularIntensity", specularStrength },
+        });
     }
 
     void TestMaterialMaps::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

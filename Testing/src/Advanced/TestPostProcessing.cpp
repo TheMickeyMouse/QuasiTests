@@ -13,7 +13,7 @@ namespace Test {
 
         cubes.reserve(9);
 
-        constexpr float s = 0.5f;
+        constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
             cubes.push_back(
                 Graphics::MeshUtils::SimpleCubeMesh(
@@ -94,11 +94,7 @@ namespace Test {
         }
 
         scene.ResetData();
-        Graphics::Shader& shader = scene.GetShader();
-        shader.Bind();
-        shader.SetUniformMatrix4x4("u_projection", projection);
-        shader.SetUniformMatrix4x4("u_view", mat);
-        Graphics::Render::Draw(scene.GetRenderData());
+        scene.Render();
 
         if (usePostProcessing) {
             Graphics::Render::DisableDepth();
@@ -110,17 +106,18 @@ namespace Test {
             currShader->Bind();
             currShader->SetUniformTex("screenTexture", renderResult);
             if (currShader == &shaderBlur) {
-                currShader->SetUniform2F("blurOff", effectOff.begin());
+                currShader->SetUniformFvec2("blurOff", effectOff);
             } else if (currShader == &shaderEdgeDetect) {
-                currShader->SetUniform2F("detectOff", effectOff.begin());
+                currShader->SetUniformFvec2("detectOff", effectOff);
             } else if (currShader == &shaderHsv) {
-                currShader->SetUniform1F("dh", hueShift);
-                currShader->SetUniform1F("ds", satMul);
-                currShader->SetUniform1F("dv", valShift);
+                currShader->SetUniformFloat("dh", hueShift);
+                currShader->SetUniformFloat("ds", satMul);
+                currShader->SetUniformFloat("dv", valShift);
             }
 
             postProcessingQuad.ResetData();
-            Graphics::Render::Draw(postProcessingQuad.GetRenderData(), *currShader);
+            // Graphics::Render::Draw(postProcessingQuad.GetRenderData(), *currShader);
+            postProcessingQuad.Render(*currShader, {}, false);
         }
     }
 

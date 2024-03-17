@@ -70,15 +70,6 @@ namespace Test {
                                                    modelScale,
                                                    modelRotation);
         render.SetCamera(mat);
-        Graphics::Shader& shader = render.GetShader();
-        shader.Bind();
-        shader.SetUniformTex("u_font", font.GetTexture());
-        shader.SetUniform1F("u_thickness", thickness);
-        shader.SetUniform1F("u_softness", softness);
-        
-        shader.SetUniform4F("u_shadowColor", shadowColor.begin());
-        shader.SetUniform1F("u_shadowSoftness", shadowSoftness);
-        shader.SetUniform2F("u_shadowOffset", shadowOffset.begin());
 
         auto& vert = meshBg.GetVertices();
         vert[0].Position = textBox.corner(0);
@@ -101,7 +92,14 @@ namespace Test {
                 }));
             render.AddNewMeshes(meshStr);
         }
-        render.Render();
+        render.Render({
+            { "u_font",           font.GetTexture() },
+            { "u_thickness",      thickness },
+            { "u_softness",       softness },
+            { "u_shadowColor",    shadowColor },
+            { "u_shadowSoftness", shadowSoftness },
+            { "u_shadowOffset",   shadowOffset },
+        });
     }
 
     void TestFontRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

@@ -16,11 +16,7 @@ namespace Test {
 
             GL_VERTEX_T(Vertex);
             GL_VERTEX_FIELD((Position)(Color)(TextureCoord)(RenderType));
-            GL_VERTEX_CUSTOM_TRANSFORM(mat) {
-                Vertex v = *this;
-                v.Position = mat * (Maths::fvec3)Position;
-                return v;
-            }
+            GL_VERTEX_TRANSFORM_FIELDS((Position));
         };
 
         struct Spike {

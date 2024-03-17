@@ -12,13 +12,7 @@ namespace Test {
 
             GL_VERTEX_T(Vertex);
             GL_VERTEX_FIELD((Position)(Normal)(MaterialId));
-            GL_VERTEX_CUSTOM_TRANSFORM(mat) {
-                return {
-                    .Position = mat * Position,
-                    .Normal = mat.inv().transpose() * Normal.with_w(0),
-                    .MaterialId = MaterialId
-                };
-            }
+            GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
         };
 
     private:

@@ -7,13 +7,20 @@
 namespace Test {
     class TestCubeMap : Test {
     public:
-        using Vertex = Graphics::VertexTextureNormal3D;
+        struct Vertex {
+            Maths::fvec3 Position, TextureCoord, Normal;
+
+            GL_VERTEX_T(Vertex);
+            GL_VERTEX_FIELD((Position)(TextureCoord)(Normal));
+            GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer));
+        };
     private:
         Graphics::RenderObject<Vertex> scene;
-        Graphics::Mesh<Vertex> skybox;
+        Graphics::Mesh<Vertex> skybox, box;
         Graphics::CameraController camera;
 
         Graphics::Texture cubemap;
+        Graphics::Texture boxTex;
 
         DEFINE_TEST_T(TestCubeMap, ADVANCED)
     public:

@@ -26,11 +26,9 @@ namespace Test {
         const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
 
         render.SetCamera(mat);
-        render.GetShader().Bind();
-        render.GetShader().SetUniform1F("u_alpha", alpha);
 
         render.ResetData();
-        render.Render();
+        render.Render({{ "u_alpha", alpha }});
     }
 
     void TestCubeRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

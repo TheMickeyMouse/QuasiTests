@@ -8,7 +8,7 @@ namespace Test {
     void TestStencilOutline::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Graphics::VertexColor3D>();
 
-        constexpr float s = 0.5f;
+        constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
             meshes.push_back(
                 Graphics::MeshUtils::SimpleCubeMesh(
@@ -54,12 +54,10 @@ namespace Test {
         Graphics::Render::DisableStencilWrite();
 
         for (auto& m : meshes) m.Transform(outlineScaled);
-        outlineShader.Bind();
-        outlineShader.SetUniformMatrix4x4("u_projection", projection);
-        outlineShader.SetUniformMatrix4x4("u_view", mat);
-        outlineShader.SetUniform4F("outlineColor", outlineColor.begin());
+
         scene.ResetData();
-        Graphics::Render::Draw(scene.GetRenderData(), outlineShader);
+        scene.Render(outlineShader, {{ "outlineColor", outlineColor }});
+
         for (auto& m : meshes) m.Transform(invOutlineScaled);
 
         Graphics::Render::UseStencilTest(Graphics::CmpOperation::ALWAYS, 1);

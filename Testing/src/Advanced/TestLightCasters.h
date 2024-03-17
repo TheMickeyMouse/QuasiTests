@@ -13,13 +13,7 @@ namespace Test {
 
             GL_VERTEX_T(Vertex);
             GL_VERTEX_FIELD((Position)(Normal)(MaterialID));
-            GL_VERTEX_CUSTOM_TRANSFORM(mat) {
-                return {
-                    .Position = mat * Position,
-                    .Normal = mat * Normal.with_w(0),
-                    .MaterialID = MaterialID
-                };
-            }
+            GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
         };
     private:
         Graphics::RenderObject<Vertex> scene;

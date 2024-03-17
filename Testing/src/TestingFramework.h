@@ -69,8 +69,8 @@ namespace Test {
         Test* currentTest = nullptr;
         std::unique_ptr<TestMenu> menu = std::make_unique<TestMenu>(currentTest);
     public:
-        TestManager() {}
-        ~TestManager() override {}
+        TestManager() = default;
+        ~TestManager() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime = NAN) override;

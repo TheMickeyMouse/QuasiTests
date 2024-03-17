@@ -50,11 +50,6 @@ namespace Test {
 
     void TestAdvancedLighting::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene.GetShader().Bind();
-        scene.GetShader().SetUniform3F("lightPosition", lightPos.begin());
-        scene.GetShader().SetUniform3F("lightColor", lightColor.begin());
-        scene.GetShader().SetUniform1F("ambientStrength", ambientStrength);
-        scene.GetShader().SetUniform3F("viewPosition", camera.position.begin());
-        scene.GetShader().SetUniform1F("specularIntensity", specularStrength);
 
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
@@ -63,7 +58,13 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
         scene.ResetData();
-        scene.Render();
+        scene.Render({
+            { "lightPosition",     lightPos },
+            { "lightColor",        lightColor },
+            { "ambientStrength",   ambientStrength },
+            { "viewPosition",      camera.position },
+            { "specularIntensity", specularStrength },
+        });
     }
 
     void TestAdvancedLighting::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -81,9 +82,11 @@ namespace Test {
 
     void TestAdvancedLighting::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
         Graphics::Shader& shader = scene.GetShader();
-        shader.SetUniform3F(name + ".ambient", material.Ka.begin());
-        shader.SetUniform3F(name + ".diffuse", material.Kd.begin());
-        shader.SetUniform3F(name + ".specular", material.Ks.begin());
-        shader.SetUniform1F(name + ".shininess", material.Ns);
+        shader.SetUniformArgs({
+            { name + ".ambient",   material.Ka },
+            { name + ".diffuse",   material.Kd },
+            { name + ".specular",  material.Ks },
+            { name + ".shininess", material.Ns },
+        });
     }
 }

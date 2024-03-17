@@ -11,7 +11,7 @@ namespace Test {
         for (const auto& [type, span, desc] : testTypeSegments) {
             if (ImGui::BeginTabItem(TypeNameOf(type))) {
                 ImGui::Text("%s", desc.c_str());
-                for (uint j = span.min; j < span.max; ++j) {
+                for (usize j = span.min; j < span.max; ++j) {
                     const TestMenuItem& testItem = menuItems[j];
                     if (ImGui::Button(testItem.name.c_str())) {
                         // LOG("clicked " << testItem.name);

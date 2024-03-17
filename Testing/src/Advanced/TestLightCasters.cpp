@@ -79,10 +79,6 @@ namespace Test {
         lightScene.Render();
 
         scene.GetShader().Bind();
-        scene.GetShader().SetUniform1F("ambientStrength", ambientStrength);
-        scene.GetShader().SetUniform3F("viewPosition", camera.position.begin());
-        scene.GetShader().SetUniform1F("specularIntensity", specularStrength);
-
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
         }
@@ -94,7 +90,11 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
         scene.ResetData();
-        scene.Render();
+        scene.Render({
+            { "ambientStrength",   ambientStrength },
+            { "viewPosition",      camera.position },
+            { "specularIntensity", specularStrength },
+        });
     }
 
     void TestLightCasters::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -130,10 +130,12 @@ namespace Test {
 
     void TestLightCasters::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
         Graphics::Shader& shader = scene.GetShader();
-        shader.SetUniform3F(name + ".ambient", material.Ka.begin());
-        shader.SetUniform3F(name + ".diffuse", material.Kd.begin());
-        shader.SetUniform3F(name + ".specular", material.Ks.begin());
-        shader.SetUniform1F(name + ".shininess", material.Ns);
+        shader.SetUniformArgs({
+            { name + ".ambient",   material.Ka },
+            { name + ".diffuse",   material.Kd },
+            { name + ".specular",  material.Ks },
+            { name + ".shininess", material.Ns },
+        });
     }
 
     void TestLightCasters::UniformLight(const std::string& name, const Graphics::Light& light) {
@@ -158,11 +160,13 @@ namespace Test {
             case Graphics::LightType::NONE:
                 break;
         }
-        shader.SetUniform1I(name + ".lightId", (int)light.type + 1);
-        shader.SetUniform3F(name + ".d1", top.begin());
-        shader.SetUniform3F(name + ".d2", bottom.begin());
-        shader.SetUniform1F(name + ".d3", light.Is<Graphics::FlashLight>() ? light.As<Graphics::FlashLight>()->outerCut : 0);
-        shader.SetUniform4F(name + ".color", light.color.begin());
+        shader.SetUniformArgs({
+            { name + ".lightId", (int)light.type + 1 },
+            { name + ".d1", top },
+            { name + ".d2", bottom },
+            { name + ".d3", light.Is<Graphics::FlashLight>() ? light.As<Graphics::FlashLight>()->outerCut : 0 },
+            { name + ".color", light.color },
+        });
     }
 
     void TestLightCasters::AddPointLight(const Graphics::PointLight& point, const Maths::colorf& color) {

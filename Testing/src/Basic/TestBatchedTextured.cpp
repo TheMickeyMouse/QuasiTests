@@ -43,7 +43,7 @@ namespace Test {
 
         const int slots[] = { textures[0].Slot(), textures[1].Slot(), };
         render.GetShader().Bind();
-        render.GetShader().SetUniform1IVec("u_textures", slots, 2);
+        render.GetShader().SetUniformIntArr("u_textures", slots);
         render.GetShader().Unbind();
     }
 
