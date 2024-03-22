@@ -8,8 +8,8 @@ namespace Test {
 
         DEFINE_TEST_T(TestClearColor, BASIC)
     public:
-        TestClearColor() {}
-        ~TestClearColor() override {}
+        TestClearColor() = default;
+        ~TestClearColor() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override {}
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

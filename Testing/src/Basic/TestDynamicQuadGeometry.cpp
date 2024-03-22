@@ -4,17 +4,6 @@
 #include "imgui.h"
 
 namespace Test {
-    Maths::colorf TestDynamicQuadGeometry::COLORS[8] = {
-        Maths::colorf::BETTER_RED(),
-        Maths::colorf::BETTER_GREEN(),
-        Maths::colorf::BETTER_BLUE(),
-        Maths::colorf::BETTER_MAGENTA(),
-        Maths::colorf::BETTER_YELLOW(),
-        Maths::colorf::BETTER_CYAN(),
-        Maths::colorf::BETTER_ORANGE(),
-        Maths::colorf::BETTER_PURPLE(),
-    };
-    
     void TestDynamicQuadGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Graphics::VertexColor3D>(8 * 4, 8 * 2);
 
@@ -80,7 +69,8 @@ namespace Test {
 
     Graphics::Mesh<Graphics::VertexColor3D> TestDynamicQuadGeometry::NewQuad() {
         Graphics::Primitives::Quad quad = { 0, { 50, 0, 0 }, { 0, 50, 0 } };
+        const int id = (int)quads.size();
         return quad.IntoMesh<Graphics::VertexColor3D>()
-                   .ApplyMaterial(&Graphics::VertexColor3D::Color, COLORS[quads.size()]);
+                   .ApplyMaterial(&Graphics::VertexColor3D::Color, Maths::colorf::color_id(1 + id % 7));
     }
 }

@@ -5,7 +5,7 @@
 namespace Test {
     class TestDynamicQuadGeometry : public Test {
     private:
-        static constexpr int MAX_QUAD = 8;
+        static constexpr int MAX_QUAD = 12;
         static constexpr int MAX_VERTEX = MAX_QUAD * 4;
         static constexpr int MAX_INDEX = MAX_QUAD * 6;
         
@@ -33,7 +33,5 @@ namespace Test {
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
         Graphics::Mesh<Graphics::VertexColor3D> NewQuad();
-        
-        static Maths::colorf COLORS[8];
     };
 }

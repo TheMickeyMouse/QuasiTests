@@ -30,8 +30,8 @@ namespace Test {
 
         DEFINE_TEST_T(TestBatchedTextured, BASIC)
     public:
-        TestBatchedTextured() {}
-        ~TestBatchedTextured() override {}
+        TestBatchedTextured() = default;
+        ~TestBatchedTextured() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

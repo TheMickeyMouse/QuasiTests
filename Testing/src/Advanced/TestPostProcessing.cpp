@@ -2,6 +2,7 @@
 
 #include "Constants.h"
 #include "imgui.h"
+#include "lambdas.h"
 #include "Mesh.h"
 #include "Quad.h"
 #include "MeshUtils.h"
@@ -13,22 +14,21 @@ namespace Test {
 
         cubes.reserve(9);
 
+        using namespace Graphics::VertexBuilder;
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
-            cubes.push_back(
-                Graphics::MeshUtils::SimpleCubeMesh(
-                    [=](const Maths::fvec3& v, uint) -> Graphics::VertexColor3D {
-                        return { v, Maths::colorf::color_id(i) };
-                    }, Maths::mat4x4::scale_mat(s))
-            );
+            cubes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+                .Position = GetPosition {},
+                .Color = Constant { Maths::colorf::color_id(i) }
+            }, Maths::mat4x4::scale_mat(s)));
+
             cubes[i].SetTransform(Maths::mat3D::translate_mat((Maths::Corner3D)i));
         }
         cubes.push_back(
-            Graphics::MeshUtils::SimpleCubeMesh(
-                [](const Maths::fvec3& v, uint) -> Graphics::VertexColor3D {
-                    return { v, Maths::colorf::BETTER_GRAY() };
-                }, Maths::mat4x4::scale_mat(s))
-        );
+        Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+            .Position = GetPosition {},
+            .Color = Constant { Maths::colorf::BETTER_GRAY() }
+        }, Maths::mat4x4::scale_mat(s)));
 
         scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
@@ -55,11 +55,11 @@ namespace Test {
         fbo.Unbind();
 
         screenQuad = Graphics::Primitives::Quad { 0, Maths::fvec3::RIGHT(), Maths::fvec3::UP() }
-                    .IntoMesh<Graphics::VertexTexture2D>(
-                        [](Maths::fvec3 v) -> Maths::fvec2 { return v.xy(); })
-                    .Convert<Graphics::VertexTexture2D>([](const Graphics::VertexTexture2D& v) {
-                        return Graphics::VertexTexture2D { v.Position, (v.Position + 1) * 0.5f };
-                     });
+                    .IntoMesh<Graphics::Vertex3D>()
+                    .Convert<Graphics::VertexTexture2D>(Graphics::VertexTexture2D::Blueprint {
+                        .Position = CastPosition<Maths::fvec2> {},
+                        .TextureCoordinate = FromArg<&Graphics::Vertex3D::Position>(λ(const auto& v, (v + 1) * 0.5f))
+                    });
         postProcessingQuad.BindMeshes(screenQuad);
 
         const std::string vert = res("vertex.vert");

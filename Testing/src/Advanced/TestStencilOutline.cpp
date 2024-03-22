@@ -8,20 +8,19 @@ namespace Test {
     void TestStencilOutline::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Graphics::VertexColor3D>();
 
+        using namespace Graphics::VertexBuilder;
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
-            meshes.push_back(
-                Graphics::MeshUtils::SimpleCubeMesh(
-                    [=](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, Maths::colorf::color_id(i) }; },
-                Maths::mat3D::scale_mat(s))
-            );
+            meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+                .Position = GetPosition {},
+                .Color = Constant { Maths::colorf::color_id(i) }
+            }, Maths::mat3D::scale_mat(s)));
             meshes[i].SetTransform(Maths::mat3D::translate_mat((Maths::Corner3D)i));
         }
-        meshes.push_back(
-            Graphics::MeshUtils::SimpleCubeMesh(
-                [=](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, Maths::colorf::BETTER_GRAY() }; },
-            Maths::mat3D::scale_mat(s))
-        );
+        meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+            .Position = GetPosition {},
+            .Color = Constant { Maths::colorf::BETTER_GRAY() }
+        }, Maths::mat3D::scale_mat(s)));
 
         scene.BindMeshes(meshes);
         scene.UseShader(Graphics::Shader::StdColored);

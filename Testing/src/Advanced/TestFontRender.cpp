@@ -2,6 +2,8 @@
 
 #include "imgui.h"
 #include "imgui_stdlib.h"
+#include "lambdas.h"
+#include "VertexConverter.h"
 #include "Graphics/Utils/Fonts/Font.h"
 #include "stdu/rich_string.h"
 
@@ -81,14 +83,19 @@ namespace Test {
         if (showAtlas) {
             render.AddNewMeshes(meshAtlas);
         } else {
+            using namespace Graphics::VertexBuilder;
+            using FontVertex = Graphics::Font::Vertex;
             meshStr.Replace(font.RenderRichText(
                     stdu::rich_string::parse_markdown(string),
                     Graphics::PointPer64::inP64((int)(fontSize * 64.0f)),
                     Graphics::TextAlign { textBox }
                     .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
                     .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
-                ).Convert<Vertex>([&](const Graphics::Font::Vertex& v) {
-                    return Vertex { v.Position, v.RenderType ? color : v.Color, v.TextureCoord, v.RenderType };
+                ).Convert<Vertex>(Vertex::Blueprint {
+                    .Position = GetPosition {},
+                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(λ(int r, const Maths::colorf& col, r ? color : col)),
+                    .TextureCoordinate = GetTextureCoord {},
+                    .isText = Get<&FontVertex::RenderType> {}
                 }));
             render.AddNewMeshes(meshStr);
         }

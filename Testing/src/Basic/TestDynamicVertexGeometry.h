@@ -12,8 +12,8 @@ namespace Test {
 
         DEFINE_TEST_T(TestDynamicVertexGeometry, BASIC)
     public:
-        TestDynamicVertexGeometry() {}
-        ~TestDynamicVertexGeometry() override {}
+        TestDynamicVertexGeometry() = default;
+        ~TestDynamicVertexGeometry() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

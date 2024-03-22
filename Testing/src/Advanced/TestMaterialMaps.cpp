@@ -28,7 +28,11 @@ namespace Test {
         scene.GetShader().SetUniformTex("specularMap", specularMap);
         scene.GetShader().Unbind();
 
-        lightSource = Graphics::MeshUtils::SimpleCubeMesh([](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, 1 }; });
+        using namespace Graphics::VertexBuilder;
+        lightSource = Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+            .Position = GetPosition {},
+            .Color = Constant { Maths::colorf { 1 } }
+        });
         lightScene.BindMeshes(lightSource);
         lightScene.UseShader(Graphics::Shader::StdColored);
 

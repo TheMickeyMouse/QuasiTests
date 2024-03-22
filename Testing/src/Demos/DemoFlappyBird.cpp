@@ -18,10 +18,12 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate(0);
 
-        mPlayer = Graphics::MeshUtils::SimpleCircleMesh(32,
-            [](const Maths::fvec2& pos, uint) {
-                 return Vertex { pos, 1, 0, 0 };
+        using namespace Graphics::VertexBuilder;
+        mPlayer = Graphics::MeshUtils::Circle(32, Vertex::Blueprint {
+            .Position = Get<PositionArg2D> {},
+            .Color = Constant { Maths::colorf::BETTER_WHITE() }
         }, Maths::mat3D::scale_mat(30.0f));
+
         using Graphics::Primitives::Quad;
         mBg = Quad { { 0, 240, 0 }, { 320, 0, 0 }, { 0, 20, 0 } }
              .IntoMesh<Vertex>([](Maths::fvec3 v) -> Maths::fvec2 { return v.xy(); }, &Vertex::Position)

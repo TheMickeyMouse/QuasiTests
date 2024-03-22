@@ -1,6 +1,7 @@
 #include "TestLightCasters.h"
 
 #include "imgui.h"
+#include "lambdas.h"
 #include "OBJModelLoader.h"
 #include "MeshUtils.h"
 
@@ -18,9 +19,8 @@ namespace Test {
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                    [&](const Graphics::OBJVertex& v) {
-                        return Vertex { v.Position, v.Normal, obj.materialIndex };
-                    }));
+                    λ(const Graphics::OBJVertex& v, (Vertex { v.Position, v.Normal, obj.materialIndex })
+            )));
         }
         scene.BindMeshes(meshes);
 
@@ -174,8 +174,12 @@ namespace Test {
         lights.back() = point;
         lights.back().color = color;
 
+        using namespace Graphics::VertexBuilder;
         lightMeshes.emplace_back(
-            Graphics::MeshUtils::SimpleCubeMesh([&](const Maths::fvec3& v, uint) { return Graphics::VertexColor3D { v, color }; })
+            Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
+                .Position = GetPosition {},
+                .Color = Constant { color }
+            })
         );
         lightMeshes.back().SetTransform(Maths::mat3D::translate_mat(point.position));
         lightMeshes.back().Bind(lightScene);

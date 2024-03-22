@@ -49,8 +49,8 @@ New Line with `<br>`<br>
 
         DEFINE_TEST_T(TestFontRender, ADVANCED)
     public:
-        TestFontRender() {}
-        ~TestFontRender() override {}
+        TestFontRender() = default;
+        ~TestFontRender() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

@@ -1,8 +1,8 @@
 #include "TestAdvancedLighting.h"
 
 #include "imgui.h"
+#include "lambdas.h"
 #include "OBJModelLoader.h"
-
 
 namespace Test {
     void TestAdvancedLighting::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -12,17 +12,14 @@ namespace Test {
         mloader.LoadFile(res("untitled.obj"));
         Graphics::OBJModel model = mloader.RetrieveModel();
 
-        // cube = std::move(model.objects[0].mesh);
-        // light = std::move(model.objects[1].mesh);
-        // scene.BindMeshes({ &light, &cube });
+        using namespace Graphics::VertexBuilder;
         materials = std::move(model.materials);
         meshes.reserve(model.objects.size());
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                    [&](const Graphics::OBJVertex& v) {
-                        return Vertex { v.Position, v.Normal, obj.materialIndex };
-                    }));
+                λ(const Graphics::OBJVertex& v, (Vertex { v.Position, v.Normal, obj.materialIndex })
+            )));
         }
         scene.BindMeshes(meshes);
 
