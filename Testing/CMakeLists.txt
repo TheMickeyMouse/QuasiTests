@@ -1,11 +1,4 @@
 set(PROJECT_NAME Testing)
-#cmake_minimum_required(VERSION 3.28)
-#project(Testing)
-#include("${PROJECT_SOURCE_DIR}/../CMake/Utils.cmake")
-#set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_CXX_COMPILER_ID "MSVC")
-#set(CMAKE_CXX_COMPILER_VERSION "19.latest")
-#add_compile_definitions(OPENGL_EXPORTS)
 
 ################################################################################
 # Source groups
@@ -72,47 +65,32 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 # Output directory
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
-        OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
-        OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
-    )
-endif()
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-    )
-endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
+    OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/out/$<CONFIG>/${CMAKE_VS_PLATFORM_NAME}/out/${PROJECT_NAME}/"
+    INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
+)
 ################################################################################
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Debug;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/GLs;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Graphicals;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Primitives;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Meshes;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Utils/Textures;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Utils/Fonts;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Graphics/Utils/Model Loading;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/IO;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/Maths;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/vendor/imgui;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/vendor/freetype;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenGL/src/stdu;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/GLEW/include;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../Dependencies/GLFW/include"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Debug;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/GLs;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Graphicals;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Primitives;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Meshes;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Textures;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Fonts;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Model Loading;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/IO;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/Maths;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/vendor/imgui;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/vendor/freetype;"
+    "${PROJECT_SOURCE_DIR}/OpenGL/src/stdu;"
+    "${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include;"
+    "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include"
 )
 
 ################################################################################
@@ -128,7 +106,8 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         ">"
         "_CONSOLE;"
         "UNICODE;"
-        "_UNICODE"
+        "_UNICODE;"
+        "GLEW_STATIC"
     )
 elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
     target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -141,39 +120,10 @@ elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         "WIN32;"
         "_CONSOLE;"
         "UNICODE;"
-        "_UNICODE"
+        "_UNICODE;"
+        "GLEW_STATIC"
     )
 endif()
-set_source_files_properties(src/Advanced/TestAdvancedLighting.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Advanced/TestFontRender.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Advanced/TestPostProcessing.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Basic/TestBatchedTextured.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Basic/TestClearColor.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Basic/TestCubeRender.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Basic/TestDynamicQuadGeometry.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Basic/TestDynamicVertexGeometry.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/Demos/DemoFlappyBird.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
-set_source_files_properties(src/TestMenu.cpp PROPERTIES
-    COMPILE_DEFINITIONS "GLEW_STATIC"
-)
 
 ################################################################################
 # Compile and link options
@@ -214,34 +164,26 @@ if(MSVC)
             /Y-
         )
     endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    endif()
+    target_link_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:
+            /INCREMENTAL
+        >
+        $<$<CONFIG:Release>:
+            /OPT:REF;
+            /OPT:ICF;
+            /INCREMENTAL:NO
+        >
+        /DEBUG;
+        /SUBSYSTEM:CONSOLE
+    )
 endif()
+
+# add dlls from opengl
+add_custom_command(
+    TARGET Testing PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${PROJECT_SOURCE_DIR}\\bin\\${CMAKE_VS_PLATFORM_NAME}\\$<CONFIG>\\OpenGL.dll"
+    "${PROJECT_SOURCE_DIR}\\out\\$<CONFIG>\\${CMAKE_VS_PLATFORM_NAME}\\out\\Testing\\")
 
 ################################################################################
 # Dependencies
