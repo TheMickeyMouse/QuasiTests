@@ -72,7 +72,7 @@ namespace Test {
             case DIFFUSE_SHADER_ID:
                 scene.Render(boxShader, {
                     { "boxTex", boxTex },
-                    { "lightPosition", Maths::fvec3::from_polar(10.0f, lightYaw, lightPitch) },
+                    { "lightPosition", Maths::fvec3::from_spheric(10.0f, lightYaw, lightPitch) },
                     { "ambientStrength", ambStrength }
                 });
             break;

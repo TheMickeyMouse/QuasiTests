@@ -22,7 +22,7 @@ namespace Test {
                 .Color = Constant { Maths::colorf::color_id(i) }
             }, Maths::mat4x4::scale_mat(s)));
 
-            cubes[i].SetTransform(Maths::mat3D::translate_mat((Maths::Corner3D)i));
+            cubes[i].SetTransform(Maths::mat3D::translate_mat(Maths::fvec3 { (Maths::Corner3D)i }));
         }
         cubes.push_back(
         Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
@@ -79,7 +79,7 @@ namespace Test {
 
     void TestPostProcessing::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         modelRotation += turnSpeed * deltaTime;
-        modelRotation = modelRotation.apply([](const float f) -> float { return std::fmod(f, Maths::TAU); });
+        modelRotation = modelRotation % Maths::TAU;
     }
 
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {

@@ -46,7 +46,7 @@ namespace Test {
             std::vector(atlIndices, atlIndices + 2)
         );
 
-        constexpr Maths::colorf bgColor = Maths::colorf::BETTER_BLACK();
+        const Maths::colorf bgColor = Maths::colorf::BETTER_BLACK();
         Vertex bgVertices[] = { 
             { { -200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },

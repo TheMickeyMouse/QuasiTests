@@ -126,7 +126,7 @@ namespace Test {
                 const Maths::fvec2 center           = Maths::fvec2 { -150, yPos },
                                    toCenter         = center - line.start,
                                    dist             = line.as_vec(),
-                                   proj             = toCenter.project(dist);
+                                   proj             = toCenter.projected(dist);
                 const float factor                  = std::abs(dist.x) > std::abs(dist.y) ? proj.x / dist.x : proj.y / dist.y;
                 if (center.distsq(factor <= 0 ? line.start : (factor >= 1 ? line.end : proj + line.start)) <= 30.0f * 30.0f)
                     goto die;
