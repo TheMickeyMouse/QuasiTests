@@ -73,25 +73,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 # Include directories
 ################################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Debug;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/GLs;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Graphicals;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Primitives;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Meshes;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Textures;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Fonts;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Graphics/Utils/Model Loading;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/IO;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/Maths;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/vendor/imgui;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/vendor/freetype;"
-    "${PROJECT_SOURCE_DIR}/OpenGL/src/stdu;"
-    "${PROJECT_SOURCE_DIR}/Dependencies/GLEW/include;"
-    "${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include"
-)
+target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 ################################################################################
 # Compile definitions
@@ -177,13 +159,6 @@ if(MSVC)
         /SUBSYSTEM:CONSOLE
     )
 endif()
-
-# add dlls from opengl
-add_custom_command(
-    TARGET Testing PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    "${PROJECT_SOURCE_DIR}\\bin\\${CMAKE_VS_PLATFORM_NAME}\\$<CONFIG>\\OpenGL.dll"
-    "${PROJECT_SOURCE_DIR}\\out\\$<CONFIG>\\${CMAKE_VS_PLATFORM_NAME}\\out\\Testing\\")
 
 ################################################################################
 # Dependencies

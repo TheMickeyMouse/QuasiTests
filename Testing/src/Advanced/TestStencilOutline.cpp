@@ -22,6 +22,9 @@ namespace Test {
             .Color = Constant { Maths::colorf::BETTER_GRAY() }
         }, Maths::mat3D::scale_mat(s)));
 
+        outlinedMeshes = meshes; // yes we need a copy
+        for (auto& o : outlinedMeshes) o.Scale(1.1f);
+
         scene.BindMeshes(meshes);
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(projection);
@@ -52,12 +55,9 @@ namespace Test {
         Graphics::Render::DisableDepth();
         Graphics::Render::DisableStencilWrite();
 
-        for (auto& m : meshes) m.Transform(outlineScaled);
-
-        scene.ResetData();
+        scene.ClearData();
+        scene.AddNewMeshes(outlinedMeshes);
         scene.Render(outlineShader, {{ "outlineColor", outlineColor }});
-
-        for (auto& m : meshes) m.Transform(invOutlineScaled);
 
         Graphics::Render::UseStencilTest(Graphics::CmpOperation::ALWAYS, 1);
         Graphics::Render::EnableStencilWrite(); // write to stencil
