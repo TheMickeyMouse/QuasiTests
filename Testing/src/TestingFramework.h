@@ -17,6 +17,7 @@
 #include "Advanced/TestLightCasters.h"
 #include "Advanced/TestStencilOutline.h"
 #include "Advanced/TestCubeMap.h"
+#include "Advanced/TestGeometryShader.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -125,6 +126,9 @@ namespace Test {
 
             menu->RegisterTest<TestCubeMap>("Cube Map");
             menu->AddDescription("Draws a skybox using a cubemap texture.");
+
+            menu->RegisterTest<TestGeometryShader>("Geometry Shader");
+            menu->AddDescription("Draws houses using geometry shaders.");
 
             // =========================================================================
 

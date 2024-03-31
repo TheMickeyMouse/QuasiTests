@@ -30,6 +30,8 @@ set(no_group_source_files
     "src/Basic/TestDynamicVertexGeometry.h"
     "src/Demos/DemoFlappyBird.cpp"
     "src/Demos/DemoFlappyBird.h"
+        src/Advanced/TestGeometryShader.cpp
+        src/Advanced/TestGeometryShader.h
 )
 source_group("" FILES ${no_group_source_files})
 
