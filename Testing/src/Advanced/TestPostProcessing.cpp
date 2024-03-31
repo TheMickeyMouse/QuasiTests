@@ -58,7 +58,7 @@ namespace Test {
                     .IntoMesh<Graphics::Vertex3D>()
                     .Convert<Graphics::VertexTexture2D>(Graphics::VertexTexture2D::Blueprint {
                         .Position = CastPosition<Maths::fvec2> {},
-                        .TextureCoordinate = FromArg<&Graphics::Vertex3D::Position>(λ(const auto& v, (v + 1) * 0.5f))
+                        .TextureCoordinate = FromArg<&Graphics::Vertex3D::Position>(LAMB(const auto& v, (v + 1) * 0.5f))
                     });
         postProcessingQuad.BindMeshes(screenQuad);
 

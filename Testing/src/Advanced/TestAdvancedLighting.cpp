@@ -18,7 +18,7 @@ namespace Test {
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                λ(const Graphics::OBJVertex& v, (Vertex { v.Position, v.Normal, obj.materialIndex })
+                LAMB(const Graphics::OBJVertex& v, (Vertex { v.Position, v.Normal, obj.materialIndex })
             )));
         }
         scene.BindMeshes(meshes);

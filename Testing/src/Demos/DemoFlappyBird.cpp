@@ -74,7 +74,7 @@ namespace Test {
     }
 
     void DemoFlappyBird::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::Text("Spike Count: %d", spikes.size());
+        ImGui::Text("Spike Count: %zu", spikes.size());
     }
 
     void DemoFlappyBird::OnDestroy(Graphics::GraphicsDevice& gdevice) {

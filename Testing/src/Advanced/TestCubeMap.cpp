@@ -30,7 +30,7 @@ namespace Test {
         box = Graphics::MeshUtils::Cube(
             Vertex::Blueprint {
                 .Position = GetPosition {},
-                .TextureCoord = FromArg<VIndexArg>(λ(uint i, 0.5f + fvec2 { (Maths::Corner2D)(i % 4) } * 0.5f)),
+                .TextureCoord = FromArg<VIndexArg>(LAMB(uint i, 0.5f + fvec2 { (Maths::Corner2D)(i % 4) } * 0.5f)),
                 .Normal = GetNormal {}
             }
         );

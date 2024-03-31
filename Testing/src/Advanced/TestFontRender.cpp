@@ -93,7 +93,7 @@ namespace Test {
                     .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
                 ).Convert<Vertex>(Vertex::Blueprint {
                     .Position = GetPosition {},
-                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(λ(int r, const Maths::colorf& col, r ? color : col)),
+                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(LAMB(int r, const Maths::colorf& col, r ? color : col)),
                     .TextureCoordinate = GetTextureCoord {},
                     .isText = Get<&FontVertex::RenderType> {}
                 }));
