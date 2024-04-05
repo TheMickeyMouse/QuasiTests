@@ -2,9 +2,10 @@
 
 #include <imgui_stdlib.h>
 
+#include "Constants.h"
 #include "lambdas.h"
-#include "MeshUtils.h"
 #include "VertexConverter.h"
+#include "Meshes/Cube.h"
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {

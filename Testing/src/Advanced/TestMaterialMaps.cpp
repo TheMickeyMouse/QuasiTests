@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 #include "OBJModelLoader.h"
-#include "MeshUtils.h"
+#include "Meshes/CubeNormless.h"
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {

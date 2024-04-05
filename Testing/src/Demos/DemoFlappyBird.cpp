@@ -5,7 +5,7 @@
 #include "Quad.h"
 #include "Random.h"
 #include "Tri.h"
-#include "MeshUtils.h"
+#include "Meshes/Circle.h"
 
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -19,7 +19,7 @@ namespace Test {
         font.GetTexture().Activate(0);
 
         using namespace Graphics::VertexBuilder;
-        mPlayer = Graphics::MeshUtils::Circle(32, Vertex::Blueprint {
+        mPlayer = Graphics::MeshUtils::Circle({ 32 }, Vertex::Blueprint {
             .Position = Get<PositionArg2D> {},
             .Color = Constant { Maths::colorf::BETTER_WHITE() }
         }, Maths::mat3D::scale_mat(30.0f));

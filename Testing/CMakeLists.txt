@@ -3,54 +3,50 @@ set(PROJECT_NAME Testing)
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "src/Advanced/TestAdvancedLighting.cpp"
-    "src/Advanced/TestAdvancedLighting.h"
-    "src/Advanced/TestCubeMap.cpp"
-    "src/Advanced/TestCubeMap.h"
-    "src/Advanced/TestFontRender.cpp"
-    "src/Advanced/TestFontRender.h"
-    "src/Advanced/TestLightCasters.cpp"
-    "src/Advanced/TestLightCasters.h"
-    "src/Advanced/TestMaterialMaps.cpp"
-    "src/Advanced/TestMaterialMaps.h"
-    "src/Advanced/TestPostProcessing.cpp"
-    "src/Advanced/TestPostProcessing.h"
-    "src/Advanced/TestStencilOutline.cpp"
-    "src/Advanced/TestStencilOutline.h"
-    "src/Basic/TestBatchedTextured.cpp"
-    "src/Basic/TestBatchedTextured.h"
-    "src/Basic/TestClearColor.cpp"
-    "src/Basic/TestClearColor.h"
-    "src/Basic/TestCubeRender.cpp"
-    "src/Basic/TestCubeRender.h"
-    "src/Basic/TestDynamicQuadGeometry.cpp"
-    "src/Basic/TestDynamicQuadGeometry.h"
-    "src/Basic/TestDynamicVertexGeometry.cpp"
-    "src/Basic/TestDynamicVertexGeometry.h"
-    "src/Demos/DemoFlappyBird.cpp"
-    "src/Demos/DemoFlappyBird.h"
-        src/Advanced/TestGeometryShader.cpp
-        src/Advanced/TestGeometryShader.h
+set(HEADER_FILES
+    src/Advanced/TestAdvancedLighting.h
+    src/Advanced/TestCubeMap.h
+    src/Advanced/TestFontRender.h
+    src/Advanced/TestLightCasters.h
+    src/Advanced/TestMaterialMaps.h
+    src/Advanced/TestPostProcessing.h
+    src/Advanced/TestStencilOutline.h
+    src/Basic/TestBatchedTextured.h
+    src/Basic/TestClearColor.h
+    src/Basic/TestCubeRender.h
+    src/Basic/TestDynamicQuadGeometry.h
+    src/Basic/TestDynamicVertexGeometry.h
+    src/Demos/DemoFlappyBird.h
+    src/Advanced/TestGeometryShader.h
+    src/Test.h
+    src/TestingFramework.h
 )
-source_group("" FILES ${no_group_source_files})
+source_group("Header Files" FILES ${HEADER_FILES})
 
-set(Header_Files
-    "src/Test.h"
-    "src/TestingFramework.h"
+set(SOURCE_FILES
+    src/Advanced/TestAdvancedLighting.cpp
+    src/Advanced/TestCubeMap.cpp
+    src/Advanced/TestFontRender.cpp
+    src/Advanced/TestLightCasters.cpp
+    src/Advanced/TestMaterialMaps.cpp
+    src/Advanced/TestPostProcessing.cpp
+    src/Advanced/TestStencilOutline.cpp
+    src/Basic/TestBatchedTextured.cpp
+    src/Basic/TestClearColor.cpp
+    src/Basic/TestCubeRender.cpp
+    src/Basic/TestDynamicQuadGeometry.cpp
+    src/Basic/TestDynamicVertexGeometry.cpp
+    src/Demos/DemoFlappyBird.cpp
+    src/Advanced/TestGeometryShader.cpp
+    src/TestMenu.cpp
+    Testing.cpp
 )
-source_group("Header Files" FILES ${Header_Files})
-
-set(Source_Files
-    "src/TestMenu.cpp"
-    "Testing.cpp"
-)
-source_group("Source Files" FILES ${Source_Files})
+source_group("Source Files" FILES ${SOURCE_FILES})
 
 set(ALL_FILES
     ${no_group_source_files}
-    ${Header_Files}
-    ${Source_Files}
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
 )
 
 ################################################################################

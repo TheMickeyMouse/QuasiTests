@@ -2,21 +2,22 @@
 
 #include <imgui.h>
 
-#include "MeshUtils.h"
 #include "Tri.h"
+#include "Meshes/Icosphere.h"
+#include "Meshes/Sphere.h"
 
 namespace Test {
     void TestGeometryShader::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 1024);
 
         using namespace Graphics::VertexBuilder;
-        sphere = Graphics::MeshUtils::Sphere(20, Vertex::Blueprint {
+        sphere = Graphics::MeshUtils::Sphere({ 20 }, Vertex::Blueprint {
             .Position = GetPosition {},
             .Normal = GetNormal {},
             .Color = Constant { Maths::colorf::BETTER_AQUA() }
         }, Maths::mat3D::scale_mat(10.0f));
 
-        icosphere = Graphics::MeshUtils::Icosphere(2, Vertex::Blueprint {
+        icosphere = Graphics::MeshUtils::Icosphere({ 2 }, Vertex::Blueprint {
             .Position = GetPosition {},
             .Normal = GetNormal {},
             .Color = Constant { Maths::colorf::BETTER_RED() }

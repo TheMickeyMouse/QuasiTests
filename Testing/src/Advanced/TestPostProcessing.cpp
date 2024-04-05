@@ -5,7 +5,7 @@
 #include "lambdas.h"
 #include "Mesh.h"
 #include "Quad.h"
-#include "MeshUtils.h"
+#include "Meshes/CubeNormless.h"
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {

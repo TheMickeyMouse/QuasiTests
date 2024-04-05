@@ -2,7 +2,7 @@
 #include "Quad.h"
 
 #include "imgui.h"
-#include "MeshUtils.h"
+#include "Meshes/Cube.h"
 #include "lambdas.h"
 
 namespace Test {

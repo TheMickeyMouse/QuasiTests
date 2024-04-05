@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "lambdas.h"
 #include "OBJModelLoader.h"
-#include "MeshUtils.h"
+#include "Meshes/CubeNormless.h"
 
 namespace Test {
     void TestLightCasters::OnInit(Graphics::GraphicsDevice& gdevice) {

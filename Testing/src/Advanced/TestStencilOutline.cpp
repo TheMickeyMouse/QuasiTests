@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 #include "Mesh.h"
-#include "MeshUtils.h"
+#include "Meshes/CubeNormless.h"
 
 namespace Test {
     void TestStencilOutline::OnInit(Graphics::GraphicsDevice& gdevice) {

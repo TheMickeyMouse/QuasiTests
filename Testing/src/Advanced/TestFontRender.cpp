@@ -4,8 +4,8 @@
 #include "imgui_stdlib.h"
 #include "lambdas.h"
 #include "VertexConverter.h"
-#include "Graphics/Utils/Fonts/Font.h"
-#include "stdu/rich_string.h"
+#include "Font.h"
+#include "rich_string.h"
 
 namespace Test {
     void TestFontRender::OnInit(Graphics::GraphicsDevice& gdevice) {
