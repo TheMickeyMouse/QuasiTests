@@ -46,7 +46,7 @@ namespace Test {
     }
 
     void TestAdvancedLighting::OnRender(Graphics::GraphicsDevice& gdevice) {
-        scene.GetShader().Bind();
+        scene.Shader().Bind();
 
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
@@ -78,7 +78,7 @@ namespace Test {
     }
 
     void TestAdvancedLighting::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
-        Graphics::Shader& shader = scene.GetShader();
+        Graphics::Shader& shader = scene.Shader();
         shader.SetUniformArgs({
             { name + ".ambient",   material.Ka },
             { name + ".diffuse",   material.Kd },

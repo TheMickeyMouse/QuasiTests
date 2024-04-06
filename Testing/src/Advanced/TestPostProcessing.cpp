@@ -73,7 +73,7 @@ namespace Test {
         // edge detect shader
         shaderEdgeDetect = Graphics::Shader::FromFile(vert, res("simple_ed.frag"));
 
-        currShader = &postProcessingQuad.GetShader();
+        currShader = &postProcessingQuad.Shader();
         renderResult.Activate(0);
     }
 
@@ -134,7 +134,7 @@ namespace Test {
 
 #define TAB_ITEM(X, N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
         if (ImGui::BeginTabBar("Post Processing Shader")) {
-            TAB_ITEM(NONE, "None", postProcessingQuad.GetShader(), )
+            TAB_ITEM(NONE, "None", postProcessingQuad.Shader(), )
             TAB_ITEM(COLOR_INVERT, "Color Invert", shaderInv, )
             TAB_ITEM(COLOR_HSL, "Color Hue", shaderHsv,
                 ImGui::DragFloat("Hue Shift", &hueShift, 0.01f, 0, 1);

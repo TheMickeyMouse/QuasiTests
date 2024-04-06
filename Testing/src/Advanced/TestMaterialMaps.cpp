@@ -23,10 +23,10 @@ namespace Test {
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
-        scene.GetShader().Bind();
-        scene.GetShader().SetUniformTex("diffuseMap", diffuseMap);
-        scene.GetShader().SetUniformTex("specularMap", specularMap);
-        scene.GetShader().Unbind();
+        scene.Shader().Bind();
+        scene.Shader().SetUniformTex("diffuseMap", diffuseMap);
+        scene.Shader().SetUniformTex("specularMap", specularMap);
+        scene.Shader().Unbind();
 
         using namespace Graphics::VertexBuilder;
         lightSource = Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {

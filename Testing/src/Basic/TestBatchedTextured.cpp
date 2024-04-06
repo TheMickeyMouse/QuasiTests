@@ -42,9 +42,9 @@ namespace Test {
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
         const int slots[] = { textures[0].Slot(), textures[1].Slot(), };
-        render.GetShader().Bind();
-        render.GetShader().SetUniformIntArr("u_textures", slots);
-        render.GetShader().Unbind();
+        render.Shader().Bind();
+        render.Shader().SetUniformIntArr("u_textures", slots);
+        render.Shader().Unbind();
     }
 
     void TestBatchedTextured::OnRender(Graphics::GraphicsDevice& gdevice) {

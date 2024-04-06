@@ -20,6 +20,7 @@ set(HEADER_FILES
     src/Advanced/TestGeometryShader.h
     src/Test.h
     src/TestingFramework.h
+    src/Advanced/TestDrawInstances.h
 )
 source_group("Header Files" FILES ${HEADER_FILES})
 
@@ -40,6 +41,7 @@ set(SOURCE_FILES
     src/Advanced/TestGeometryShader.cpp
     src/TestMenu.cpp
     Testing.cpp
+    src/Advanced/TestDrawInstances.cpp
 )
 source_group("Source Files" FILES ${SOURCE_FILES})
 

@@ -50,14 +50,14 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
         const Maths::mat3D translate = Maths::mat3D::translate_mat({ 0, 0, 30 }),
-                           norm = scene.GetView().inv().transpose();
+                           norm = scene.ViewMat().inv().transpose();
 
         flatShader.Bind();
         flatShader.SetUniformInt("faceIndex", displayFace);
 
         scene.ClearData();
         scene.AddNewMeshes(sphere);
-        scene.Render(useFlatShading ? flatShader : scene.GetShader(), {
+        scene.Render(useFlatShading ? flatShader : scene.Shader(), {
             { "lightDirection", Maths::fvec3::from_spheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
             { "u_model", Maths::mat3D::identity() }
@@ -73,7 +73,7 @@ namespace Test {
 
         scene.ClearData();
         scene.AddNewMeshes(icosphere);
-        scene.Render(useFlatShading ? flatShader : scene.GetShader(), {
+        scene.Render(useFlatShading ? flatShader : scene.Shader(), {
             { "u_model", translate }
         });
         if (useGeomShader) {

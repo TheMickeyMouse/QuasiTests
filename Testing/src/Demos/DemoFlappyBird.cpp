@@ -55,8 +55,8 @@ namespace Test {
     }
 
     void DemoFlappyBird::OnRender(Graphics::GraphicsDevice& gdevice) {
-        render.GetShader().Bind();
-        render.GetShader().SetUniformTex("u_font", font.GetTexture());
+        render.Shader().Bind();
+        render.Shader().SetUniformTex("u_font", font.GetTexture());
 
         using namespace Graphics;
         mPlayer.SetTransform(Maths::mat3D::translate_mat({ -150, yPos, 0 }));

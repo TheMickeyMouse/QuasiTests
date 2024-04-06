@@ -78,7 +78,7 @@ namespace Test {
         lightScene.ResetData();
         lightScene.Render();
 
-        scene.GetShader().Bind();
+        scene.Shader().Bind();
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
         }
@@ -129,7 +129,7 @@ namespace Test {
     }
 
     void TestLightCasters::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
-        Graphics::Shader& shader = scene.GetShader();
+        Graphics::Shader& shader = scene.Shader();
         shader.SetUniformArgs({
             { name + ".ambient",   material.Ka },
             { name + ".diffuse",   material.Kd },
@@ -139,7 +139,7 @@ namespace Test {
     }
 
     void TestLightCasters::UniformLight(const std::string& name, const Graphics::Light& light) {
-        Graphics::Shader& shader = scene.GetShader();
+        Graphics::Shader& shader = scene.Shader();
         Maths::fvec3 top, bottom;
         switch (light.type) {
             case Graphics::LightType::SUNLIGHT:

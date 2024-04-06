@@ -17,6 +17,7 @@
 #include "Advanced/TestLightCasters.h"
 #include "Advanced/TestStencilOutline.h"
 #include "Advanced/TestCubeMap.h"
+#include "Advanced/TestDrawInstances.h"
 #include "Advanced/TestGeometryShader.h"
 
 #include "Demos/DemoFlappyBird.h"
@@ -129,6 +130,9 @@ namespace Test {
 
             menu->RegisterTest<TestGeometryShader>("Geometry Shader");
             menu->AddDescription("Draws houses using geometry shaders.");
+
+            menu->RegisterTest<TestDrawInstances>("Draw Instanced");
+            menu->AddDescription("Draws cubes using instancing.");
 
             // =========================================================================
 
