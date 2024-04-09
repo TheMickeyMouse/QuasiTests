@@ -18,9 +18,10 @@ set(HEADER_FILES
     src/Basic/TestDynamicVertexGeometry.h
     src/Demos/DemoFlappyBird.h
     src/Advanced/TestGeometryShader.h
+    src/Advanced/TestDrawInstances.h
+    src/Advanced/TestShadowMap.h
     src/Test.h
     src/TestingFramework.h
-    src/Advanced/TestDrawInstances.h
 )
 source_group("Header Files" FILES ${HEADER_FILES})
 
@@ -39,9 +40,10 @@ set(SOURCE_FILES
     src/Basic/TestDynamicVertexGeometry.cpp
     src/Demos/DemoFlappyBird.cpp
     src/Advanced/TestGeometryShader.cpp
+    src/Advanced/TestDrawInstances.cpp
+    src/Advanced/TestShadowMap.cpp
     src/TestMenu.cpp
     Testing.cpp
-    src/Advanced/TestDrawInstances.cpp
 )
 source_group("Source Files" FILES ${SOURCE_FILES})
 

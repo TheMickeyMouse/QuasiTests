@@ -32,7 +32,7 @@ namespace Test {
 
         scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
-        scene.SetProjection(projection);
+        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         const auto [winX, winY] = gdevice.GetWindowSize();
         fbo = Graphics::FrameBuffer {{}};

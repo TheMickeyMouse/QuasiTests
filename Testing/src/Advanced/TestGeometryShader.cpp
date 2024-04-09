@@ -13,18 +13,18 @@ namespace Test {
         using namespace Graphics::VertexBuilder;
         sphere = Graphics::MeshUtils::Sphere({ 20 }, Vertex::Blueprint {
             .Position = GetPosition {},
+            .Color = Constant { Maths::colorf::BETTER_AQUA() },
             .Normal = GetNormal {},
-            .Color = Constant { Maths::colorf::BETTER_AQUA() }
         }, Maths::mat3D::scale_mat(10.0f));
 
         icosphere = Graphics::MeshUtils::Icosphere({ 2 }, Vertex::Blueprint {
             .Position = GetPosition {},
+            .Color = Constant { Maths::colorf::BETTER_RED() },
             .Normal = GetNormal {},
-            .Color = Constant { Maths::colorf::BETTER_RED() }
         }, Maths::mat3D::scale_mat(10.0f));
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f));
+        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         flatShader = Graphics::Shader::FromFile(res("flat.vert"), res("flat.frag"), res("flat.geom"));
         normalShader = Graphics::Shader::FromFile(res("norm.vert"), res("norm.frag"), res("norm.geom"));

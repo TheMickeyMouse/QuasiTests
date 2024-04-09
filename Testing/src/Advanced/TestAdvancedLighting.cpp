@@ -24,7 +24,7 @@ namespace Test {
         scene.BindMeshes(meshes);
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f));
+        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 3.3716135, 9.015127, 0.29202303 };
         camera.yaw = -3.4856012f; camera.pitch = -1.166767f;

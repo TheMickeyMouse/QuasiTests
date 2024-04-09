@@ -42,7 +42,7 @@ namespace Test {
         reflectShader = Graphics::Shader::FromFile(res("reflect.vert"), res("reflect.frag"));
         refractShader = Graphics::Shader::FromFile(res("refract.vert"), res("refract.frag"));
 
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f));
+        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 0.5531298, 0.82467157, -1.2348987 };
         camera.yaw = 2.2044506f; camera.pitch = 0.20220234f;

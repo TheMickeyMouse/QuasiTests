@@ -18,7 +18,6 @@ namespace Test {
         std::vector<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
-        Maths::mat3D projection = Maths::mat3D::perspective_fov(90.0f, 4.0f / 3.0f, 0.01f, 100.0f);
         Maths::fvec3 modelTranslation = { 0, 0, -3.5 };
         Maths::fvec3 modelScale       = 1;
         Maths::fvec3 modelRotation    = 0;

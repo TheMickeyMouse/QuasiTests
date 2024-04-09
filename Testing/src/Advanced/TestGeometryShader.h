@@ -5,16 +5,7 @@
 
 namespace Test {
     class TestGeometryShader : Test {
-    public:
-        struct Vertex {
-            Maths::fvec3 Position, Normal;
-            Maths::colorf Color;
-
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(Normal)(Color));
-            GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
-        };
-    private:
+        using Vertex = Graphics::VertexColorNormal3D;
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> sphere, icosphere;
 

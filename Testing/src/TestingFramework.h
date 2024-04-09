@@ -19,6 +19,7 @@
 #include "Advanced/TestCubeMap.h"
 #include "Advanced/TestDrawInstances.h"
 #include "Advanced/TestGeometryShader.h"
+#include "Advanced/TestShadowMap.h"
 
 #include "Demos/DemoFlappyBird.h"
 
@@ -133,6 +134,9 @@ namespace Test {
 
             menu->RegisterTest<TestDrawInstances>("Draw Instanced");
             menu->AddDescription("Draws cubes using instancing.");
+
+            menu->RegisterTest<TestShadowMap>("Shadow Map");
+            menu->AddDescription("Draws a scene with simple shadows.");
 
             // =========================================================================
 
