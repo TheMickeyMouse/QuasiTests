@@ -127,6 +127,7 @@ namespace Test {
 
     void TestShadowMap::OnDestroy(Graphics::GraphicsDevice& gdevice) {
         scene.Destroy();
+        shadowMapDisplay.Destroy();
         Graphics::Render::DisableCullFace();
     }
 } // Test

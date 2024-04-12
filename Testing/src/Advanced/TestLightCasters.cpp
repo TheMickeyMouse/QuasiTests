@@ -126,6 +126,7 @@ namespace Test {
 
     void TestLightCasters::OnDestroy(Graphics::GraphicsDevice& gdevice) {
         scene.Destroy();
+        lightScene.Destroy();
     }
 
     void TestLightCasters::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {

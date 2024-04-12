@@ -83,5 +83,6 @@ namespace Test {
 
     void TestMaterialMaps::OnDestroy(Graphics::GraphicsDevice& gdevice) {
         scene.Destroy();
+        lightScene.Destroy();
     }
 }

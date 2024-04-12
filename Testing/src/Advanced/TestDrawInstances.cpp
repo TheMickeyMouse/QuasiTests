@@ -33,9 +33,9 @@ namespace Test {
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 
         camera.position = { -6.923308, -7.435342, -6.919785 };
-        camera.yaw = -0.85972655; camera.pitch = 0.6728243;
+        camera.yaw = -0.85972655f; camera.pitch = 0.6728243f;
         camera.speed = 5;
-        camera.sensitivity = 0.12;
+        camera.sensitivity = 0.12f;
         camera.fov = 90;
         camera.fovRange = { 1, 90 };
         camera.zoomRatio = 0.5;
