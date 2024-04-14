@@ -51,6 +51,8 @@ set(ALL_FILES
     ${no_group_source_files}
     ${HEADER_FILES}
     ${SOURCE_FILES}
+        src/Physics/TestCircleCollision2D.cpp
+        src/Physics/TestCircleCollision2D.h
 )
 
 ################################################################################

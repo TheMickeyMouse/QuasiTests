@@ -13,6 +13,7 @@ namespace Test {
     enum class TestType {
         BASIC,
         ADVANCED,
+        SIM_PHYSICS,
         DEMO,
         OTHER,
 
@@ -21,7 +22,7 @@ namespace Test {
     };
 
     inline STDU_ENUM_TOSTR(TestType, ToDirString,
-        (BASIC, "Basic")(ADVANCED, "Advanced")(DEMO, "Demos")(OTHER, "Others"), "")
+        (BASIC, "Basic")(ADVANCED, "Advanced")(SIM_PHYSICS, "Physics")(DEMO, "Demos")(OTHER, "Others"), "")
 
     class Test {
     public:

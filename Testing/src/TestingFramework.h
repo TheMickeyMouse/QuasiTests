@@ -22,6 +22,7 @@
 #include "Advanced/TestShadowMap.h"
 
 #include "Demos/DemoFlappyBird.h"
+#include "Physics/TestCircleCollision2D.h"
 
 namespace Test {
     class TestMenu : public Test {
@@ -38,7 +39,6 @@ namespace Test {
             std::string description;
         };
 
-        static STDU_ENUM_TOSTR(TestType, TypeNameOf, (BASIC, "Basic")(ADVANCED, "Advanced")(DEMO, "Demo"), "Other")  // NOLINT(clang-diagnostic-reserved-identifier)
     private:
         Test*& currentTest; // ref bc currtest could be a testmenu (this)  // NOLINT(cppcoreguidelines-avoid-const-or-ref-data-members)
         std::vector<TestMenuItem> menuItems;
@@ -140,11 +140,21 @@ namespace Test {
 
             // =========================================================================
 
+            menu->DeclareTestType(TestType::SIM_PHYSICS);
+            menu->AddSectionDescription("Physics Simulations designed to test Physics implementations.");
+
+            menu->RegisterTest<TestCircleCollision2D>("Circle Collisions");
+            menu->AddDescription("Checks for Collisions between circles.");
+
+            // =========================================================================
+
             menu->DeclareTestType(TestType::DEMO);
             menu->AddSectionDescription("Simple OpenGL 'Games' created to explore the limitations of the engine. \nJust to see what's possible without over-development.");
 
             menu->RegisterTest<DemoFlappyBird>("Flappy Bird");
             menu->AddDescription("A dumb-down version of Flappy Bird.");
+
+            // =========================================================================
 
             menu->DeclareTestType(TestType::OTHER);
             menu->AddSectionDescription("Other Tests that didn't fit in. \nThere's nothing here yet!");

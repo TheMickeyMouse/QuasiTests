@@ -9,7 +9,7 @@ namespace Test {
     void TestMenu::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         if (!ImGui::BeginTabBar("Testing Projects")) return;
         for (const auto& [type, span, desc] : testTypeSegments) {
-            if (ImGui::BeginTabItem(TypeNameOf(type))) {
+            if (ImGui::BeginTabItem(ToDirString(type))) {
                 ImGui::Text("%s", desc.c_str());
                 for (usize j = span.min; j < span.max; ++j) {
                     const TestMenuItem& testItem = menuItems[j];
