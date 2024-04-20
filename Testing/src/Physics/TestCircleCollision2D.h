@@ -1,7 +1,7 @@
 #pragma once
 #include "Mesh.h"
 #include "Test.h"
-#include "Physics/CircleCollider2D.h"
+#include "Physics/World2D.h"
 
 namespace Test {
     class TestCircleCollision2D : Test {
@@ -11,13 +11,13 @@ namespace Test {
         Graphics::Shader lineShader;
         Graphics::Mesh<Vertex> totalLineMesh;
 
-        std::vector<Physics2D::CircleCollider> circles;
+        Physics2D::World world;
         std::vector<Maths::colorf> colors;
         std::vector<float> scales;
 
         Maths::rect2f viewport;
 
-        Physics2D::CircleCollider* selected = nullptr;
+        Physics2D::Body* selected = nullptr;
         Maths::fvec2 selectOffset = 0;
         Maths::fvec2 lastDragPosition;
 
