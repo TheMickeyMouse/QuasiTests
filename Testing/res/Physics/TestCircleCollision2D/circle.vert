@@ -2,7 +2,7 @@
 
 layout (location = 0) in vec2 position;
 
-#define CIRCLE_COUNT 20
+#define CIRCLE_COUNT 100
 
 uniform mat4 u_projection;
 uniform float scales[CIRCLE_COUNT];

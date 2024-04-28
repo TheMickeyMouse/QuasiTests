@@ -7,7 +7,7 @@
 namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
-        viewport = { 0, 8, 0, 6 };
+        viewport = { 0, 80, 0, 60 };
 
         using namespace Graphics::VertexBuilder;
         circleMesh = Graphics::MeshUtils::Circle({ 32 }, Vertex::Blueprint {
@@ -19,88 +19,81 @@ namespace Test {
         scene.UseShaderFromFile(res("circle.vert"), res("circle.frag"));
         lineShader = Graphics::Shader::FromFile(res("line.vert"), res("line.frag"), res("line.geom"));
 
-        scene.SetProjection(Maths::mat3D::ortho_projection({ 0, 8, 0, 6, -1, 1 }));
+        scene.SetProjection(Maths::mat3D::ortho_projection({ 0, 80, 0, 60, -1, 1 }));
 
-        world = { 0, 0.8f };
+        world = { { 0, -40.0f }, Physics2D::Drag(0.95f, 60.0f) };
         ResetBalls(gdevice);
+
+        auto& vert = totalLineMesh.GetVertices(); auto& inds = totalLineMesh.GetIndices();
+        for (int i = 0; i < 6; ++i) vert.emplace_back(0.0f);
+        inds.emplace_back(0, 1, 1);
+        inds.emplace_back(1, 3, 3);
+        inds.emplace_back(2, 3, 3);
+        inds.emplace_back(0, 2, 2);
+        inds.emplace_back(4, 5, 5);
     }
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-        totalLineMesh.Clear();
-        bool drawForceLine = false;
-
         const auto& mouse = gdevice.GetIO().Mouse;
         const Maths::fvec2 mousePos = mouse.GetMousePos().as<float>().map({ -1, 1, 1, -1 }, viewport);
         if (mouse.LeftOnPress() && !selected) {
-            for (Physics2D::Body& circ : world.Bodies()) {
-                if (circ.CollidesWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
-                    selected = &circ;
-                    selectOffset = mousePos - circ.position;
-                    break;
-                }
-            }
+            selected = FindBallAt(mousePos);
+            if (selected)
+                selectOffset = mousePos - selected->position;
         }
 
         if (mouse.LeftPressed() && selected) {
             const Maths::fvec2 newPos = mousePos - selectOffset;
             selected->position = newPos;
+            selected->velocity = 0;
         }
 
         if (mouse.LeftOnRelease()) selected = nullptr;
 
         if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
         if (mouse.MiddlePressed()) {
-            for (Physics2D::Body& c : world.Bodies()) c.position -= lastDragPosition - mousePos;
+            for (const Physics2D::BodyHandle& circ : world.Bodies()) circ->position -= lastDragPosition - mousePos;
             lastDragPosition = mousePos;
         }
 
         if (mouse.RightOnPress() && !selected) {
-            for (Physics2D::Body& circ : world.Bodies()) {
-                if (circ.CollidesWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
-                    selected = &circ;
-                    break;
-                }
-            }
+            selected = FindBallAt(mousePos);
         }
 
         if (mouse.RightPressed() && selected) {
-            totalLineMesh.GetVertices().emplace_back(selected->position);
-            totalLineMesh.GetVertices().emplace_back(mousePos);
-            totalLineMesh.GetIndices().emplace_back(0, 1, 1);
-            drawForceLine = true;
+            totalLineMesh.GetVertices()[4].Position = selected->position;
+            totalLineMesh.GetVertices()[5].Position = mousePos;
         }
 
-        if (mouse.RightOnRelease() && selected) {
-            selected->velocity -= 2 * (mousePos - selected->position);
+        if (mouse.RightOnRelease() && selected && selected->IsDynamic()) {
+            const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
+            selected->velocity -= (scale ? 10.0f : 1.0f) * (mousePos - selected->position);
+            totalLineMesh.GetVertices()[4].Position = 0;
+            totalLineMesh.GetVertices()[5].Position = 0;
             selected = nullptr;
         }
 
-        std::vector<Physics2D::Collision::Pair> collisionPairs {};
-        world.Update(deltaTime, 4, 4, &collisionPairs);
-        uint line = drawForceLine * 2;
-        auto& vert = totalLineMesh.GetVertices(); auto &inds = totalLineMesh.GetIndices();
-        vert.reserve(line + collisionPairs.size() * 2);
-        inds.reserve(drawForceLine + collisionPairs.size());
-        for (const auto& [b, t] : collisionPairs) {
-            vert.emplace_back(b.position);
-            vert.emplace_back(t.position);
-            inds.emplace_back(line, line + 1, line + 1);
-            line += 2;
+        world.Update(deltaTime, 8, 2);
+
+        for (int i = 0; i < 4; ++i) {
+            const Physics2D::Body* e = edge[i];
+            totalLineMesh.GetVertices()[i].Position = e->position + e->ShapeAs<Physics2D::EdgeShape>().start;
         }
 
         lineShader.Bind();
-        lineShader.SetUniformInt("blueThreshold", (int)drawForceLine);
     }
 
     void TestCircleCollision2D::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene.Shader().Bind();
-        for (uint i = 0; i < 20; ++i)
-            scene.Shader().SetUniformFvec2(std::format("offsets[{}]", i), world.Bodies()[i].position);
+        std::vector<Maths::fvec2> offsets;
+        offsets.resize(100);
+        std::ranges::transform(balls, offsets.begin(), [](const Physics2D::Body* b) { return b->position; });
+        scene.Shader().SetUniformFvec2Arr("offsets", offsets);
 
         scene.ResetData();
-        scene.RenderInstanced(20, {
+        scene.RenderInstanced(100, {
             { "u_projection", scene.ProjectionMat() },
-            { "selected", selected ? (int)(selected - world.Bodies().data()) : -1 }
+            { "selected", selected ? (int)(std::ranges::find(balls, selected) - balls.begin()) : -1 }
         }, false);
 
         scene.ClearData();
@@ -112,7 +105,12 @@ namespace Test {
 
     void TestCircleCollision2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         if (ImGui::Button("Reset Balls")) ResetBalls(gdevice);
-        ImGui::Text("Current Selected: %s", selected ? std::format("#{}", selected - world.Bodies().data()).data() : "None");
+
+        ImGui::BulletText("Controls");
+        ImGui::Text("Left Click = Drag");
+        ImGui::Text("Right Click = Add Velocity");
+        ImGui::Text(" + Control for increased Force");
+        ImGui::Text("Middle Click = Move");
     }
 
     void TestCircleCollision2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -123,25 +121,38 @@ namespace Test {
         auto& rand = gdevice.GetRand();
 
         const Maths::fvec2 position = Maths::fvec2::random(rand, viewport);
-        const float radius = rand.getf(0.3f, 0.8f);
-        world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 1.0f }, radius);
+        const float radius = rand.getf(1.0f, 3.0f);
+        balls.emplace_back(world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius));
         colors.emplace_back(Maths::colorf::random(rand, rand.getf(0.3f, 0.7f), rand.getf(0.8f, 1.0f)));
-        scales.emplace_back(radius);
     }
 
     void TestCircleCollision2D::ResetBalls(Graphics::GraphicsDevice& gdevice) {
         world.Clear();
-        world.Reserve(20);
         colors.clear();
-        colors.reserve(20);
-        scales.clear();
-        scales.reserve(20);
 
-        for (int i = 0; i < 20; ++i)
+        for (int i = 0; i < 99; ++i)
             AddRandomBall(gdevice);
+        using namespace Physics2D;
+        balls.emplace_back(world.CreateBody<CircleShape>({ .position = viewport.center(), .type = BodyType::STATIC, .density = 0.0f }, 5.0f));
+        colors.emplace_back(0.5f);
+
+        edge[0] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(0), viewport.corner(1));
+        edge[1] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(1), viewport.corner(3));
+        edge[2] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(2), viewport.corner(0));
+        edge[3] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(3), viewport.corner(2));
 
         scene.Shader().Bind();
         scene.Shader().SetUniformFvec4Arr("colors", stdu::span_cast<const Maths::fvec4>(std::span(colors)));
-        scene.Shader().SetUniformFloatArr("scales", scales);
+        for (int i = 0; i < 100; ++i)
+            scene.Shader().SetUniformFloat(std::format("scales[{}]", i), balls[i]->ShapeAs<CircleShape>().radius);
+    }
+
+    Physics2D::Body* TestCircleCollision2D::FindBallAt(const Maths::fvec2& mousePos) const {
+        for (Physics2D::Body* circ : balls) {
+            if (circ->CollidesWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
+                return circ;
+            }
+        }
+        return nullptr;
     }
 } // Test

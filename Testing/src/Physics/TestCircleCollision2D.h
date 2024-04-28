@@ -13,7 +13,8 @@ namespace Test {
 
         Physics2D::World world;
         std::vector<Maths::colorf> colors;
-        std::vector<float> scales;
+        const Physics2D::Body* edge[4] = {};
+        std::vector<Physics2D::Body*> balls;
 
         Maths::rect2f viewport;
 
@@ -32,5 +33,6 @@ namespace Test {
 
         void AddRandomBall(Graphics::GraphicsDevice& gdevice);
         void ResetBalls(Graphics::GraphicsDevice& gdevice);
+        [[nodiscard]] Physics2D::Body* FindBallAt(const Maths::fvec2& mousePos) const;
     };
 } // Test
