@@ -20,6 +20,7 @@ set(HEADER_FILES
     src/Advanced/TestGeometryShader.h
     src/Advanced/TestDrawInstances.h
     src/Advanced/TestShadowMap.h
+    src/Physics/TestCircleCollision2D.h
     src/Test.h
     src/TestingFramework.h
 )
@@ -42,17 +43,15 @@ set(SOURCE_FILES
     src/Advanced/TestGeometryShader.cpp
     src/Advanced/TestDrawInstances.cpp
     src/Advanced/TestShadowMap.cpp
+    src/Physics/TestCircleCollision2D.cpp
     src/TestMenu.cpp
     Testing.cpp
 )
 source_group("Source Files" FILES ${SOURCE_FILES})
 
 set(ALL_FILES
-    ${no_group_source_files}
     ${HEADER_FILES}
     ${SOURCE_FILES}
-        src/Physics/TestCircleCollision2D.cpp
-        src/Physics/TestCircleCollision2D.h
 )
 
 ################################################################################
@@ -172,7 +171,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
-target_link_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_SOURCE_DIR}/bin/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>"
-)
+#target_link_directories(${PROJECT_NAME} PRIVATE
+#    "${CMAKE_SOURCE_DIR}/bin/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>"
+#)
 
