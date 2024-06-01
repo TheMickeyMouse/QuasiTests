@@ -6,10 +6,12 @@
     using _Test_t = T; \
     static constexpr TestType _Test_Category_t = TestType::S; \
     inline static std::string res(std::string_view resource) { \
-        return std::format("res\\{}\\" #T "\\{}", ToDirString(_Test_Category_t), resource); \
+        return std::format("{}res\\{}\\" #T "\\{}", PROJECT_DIRECTORY, ToDirString(_Test_Category_t), resource); \
     }
 
 namespace Test {
+    constexpr std::string_view PROJECT_DIRECTORY = { __FILE__, sizeof(__FILE__) - sizeof("src\\Test.h") };
+
     enum class TestType {
         BASIC,
         ADVANCED,
