@@ -111,6 +111,9 @@ namespace Test {
         ImGui::Text("Right Click = Add Velocity");
         ImGui::Text(" + Control for increased Force");
         ImGui::Text("Middle Click = Move");
+
+        ImGui::DragFloat2("Gravity", world.gravity.begin());
+        ImGui::DragFloat("Inverse Drag", &world.drag, 0.005f, 0.0f, 1.0f);
     }
 
     void TestCircleCollision2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -129,6 +132,7 @@ namespace Test {
     void TestCircleCollision2D::ResetBalls(Graphics::GraphicsDevice& gdevice) {
         world.Clear();
         colors.clear();
+        balls.clear();
 
         for (int i = 0; i < 99; ++i)
             AddRandomBall(gdevice);

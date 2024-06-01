@@ -67,22 +67,26 @@ namespace Test {
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override {}
     };
 
-    class TestManager : public Test {
+    class TestManager {
     private:
         Test* currentTest = nullptr;
         std::unique_ptr<TestMenu> menu = std::make_unique<TestMenu>(currentTest);
+        Graphics::GraphicsDevice gdevice;
     public:
-        TestManager() = default;
-        ~TestManager() override = default;
+        TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
+        ~TestManager() = default;
 
-        void OnInit(Graphics::GraphicsDevice& gdevice) override;
-        void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime = NAN) override;
-        void OnRender(Graphics::GraphicsDevice& gdevice) override;
-        void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
-        void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
+        void OnInit();
+        void OnUpdate(float deltaTime = NAN);
+        void OnRender();
+        void OnImGuiRender();
+        void OnDestroy();
+        void OnRun();
+
+        [[nodiscard]] bool WindowIsOpen() const { return gdevice.WindowIsOpen(); }
     };
 
-    inline void TestManager::OnInit(Graphics::GraphicsDevice& gdevice) {
+    inline void TestManager::OnInit() {
         currentTest = menu.get();
         {
             menu->DeclareTestType(TestType::BASIC);

@@ -52,18 +52,18 @@ namespace Test {
     }
 
 
-    void TestManager::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
+    void TestManager::OnUpdate(float deltaTime) {
         deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTimef() : deltaTime;
         if (currentTest)
             currentTest->OnUpdate(gdevice, deltaTime);
     }
 
-    void TestManager::OnRender(Graphics::GraphicsDevice& gdevice) {
+    void TestManager::OnRender() {
         if (currentTest)
             currentTest->OnRender(gdevice);
     }
 
-    void TestManager::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
+    void TestManager::OnImGuiRender() {
         if (!currentTest) return;
 
         ImGui::Begin("Test");
@@ -82,8 +82,19 @@ namespace Test {
         ImGui::End();
     }
 
-    void TestManager::OnDestroy(Graphics::GraphicsDevice& gdevice) {
-        if (currentTest != menu.get())
+    void TestManager::OnDestroy() {
+        if (currentTest != menu.get()) {
             delete currentTest;
+            currentTest = nullptr;
+        }
+    }
+
+    void TestManager::OnRun() {
+        OnUpdate();
+
+        gdevice.BeginRender();
+        OnRender();
+        OnImGuiRender();
+        gdevice.EndRender();
     }
 }
