@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "RenderBuffer.h"
 #include "Test.h"
+#include "Textures/Texture.h"
 
 namespace Test {
     // all from https://learnopengl.com/Advanced-OpenGL/Framebuffers & https://learnopengl.com/Guest-Articles/2022/Phys.-Based-Bloom
@@ -18,14 +19,14 @@ namespace Test {
         std::vector<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
-        Maths::fvec3 modelTranslation = { 0, 0, -3.5 };
-        Maths::fvec3 modelScale       = 1;
-        Maths::fvec3 modelRotation    = 0;
+        Math::fVector3 modelTranslation = { 0, 0, -3.5 };
+        Math::fVector3 modelScale       = 1;
+        Math::fVector3 modelRotation    = 0;
 
-        Maths::fvec2 effectOff = 3;
+        Math::fVector2 effectOff = 3;
         float hueShift = 0, satMul = 0, valShift = 0;
 
-        Maths::fvec3 turnSpeed = 1;
+        Math::fVector3 turnSpeed = 1;
 
         Graphics::Shader shaderInv, shaderHsv, shaderBlur, shaderEdgeDetect, *currShader;
 
@@ -34,7 +35,6 @@ namespace Test {
         DEFINE_TEST_T(TestPostProcessing, ADVANCED)
     public:
         TestPostProcessing() = default;
-        ~TestPostProcessing() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;

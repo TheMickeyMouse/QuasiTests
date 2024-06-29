@@ -12,24 +12,24 @@ namespace Test {
         transforms.resize(INSTANCE_NUM);
         colors.resize(INSTANCE_NUM);
 
-        using namespace Maths;
-        const fvec4 black = color3f::BETTER_BLACK().as_rgbaf();
-        const mat4x4 colorTransformer = {
-            color3f::BETTER_RED().as_rgbaf() - black,
-            color3f::BETTER_LIME().as_rgbaf() - black,
-            color3f::BETTER_BLUE().as_rgbaf() - black,
-            color3f::BETTER_BLACK().as_rgbaf()
+        using namespace Math;
+        const fVector4 black = fColor3::BETTER_BLACK().as_rgbaf();
+        const Matrix4x4 colorTransformer = {
+            fColor3::BETTER_RED().as_rgbaf()  - black,
+            fColor3::BETTER_LIME().as_rgbaf() - black,
+            fColor3::BETTER_BLUE().as_rgbaf() - black,
+            fColor3::BETTER_BLACK().as_rgbaf()
         };
-        for (uint i = 0; i < INSTANCE_NUM; ++i) {
-            const uint x = i % 3, y = i / 3 % 3, z = i / 9;
-            const fvec3 pos = { x, y, z };
+        for (u32 i = 0; i < INSTANCE_NUM; ++i) {
+            const u32 x = i % 3, y = i / 3 % 3, z = i / 9;
+            const fVector3 pos = { x, y, z };
             transforms[i].translation = (pos - 1) * 3;
             transforms[i].scale = 0.75f;
             colors[i] = (colorTransformer * (pos * pos / 4).with_w(1)).xyz().to_color3();
         }
 
         cube = Graphics::MeshUtils::Cube();
-        scene.BindMeshes(cube);
+        scene.BindMesh(cube);
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 
         camera.position = { -6.923308, -7.435342, -6.919785 };
@@ -52,33 +52,33 @@ namespace Test {
 
         scene.ResetData();
 
-        std::vector<Maths::mat3D> modelMats, normMats;
+        std::vector<Math::Matrix3D> modelMats, normMats;
         modelMats.resize(INSTANCE_NUM);
         normMats.resize(INSTANCE_NUM);
         std::ranges::transform(transforms, modelMats.begin(),
             [](const Transform& t) {
-                return Maths::mat3D::transform(t.translation, t.scale, t.rotation);
+                return Math::Matrix3D::transform(t.translation, t.scale, t.rotation);
             });
         std::ranges::transform(modelMats, normMats.begin(),
-            [](const Maths::mat3D& m) {
+            [](const Math::Matrix3D& m) {
                 return m.inv().transpose();
             });
 
         scene.RenderInstanced(INSTANCE_NUM, {
-            { "models",  std::span(std::as_const(modelMats)) }, // yeah c++ is just needy
-            { "normMat", std::span(std::as_const(normMats)) },
-            { "colors",  std::span(std::as_const(colors)) },
-            { "lightDirection", Maths::fvec3::from_spheric(1, lightYaw, lightPitch) },
+            { "models",         modelMats }, // yeah c++ is just needy
+            { "normMat",        normMats },
+            { "colors",         colors },
+            { "lightDirection", Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
         });
     }
 
     void TestDrawInstances::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::SliderFloat("Light Yaw", &lightYaw, -Maths::PI, Maths::PI);
-        ImGui::SliderFloat("Light Pitch", &lightPitch, -Maths::HALF_PI * 0.95f, Maths::HALF_PI * 0.95f);
+        ImGui::SliderFloat("Light Yaw",   &lightYaw,   -Math::PI,              Math::PI);
+        ImGui::SliderFloat("Light Pitch", &lightPitch, -Math::HALF_PI * 0.95f, Math::HALF_PI * 0.95f);
         ImGui::SliderFloat("Ambient", &ambStrength, 0.0f, 1.0f);
         if (ImGui::TreeNode("Cube Instances")) {
-            for (uint i = 0; i < INSTANCE_NUM; ++i) {
+            for (u32 i = 0; i < INSTANCE_NUM; ++i) {
                 if (!ImGui::TreeNode(std::format("Cube #{}", i + 1).c_str())) continue;
                 ImGui::DragFloat3("Translation", transforms[i].translation.begin());
                 ImGui::DragFloat3("Scale", transforms[i].scale.begin(), 0.2f);
@@ -99,8 +99,8 @@ namespace Test {
     }
 
     void TestDrawInstances::RandomizeRotations(Graphics::GraphicsDevice& gdevice) {
-        for (uint i = 0; i < INSTANCE_NUM; ++i) {
-            transforms[i].rotation = Maths::fvec3::random(gdevice.GetRand(), { -Maths::PI, Maths::PI });
+        for (u32 i = 0; i < INSTANCE_NUM; ++i) {
+            transforms[i].rotation = Math::fVector3::random(gdevice.GetRand(), { -Math::PI, Math::PI });
         }
     }
 } // Test

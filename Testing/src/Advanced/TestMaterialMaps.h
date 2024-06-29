@@ -2,10 +2,10 @@
 #include "CameraController.h"
 #include "Mesh.h"
 #include "Test.h"
-#include "Texture.h"
+#include "Textures/Texture.h"
 
 namespace Test {
-    class TestMaterialMaps : Test {
+    class TestMaterialMaps : public Test {
     private:
         Graphics::RenderObject<Graphics::VertexTextureNormal3D> scene;
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
@@ -14,15 +14,14 @@ namespace Test {
         Graphics::Mesh<Graphics::VertexColor3D> lightSource;
         Graphics::CameraController camera;
 
-        Maths::fvec3 lightPos = { 0, 8, 2 };
-        Maths::color3f lightColor = 1;
+        Math::fVector3 lightPos = { 0, 8, 2 };
+        Math::fColor3 lightColor = 1;
         float ambientStrength = 0.03f, specularStrength = 1.2f;
         Graphics::Texture diffuseMap, specularMap;
 
         DEFINE_TEST_T(TestMaterialMaps, ADVANCED)
     public:
         TestMaterialMaps() = default;
-        ~TestMaterialMaps() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;

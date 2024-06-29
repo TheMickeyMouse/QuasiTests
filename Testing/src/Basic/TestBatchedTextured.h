@@ -1,15 +1,15 @@
 ﻿#pragma once
 #include "Test.h"
 #include "Mesh.h"
-#include "Texture.h"
+#include "Textures/Texture.h"
 
 namespace Test {
     class TestBatchedTextured : public Test {
     public:
         struct Vertex {
-            Maths::fvec3  Position;
-            Maths::colorf Color;
-            Maths::fvec2  TextureCoordinate;
+            Math::fVector3  Position;
+            Math::fColor Color;
+            Math::fVector2  TextureCoordinate;
             int TextureID;
 
             GL_VERTEX_T(Vertex);
@@ -21,17 +21,16 @@ namespace Test {
         Graphics::Mesh<Vertex> mesh;
         Graphics::Texture textures[2];
 
-        Maths::colorf color = 1;
+        Math::fColor color = 1;
 
-        Maths::mat3D projection = Maths::mat3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
-        Maths::fvec3 modelTranslation = 0;
-        Maths::fvec3 modelScale = 1;
-        Maths::fvec3 modelRotation = 0;
+        Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
+        Math::fVector3 modelTranslation = 0;
+        Math::fVector3 modelScale = 1;
+        Math::fVector3 modelRotation = 0;
 
         DEFINE_TEST_T(TestBatchedTextured, BASIC)
     public:
         TestBatchedTextured() = default;
-        ~TestBatchedTextured() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

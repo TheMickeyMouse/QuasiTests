@@ -13,21 +13,21 @@ namespace Test {
         for (int i = 0; i < 8; ++i) {
             meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
                 .Position = GetPosition {},
-                .Color = Constant { Maths::colorf::color_id(i) }
-            }, Maths::mat3D::scale_mat(s)));
-            meshes[i].SetTransform(Maths::mat3D::translate_mat(Maths::fvec3 { (Maths::Corner3D)i }));
+                .Color = Constant { Math::fColor::color_id(i) }
+            }, Math::Matrix3D::scale_mat(s)));
+            meshes[i].SetTransform(Math::Matrix3D::translate_mat(Math::fVector3 { (Math::Corner3D)i }));
         }
         meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
-            .Color = Constant { Maths::colorf::BETTER_GRAY() }
-        }, Maths::mat3D::scale_mat(s)));
+            .Color = Constant { Math::fColor::BETTER_GRAY() }
+        }, Math::Matrix3D::scale_mat(s)));
 
         outlinedMeshes = meshes; // yes we need a copy
         for (auto& o : outlinedMeshes) o.Scale(1.1f);
 
         scene.BindMeshes(meshes);
         scene.UseShader(Graphics::Shader::StdColored);
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         outlineShader = Graphics::Shader::FromFile(res("vertex.vert"), res("outline.frag"));
 
@@ -46,7 +46,7 @@ namespace Test {
     }
 
     void TestStencilOutline::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
+        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
         scene.SetCamera(mat);
         scene.ResetData();
         scene.Render();

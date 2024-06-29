@@ -4,7 +4,11 @@
 #include "Physics/World2D.h"
 
 namespace Test {
-    class TestCircleCollision2D : Test {
+    class TestCircleCollision2D : public Test {
+        static constexpr u32 DYNAMIC_BALL_COUNT = 95,
+                             STATIC_BALL_COUNT  = 5,
+                             TOTAL_BALL_COUNT   = DYNAMIC_BALL_COUNT + STATIC_BALL_COUNT;
+
         using Vertex = Graphics::Vertex2D;
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> circleMesh;
@@ -12,19 +16,16 @@ namespace Test {
         Graphics::Mesh<Vertex> totalLineMesh;
 
         Physics2D::World world;
-        std::vector<Maths::colorf> colors;
-        const Physics2D::Body* edge[4] = {};
-        std::vector<Physics2D::Body*> balls;
+        Ref<const Physics2D::Body> edge[4] = {};
 
-        Maths::rect2f viewport;
+        Math::fRect2D viewport;
 
-        Physics2D::Body* selected = nullptr;
-        Maths::fvec2 selectOffset = 0;
-        Maths::fvec2 lastDragPosition;
+        Ref<Physics2D::Body> selected = nullptr;
+        Math::fVector2 selectOffset = 0;
+        Math::fVector2 lastDragPosition;
 
         DEFINE_TEST_T(TestCircleCollision2D, SIM_PHYSICS);
     public:
-        ~TestCircleCollision2D() override = default;
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;
         void OnRender(Graphics::GraphicsDevice& gdevice) override;
@@ -33,6 +34,6 @@ namespace Test {
 
         void AddRandomBall(Graphics::GraphicsDevice& gdevice);
         void ResetBalls(Graphics::GraphicsDevice& gdevice);
-        [[nodiscard]] Physics2D::Body* FindBallAt(const Maths::fvec2& mousePos) const;
+        [[nodiscard]] Ref<Physics2D::Body> FindBallAt(const Math::fVector2& mousePos) const;
     };
 } // Test

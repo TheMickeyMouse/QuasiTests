@@ -2,22 +2,22 @@
 #include "CameraController.h"
 #include "Mesh.h"
 #include "Test.h"
-#include "Texture.h"
+#include "Textures/Texture.h"
 
 namespace Test {
-    class TestCubeMap : Test {
+    class TestCubeMap : public Test {
     public:
         struct Vertex {
-            Maths::fvec3 Position, TextureCoord, Normal;
+            Math::fVector3 Position, TextureCoord, Normal;
 
             GL_VERTEX_T(Vertex);
             GL_VERTEX_FIELD((Position)(TextureCoord)(Normal));
             GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer));
         };
 
-        static constexpr int DIFFUSE_SHADER_ID = 0;
-        static constexpr int REFLECTION_SHADER_ID = 1;
-        static constexpr int REFRACTION_SHADER_ID = 2;
+        static constexpr u32 DIFFUSE_SHADER_ID = 0;
+        static constexpr u32 REFLECTION_SHADER_ID = 1;
+        static constexpr u32 REFRACTION_SHADER_ID = 2;
     private:
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> skybox, box;
@@ -33,7 +33,6 @@ namespace Test {
         DEFINE_TEST_T(TestCubeMap, ADVANCED)
     public:
         TestCubeMap() = default;
-        ~TestCubeMap() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;

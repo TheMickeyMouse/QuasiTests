@@ -1,65 +1,44 @@
 ﻿#pragma once
 
-#include <functional>
-
 #include "Test.h"
-
-#include "Basic/TestClearColor.h"
-#include "Basic/TestBatchedTextured.h"
-#include "Basic/TestDynamicVertexGeometry.h"
-#include "Basic/TestDynamicQuadGeometry.h"
-#include "Basic/TestCubeRender.h"
-
-#include "Advanced/TestFontRender.h"
-#include "Advanced/TestPostProcessing.h"
-#include "Advanced/TestAdvancedLighting.h"
-#include "Advanced/TestMaterialMaps.h"
-#include "Advanced/TestLightCasters.h"
-#include "Advanced/TestStencilOutline.h"
-#include "Advanced/TestCubeMap.h"
-#include "Advanced/TestDrawInstances.h"
-#include "Advanced/TestGeometryShader.h"
-#include "Advanced/TestShadowMap.h"
-
-#include "Demos/DemoFlappyBird.h"
-#include "Physics/TestCircleCollision2D.h"
 
 namespace Test {
     class TestMenu : public Test {
     public:
         struct TestMenuItem {
-            std::string name, description;
-            std::function<Test*()> testConstruct;
+            Str name, description;
+            FnPtr<Test*> testConstruct;
         };
-
 
         struct TestSection {
             TestType type;
-            Maths::rangez span;
-            std::string description;
+            Math::zRange span;
+            Str description;
         };
 
     private:
-        Test*& currentTest; // ref bc currtest could be a testmenu (this)  // NOLINT(cppcoreguidelines-avoid-const-or-ref-data-members)
-        std::vector<TestMenuItem> menuItems;
-        std::vector<TestSection> testTypeSegments;
+        Ref<Test*> currentTest;
+        Vec<TestMenuItem> menuItems;
+        Vec<TestSection> testTypeSegments;
         TestType currentType = (TestType)-2;
     public:
-        TestMenu(Test*& currTest);
-        ~TestMenu() override = default;
+        TestMenu(Ref<Test*> currTest);
 
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
 
+        template <class T>
+        static Test* TestFactory() { return new T(); }
+
         template <typename T>
-        void RegisterTest(const std::string& name) {
-            //LOG("Registered " << name << " Test");
-            menuItems.emplace_back(name, "", []{ return (Test*)(new T()); });
+        void RegisterTest(Str name) {
+            // LOG("Registered " << name << " Test");
+            menuItems.emplace_back(name, "", TestFactory<T>);
         }
 
         void DeclareTestType(TestType type);
         void FinishDeclare();
-        void AddSectionDescription(std::string_view desc);
-        void AddDescription(std::string_view desc);
+        void AddSectionDescription(Str desc);
+        void AddDescription(Str desc);
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override {}
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
@@ -70,11 +49,10 @@ namespace Test {
     class TestManager {
     private:
         Test* currentTest = nullptr;
-        std::unique_ptr<TestMenu> menu = std::make_unique<TestMenu>(currentTest);
+        UniqueRef<TestMenu> menu = NewUnique<TestMenu>(currentTest);
         Graphics::GraphicsDevice gdevice;
     public:
         TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
-        ~TestManager() = default;
 
         void OnInit();
         void OnUpdate(float deltaTime = NAN);
@@ -85,85 +63,4 @@ namespace Test {
 
         [[nodiscard]] bool WindowIsOpen() const { return gdevice.WindowIsOpen(); }
     };
-
-    inline void TestManager::OnInit() {
-        currentTest = menu.get();
-        {
-            menu->DeclareTestType(TestType::BASIC);
-            menu->AddSectionDescription("Simple OpenGL Tests to make sure the renderer is working. \nTests mostly involve: Texture Rendering and Vertex manipulation");
-
-            menu->RegisterTest<TestClearColor>("Clear Color");
-            menu->AddDescription("Clears the screen with a color.");
-
-            menu->RegisterTest<TestBatchedTextured>("Texture Batching");
-            menu->AddDescription("Draws 2 textured squares.");
-
-            menu->RegisterTest<TestDynamicVertexGeometry>("Dyn Vertex Geometry");
-            menu->AddDescription("Draws 2 Modifiable squares.");
-
-            menu->RegisterTest<TestDynamicQuadGeometry>("Dyn Quad Geometry");
-            menu->AddDescription("Draws up to 8 Unique Modifiable squares.");
-
-            menu->RegisterTest<TestCubeRender>("Cube 3D Rendering");
-            menu->AddDescription("Draws a 3D cube.");
-
-            // =========================================================================
-
-            menu->DeclareTestType(TestType::ADVANCED);
-            menu->AddSectionDescription("Advanced OpenGL Tests focused on more realistic rendering. \nIncluding: Text Rendering, Post Processing Effects and Lighting");
-
-            menu->RegisterTest<TestFontRender>("Font Rendering");
-            menu->AddDescription("Draws text (not 100% finished yet: markdown).");
-
-            menu->RegisterTest<TestPostProcessing>("Post Processing");
-            menu->AddDescription("Draws a simple scene with post processing.");
-
-            menu->RegisterTest<TestAdvancedLighting>("Advanced Lighting");
-            menu->AddDescription("Draws a simple scene with lighting.");
-
-            menu->RegisterTest<TestMaterialMaps>("Material Map");
-            menu->AddDescription("Draws materials with texture maps.");
-
-            menu->RegisterTest<TestLightCasters>("Light Casters");
-            menu->AddDescription("Draws a scene with many types of light casting.");
-
-            menu->RegisterTest<TestStencilOutline>("Stencil Outline");
-            menu->AddDescription("Draws an outline using the stencil buffer.");
-
-            menu->RegisterTest<TestCubeMap>("Cube Map");
-            menu->AddDescription("Draws a skybox using a cubemap texture.");
-
-            menu->RegisterTest<TestGeometryShader>("Geometry Shader");
-            menu->AddDescription("Draws houses using geometry shaders.");
-
-            menu->RegisterTest<TestDrawInstances>("Draw Instanced");
-            menu->AddDescription("Draws cubes using instancing.");
-
-            menu->RegisterTest<TestShadowMap>("Shadow Map");
-            menu->AddDescription("Draws a scene with simple shadows.");
-
-            // =========================================================================
-
-            menu->DeclareTestType(TestType::SIM_PHYSICS);
-            menu->AddSectionDescription("Physics Simulations designed to test Physics implementations.");
-
-            menu->RegisterTest<TestCircleCollision2D>("Circle Collisions");
-            menu->AddDescription("Checks for Collisions between circles.");
-
-            // =========================================================================
-
-            menu->DeclareTestType(TestType::DEMO);
-            menu->AddSectionDescription("Simple OpenGL 'Games' created to explore the limitations of the engine. \nJust to see what's possible without over-development.");
-
-            menu->RegisterTest<DemoFlappyBird>("Flappy Bird");
-            menu->AddDescription("A dumb-down version of Flappy Bird.");
-
-            // =========================================================================
-
-            menu->DeclareTestType(TestType::OTHER);
-            menu->AddSectionDescription("Other Tests that didn't fit in. \nThere's nothing here yet!");
-
-            menu->FinishDeclare();
-        }
-    }
 }

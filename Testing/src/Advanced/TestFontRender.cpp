@@ -3,9 +3,9 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 #include "lambdas.h"
+#include "RichString.h"
 #include "VertexConverter.h"
-#include "Font.h"
-#include "rich_string.h"
+#include "Textures/Texture.h"
 
 namespace Test {
     void TestFontRender::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -27,53 +27,47 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate();
 
-        const Maths::fvec2 size = font.GetTexture().Size2D();
+        const Math::fVector2 size = font.GetTexture().Size2D();
         const float x = size.x / size.y;
-        Vertex atlVertices[] = { 
+        Vec<Vertex> atlVertices = {
             { { -100.0f * x, -100.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },
             { { +100.0f * x, -100.0f, 0 }, 1, { 1.0f, 1.0f }, 1 },
             { { +100.0f * x, +100.0f, 0 }, 1, { 1.0f, 0.0f }, 1 },
             { { -100.0f * x, +100.0f, 0 }, 1, { 0.0f, 0.0f }, 1 },
         };
         
-        Graphics::TriIndices atlIndices[] = {
+        Vec<Graphics::TriIndices> atlIndices = {
             { 0, 1, 2 },
             { 2, 3, 0 }
         };
         
-        meshAtlas = Graphics::Mesh(
-            std::vector(atlVertices, atlVertices + 4),
-            std::vector(atlIndices, atlIndices + 2)
-        );
+        meshAtlas = Graphics::Mesh(std::move(atlVertices), std::move(atlIndices));
 
-        const Maths::colorf bgColor = Maths::colorf::BETTER_BLACK();
-        Vertex bgVertices[] = { 
+        const Math::fColor bgColor = Math::fColor::BETTER_BLACK();
+        Vec<Vertex> bgVertices = {
             { { -200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, +200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
             { { -200.0f, +200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
         };
         
-        Graphics::TriIndices bgIndices[] = {
+        Vec<Graphics::TriIndices> bgIndices = {
             { 0, 1, 2 },
             { 2, 3, 0 }
         };
         
-        meshBg = Graphics::Mesh(
-            std::vector(bgVertices, bgVertices + 4),
-            std::vector(bgIndices, bgIndices + 2)
-        );
+        meshBg = Graphics::Mesh(std::move(bgVertices), std::move(bgIndices));
 
-        render.BindMeshes(meshBg);
+        render.BindMesh(meshBg);
     }
 
     void TestFontRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
+        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
         render.SetCamera(mat);
 
-        auto& vert = meshBg.GetVertices();
+        auto& vert = meshBg.vertices;
         vert[0].Position = textBox.corner(0);
         vert[1].Position = textBox.corner(1);
         vert[2].Position = textBox.corner(3); // yes this is correct
@@ -81,23 +75,23 @@ namespace Test {
         
         render.ResetData();
         if (showAtlas) {
-            render.AddNewMeshes(meshAtlas);
+            render.AddNewMesh(meshAtlas);
         } else {
             using namespace Graphics::VertexBuilder;
             using FontVertex = Graphics::Font::Vertex;
             meshStr.Replace(font.RenderRichText(
-                    stdu::rich_string::parse_markdown(string),
+                    Text::RichString::ParseMarkdown(string),
                     Graphics::PointPer64::inP64((int)(fontSize * 64.0f)),
                     Graphics::TextAlign { textBox }
                     .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
                     .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
                 ).Convert<Vertex>(Vertex::Blueprint {
                     .Position = GetPosition {},
-                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(LAMB(int r, const Maths::colorf& col, r ? color : col)),
+                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(LAMB(int r, const Math::fColor& col, r ? color : col)),
                     .TextureCoordinate = GetTextureCoord {},
                     .isText = Get<&FontVertex::RenderType> {}
                 }));
-            render.AddNewMeshes(meshStr);
+            render.AddNewMesh(meshStr);
         }
         render.Render({
             { "u_font",           font.GetTexture() },
@@ -142,10 +136,9 @@ namespace Test {
         }
 
         if (showAtlas) {
-            const char searchChar = string.back();
-            const float x = meshAtlas.GetVertices()[1].Position.x;
-            const auto& glyph = font.GetGlyphRect(searchChar);
-            meshAtlas.SetTransform(Maths::mat3D::translate_mat({ x * (1 - 2 * glyph.rect.center().x), 0, 0 }));
+            const float x = meshAtlas.vertices[1].Position.x;
+            const auto& glyph = font.GetGlyphRect(string.back());
+            meshAtlas.SetTransform(Math::Matrix3D::translate_mat({ x * (1 - 2 * glyph.rect.center().x), 0, 0 }));
         }
     }
 

@@ -2,13 +2,17 @@
 #include "CameraController.h"
 #include "Light.h"
 #include "Test.h"
-#include "OBJModel.h"
+#include "ModelLoading/OBJModel.h"
+
+namespace Quasi::Graphics {
+    struct MTLMaterial;
+}
 
 namespace Test {
     class TestLightCasters : public Test {
     public:
         struct Vertex {
-            Maths::fvec3 Position, Normal;
+            Math::fVector3 Position, Normal;
             int MaterialID;
 
             GL_VERTEX_T(Vertex);
@@ -17,21 +21,20 @@ namespace Test {
         };
     private:
         Graphics::RenderObject<Vertex> scene;
-        std::vector<Graphics::MTLMaterial> materials;
-        std::vector<Graphics::Mesh<Vertex>> meshes;
-        std::vector<Graphics::Light> lights;
+        Vec<Graphics::MTLMaterial> materials;
+        Vec<Graphics::Mesh<Vertex>> meshes;
+        Vec<Graphics::Light> lights;
         static constexpr int MAX_LIGHTS = 8;
         Graphics::CameraController camera;
 
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
-        std::vector<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;
+        Vec<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;
 
         float ambientStrength = 0.03f, specularStrength = 1.2f;
 
         DEFINE_TEST_T(TestLightCasters, ADVANCED)
     public:
         TestLightCasters() = default;
-        ~TestLightCasters() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;
@@ -42,6 +45,6 @@ namespace Test {
         void UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material);
         void UniformLight(const std::string& name, const Graphics::Light& light);
 
-        void AddPointLight(const Graphics::PointLight& point, const Maths::colorf& color);
+        void AddPointLight(const Graphics::PointLight& point, const Math::fColor& color);
     };
 }

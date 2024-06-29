@@ -4,7 +4,7 @@
 #include "Test.h"
 
 namespace Test {
-    class TestGeometryShader : Test {
+    class TestGeometryShader : public Test {
         using Vertex = Graphics::VertexColorNormal3D;
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> sphere, icosphere;
@@ -14,13 +14,12 @@ namespace Test {
         Graphics::CameraController camera;
 
         float lightYaw = 0.0f, lightPitch = 0.0f, ambStrength = 0.2f, normMag = 1.0f;
-        Maths::colorf normColor = Maths::colorf::BETTER_WHITE();
+        Math::fColor normColor = Math::fColor::BETTER_WHITE();
         bool useGeomShader = true, useFlatShading = false;
         int displayFace = -1;
 
         DEFINE_TEST_T(TestGeometryShader, ADVANCED);
     public:
-        ~TestGeometryShader() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override;

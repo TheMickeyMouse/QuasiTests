@@ -1,5 +1,5 @@
 ﻿#include "TestCubeRender.h"
-#include "Quad.h"
+#include "Primitives/Quad.h"
 
 #include "imgui.h"
 #include "Meshes/Cube.h"
@@ -10,22 +10,22 @@ namespace Test {
         render = gdevice.CreateNewRender<Graphics::VertexColor3D>(4 * 6, 12);
 
         using Graphics::Primitives::Quad;
-        using namespace Maths;
+        using namespace Math;
 
         using namespace Graphics::VertexBuilder;
         cube = Graphics::MeshUtils::Cube(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
-            .Color = FromArg<VIndexArg>(STDU_LAMBDA(uint i, colorf::color_id((int)(i / 4) + 1)))
+            .Color = FromArg<VIndexArg>(Q_LAMBDA(uint i, fColor::color_id((int)(i / 4) + 1)))
         });
 
-        render.BindMeshes(cube);
+        render.BindMesh(cube);
 
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(projection);
     }
 
     void TestCubeRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
+        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
 
         render.SetCamera(mat);
 

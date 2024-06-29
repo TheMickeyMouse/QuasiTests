@@ -9,16 +9,15 @@ namespace Test {
         Graphics::RenderObject<Graphics::VertexColor3D> render;
         Graphics::Mesh<Graphics::VertexColor3D> cube;
 
-        Maths::mat3D projection = Maths::mat3D::ortho_projection({ -5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f });
-        Maths::fvec3 modelTranslation = 0;
-        Maths::fvec3 modelScale       = 1;
-        Maths::fvec3 modelRotation    = 0;
+        Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f });
+        Math::fVector3 modelTranslation = 0;
+        Math::fVector3 modelScale       = 1;
+        Math::fVector3 modelRotation    = 0;
         float alpha = 1.0f;
 
         DEFINE_TEST_T(TestCubeRender, BASIC)
     public:
         TestCubeRender() = default;
-        ~TestCubeRender() override = default;
 
         void OnInit(Graphics::GraphicsDevice& gdevice) override;
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}

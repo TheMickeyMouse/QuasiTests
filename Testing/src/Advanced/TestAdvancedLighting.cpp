@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 #include "lambdas.h"
-#include "OBJModelLoader.h"
+#include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestAdvancedLighting::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -24,7 +24,7 @@ namespace Test {
         scene.BindMeshes(meshes);
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 3.3716135, 9.015127, 0.29202303 };
         camera.yaw = -3.4856012f; camera.pitch = -1.166767f;
@@ -41,12 +41,12 @@ namespace Test {
     void TestAdvancedLighting::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         camera.Update(gdevice, deltaTime);
 
-        // lightPos = Maths::fvec2::from_polar(5, (float)gdevice.GetIO().Time.currentTime).with_z(0);
-        // light.SetTransform(Maths::mat3D::translate_mat(lightPos));
+        // lightPos = Math::fVector2::from_polar(5, (float)gdevice.GetIO().Time.currentTime).with_z(0);
+        // light.SetTransform(Math::Matrix3D::translate_mat(lightPos));
     }
 
     void TestAdvancedLighting::OnRender(Graphics::GraphicsDevice& gdevice) {
-        scene.Shader().Bind();
+        scene->shader.Bind();
 
         for (uint i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
@@ -60,7 +60,7 @@ namespace Test {
             { "lightColor",        lightColor },
             { "ambientStrength",   ambientStrength },
             { "viewPosition",      camera.position },
-            { "specularIntensity", specularStrength },
+            { "specularIntensity", specularStrength }
         });
     }
 
@@ -77,13 +77,12 @@ namespace Test {
         scene.Destroy();
     }
 
-    void TestAdvancedLighting::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
-        Graphics::Shader& shader = scene.Shader();
-        shader.SetUniformArgs({
-            { name + ".ambient",   material.Ka },
-            { name + ".diffuse",   material.Kd },
-            { name + ".specular",  material.Ks },
-            { name + ".shininess", material.Ns },
+    void TestAdvancedLighting::UniformMaterial(Str name, const Graphics::MTLMaterial& material) {
+        scene->shader.SetUniformArgs({
+            { std::format("{}.ambient",   name), material.Ka },
+            { std::format("{}.diffuse",   name), material.Kd },
+            { std::format("{}.specular",  name), material.Ks },
+            { std::format("{}.shininess", name), material.Ns },
         });
     }
 }

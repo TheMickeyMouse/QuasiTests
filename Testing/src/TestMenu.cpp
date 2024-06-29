@@ -2,24 +2,24 @@
 #include "TestingFramework.h"
 
 namespace Test {
-    TestMenu::TestMenu(Test*& currTest) : currentTest(currTest) {
+    TestMenu::TestMenu(Ref<Test*> currTest) : currentTest(currTest) {
         testTypeSegments.resize((int)TestType::TOTAL, { TestType::OTHER, {}, "" });
     }
 
     void TestMenu::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         if (!ImGui::BeginTabBar("Testing Projects")) return;
         for (const auto& [type, span, desc] : testTypeSegments) {
-            if (ImGui::BeginTabItem(ToDirString(type))) {
-                ImGui::Text("%s", desc.c_str());
+            if (ImGui::BeginTabItem(ToDirString(type).data())) {
+                ImGui::Text("%s", desc.data());
                 for (usize j = span.min; j < span.max; ++j) {
                     const TestMenuItem& testItem = menuItems[j];
-                    if (ImGui::Button(testItem.name.c_str())) {
+                    if (ImGui::Button(testItem.name.data())) {
                         // LOG("clicked " << testItem.name);
-                        currentTest = testItem.testConstruct();
-                        currentTest->OnInit(gdevice);
+                        *currentTest = testItem.testConstruct();
+                        currentTest.Value()->OnInit(gdevice);
                     }
                     if (ImGui::IsItemHovered())
-                        ImGui::SetTooltip("%s", testItem.description.c_str());
+                        ImGui::SetTooltip("%s", testItem.description.data());
                 }
                 ImGui::EndTabItem();
             }
@@ -43,58 +43,11 @@ namespace Test {
         testTypeSegments[t].span.max = menuItems.size();
     }
 
-    void TestMenu::AddSectionDescription(const std::string_view desc) {
+    void TestMenu::AddSectionDescription(const Str desc) {
         testTypeSegments[(int)currentType].description = desc;
     }
 
-    void TestMenu::AddDescription(const std::string_view desc) {
+    void TestMenu::AddDescription(const Str desc) {
         menuItems.back().description = desc;
-    }
-
-
-    void TestManager::OnUpdate(float deltaTime) {
-        deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTimef() : deltaTime;
-        if (currentTest)
-            currentTest->OnUpdate(gdevice, deltaTime);
-    }
-
-    void TestManager::OnRender() {
-        if (currentTest)
-            currentTest->OnRender(gdevice);
-    }
-
-    void TestManager::OnImGuiRender() {
-        if (!currentTest) return;
-
-        ImGui::Begin("Test");
-        if (currentTest != menu.get() && ImGui::Button("<< Back")) {
-            currentTest->OnDestroy(gdevice);
-            delete currentTest;
-            currentTest = menu.get();
-            currentTest->OnInit(gdevice);
-        }
-
-        currentTest->OnImGuiRender(gdevice);
-
-        ImGui::Separator();
-        gdevice.DebugMenu();
-
-        ImGui::End();
-    }
-
-    void TestManager::OnDestroy() {
-        if (currentTest != menu.get()) {
-            delete currentTest;
-            currentTest = nullptr;
-        }
-    }
-
-    void TestManager::OnRun() {
-        OnUpdate();
-
-        gdevice.BeginRender();
-        OnRender();
-        OnImGuiRender();
-        gdevice.EndRender();
     }
 }

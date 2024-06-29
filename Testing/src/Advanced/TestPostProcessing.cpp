@@ -4,8 +4,9 @@
 #include "imgui.h"
 #include "lambdas.h"
 #include "Mesh.h"
-#include "Quad.h"
 #include "Meshes/CubeNormless.h"
+#include "Meshes/Plane.h"
+#include "Meshes/Quad.h"
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -19,23 +20,23 @@ namespace Test {
         for (int i = 0; i < 8; ++i) {
             cubes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
                 .Position = GetPosition {},
-                .Color = Constant { Maths::colorf::color_id(i) }
-            }, Maths::mat4x4::scale_mat(s)));
+                .Color = Constant { Math::fColor::color_id(i) }
+            }, Math::Matrix3D::scale_mat(s)));
 
-            cubes[i].SetTransform(Maths::mat3D::translate_mat(Maths::fvec3 { (Maths::Corner3D)i }));
+            cubes[i].SetTransform(Math::Matrix3D::translate_mat(Math::fVector3 { (Math::Corner3D)i }));
         }
         cubes.push_back(
         Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
-            .Color = Constant { Maths::colorf::BETTER_GRAY() }
-        }, Maths::mat4x4::scale_mat(s)));
+            .Color = Constant { Math::fColor::BETTER_GRAY() }
+        }, Math::Matrix3D::scale_mat(s)));
 
         scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         const auto [winX, winY] = gdevice.GetWindowSize();
-        fbo = Graphics::FrameBuffer {{}};
+        fbo.Create();
         fbo.Bind();
 
         renderResult = Graphics::Texture {
@@ -54,15 +55,13 @@ namespace Test {
         fbo.Complete();
         fbo.Unbind();
 
-        screenQuad = Graphics::Primitives::Quad { 0, Maths::fvec3::RIGHT(), Maths::fvec3::UP() }
-                    .IntoMesh<Graphics::Vertex3D>()
-                    .Convert<Graphics::VertexTexture2D>(Graphics::VertexTexture2D::Blueprint {
-                        .Position = CastPosition<Maths::fvec2> {},
-                        .TextureCoordinate = FromArg<&Graphics::Vertex3D::Position>(LAMB(const auto& v, (v + 1) * 0.5f))
+        screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
+                        .Position = GetPosition {},
+                        .TextureCoordinate = FromArg<PositionArg2D>(LAMB(const auto& v, (v + 1) * 0.5f))
                     });
-        postProcessingQuad.BindMeshes(screenQuad);
+        postProcessingQuad.BindMesh(screenQuad);
 
-        const std::string vert = res("vertex.vert");
+        const String vert = res("vertex.vert");
         postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));
         // inv shader
         shaderInv = Graphics::Shader::FromFile(vert, res("invert.frag"));
@@ -73,17 +72,17 @@ namespace Test {
         // edge detect shader
         shaderEdgeDetect = Graphics::Shader::FromFile(vert, res("simple_ed.frag"));
 
-        currShader = &postProcessingQuad.Shader();
+        currShader = &postProcessingQuad->shader;
         renderResult.Activate(0);
     }
 
     void TestPostProcessing::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         modelRotation += turnSpeed * deltaTime;
-        modelRotation = modelRotation % Maths::TAU;
+        modelRotation = modelRotation % Math::TAU;
     }
 
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation, modelScale, modelRotation);
+        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
 
         scene.SetCamera(mat);
 
@@ -134,7 +133,7 @@ namespace Test {
 
 #define TAB_ITEM(X, N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
         if (ImGui::BeginTabBar("Post Processing Shader")) {
-            TAB_ITEM(NONE, "None", postProcessingQuad.Shader(), )
+            TAB_ITEM(NONE, "None", postProcessingQuad->shader, )
             TAB_ITEM(COLOR_INVERT, "Color Invert", shaderInv, )
             TAB_ITEM(COLOR_HSL, "Color Hue", shaderHsv,
                 ImGui::DragFloat("Hue Shift", &hueShift, 0.01f, 0, 1);

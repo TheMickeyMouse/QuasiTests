@@ -1,17 +1,17 @@
 #pragma once
 #include <queue>
 
-#include "Font.h"
 #include "Geometry.h"
 #include "Mesh.h"
 #include "Test.h"
+#include "Fonts/Font.h"
 
 namespace Test {
-    class DemoFlappyBird : Test {
+    class DemoFlappyBird : public Test {
         struct Vertex {
-            Maths::fvec2 Position;
-            Maths::colorf Color;
-            Maths::fvec2 TextureCoord;
+            Math::fVector2 Position;
+            Math::fColor Color;
+            Math::fVector2 TextureCoord;
             int RenderType;
 
             GL_VERTEX_T(Vertex);
@@ -21,7 +21,7 @@ namespace Test {
 
         struct Spike {
             Graphics::Mesh<Vertex> mesh;
-            Maths::Geometry::ftriangle2d collider;
+            Math::Geometry::fTriangle2D collider;
             float xOff;
         };
 

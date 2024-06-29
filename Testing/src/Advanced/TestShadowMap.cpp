@@ -2,11 +2,11 @@
 
 #include <imgui.h>
 
-#include "lambdas.h"
-#include "OBJModelLoader.h"
+#include "Utils/Lambdas.h"
 #include "VertexConverter.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Quad.h"
+#include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestShadowMap::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -19,7 +19,7 @@ namespace Test {
             meshes.emplace_back(
                 model.objects[i].mesh.Convert<Vertex>(Vertex::Blueprint {
                     .Position = Graphics::VertexBuilder::GetPosition {},
-                    .Color = Graphics::VertexBuilder::Constant { Maths::colorf::color_id(1 + i) },
+                    .Color = Graphics::VertexBuilder::Constant { Math::fColor::color_id(1 + i) },
                     .Normal = Graphics::VertexBuilder::GetNormal {}
                 })
             );
@@ -30,16 +30,16 @@ namespace Test {
         depthShader = Graphics::Shader::FromFile(res("depth.vert"), res("depth.frag"));
         scene.UseShaderFromFile(res("shadow.vert"), res("shadow.frag"));
 
-        depthMap = Graphics::FrameBuffer {{}};
+        depthMap.Create();
         depthTex = Graphics::Texture {
-            nullptr, gdevice.GetWindowSize().as<uint>(),
+            nullptr, gdevice.GetWindowSize().as<u32>(),
             { .load = {
                 .format = Graphics::TextureFormat::DEPTH,
                 .internalformat = Graphics::TextureIFormat::DEPTH_16,
                 .type = Graphics::GLTypeID::FLOAT },
               .params = {
                 { Graphics::TextureParamName::XT_WRAPPING, Graphics::TextureBorder::CLAMP_TO_BORDER },
-                { Graphics::TextureParamName::BORDER_COLOR, Maths::fvec4::ONE().begin() }
+                { Graphics::TextureParamName::BORDER_COLOR, Math::fVector4::ONE().cbegin() }
               }
             }
         };
@@ -54,9 +54,9 @@ namespace Test {
         using namespace Graphics::VertexBuilder;
         screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
             .Position = GetPosition {},
-            .TextureCoordinate = FromArg<PositionArg2D>(LAMB(const Maths::fvec2& p, (p + 1) / 2))
+            .TextureCoordinate = FromArg<PositionArg2D>(LAMB(const Math::fVector2& p, (p + 1) / 2))
         });
-        shadowMapDisplay.BindMeshes(screenQuad);
+        shadowMapDisplay.BindMesh(screenQuad);
         shadowMapDisplay.AddBoundMeshes();
         depthTex.Activate(0);
 
@@ -78,8 +78,8 @@ namespace Test {
     }
 
     void TestShadowMap::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D lightProj = Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), clipDistance.min, clipDistance.max),
-                           lightView = Maths::mat3D::look_at(lightPosition, 0, Maths::fvec3::UP());
+        const Math::Matrix3D lightProj = Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), clipDistance.min, clipDistance.max),
+                           lightView = Math::Matrix3D::look_at(lightPosition, 0, Math::fVector3::UP());
 
         {
             Graphics::Render::SetCullFace(Graphics::FacingMode::FRONT);

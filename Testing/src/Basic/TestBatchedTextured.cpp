@@ -14,7 +14,7 @@ namespace Test {
         textures[0].Activate();
         textures[1].Activate();
 
-        Vertex vertices[] = {
+        Vec<Vertex> vertices = {
             { { -240.0f, -80.0f, 0 }, 1, { 0.0f, 0.0f }, 0 },
             { { -80.00f, -80.0f, 0 }, 1, { 1.0f, 0.0f }, 0 },
             { { -80.00f, +80.0f, 0 }, 1, { 1.0f, 1.0f }, 0 },
@@ -26,29 +26,26 @@ namespace Test {
             { { +80.00f, +80.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },
         };
 
-        TriIndices indices[] = {
+        Vec<TriIndices> indices = {
             { 0, 1, 2 }, { 2, 3, 0 },
             { 4, 5, 6 }, { 6, 7, 4 }
         };
 
-        mesh = Mesh(
-            std::vector(vertices, vertices + 8),
-            std::vector(indices, indices + 4)
-        );
+        mesh = Mesh(std::move(vertices), std::move(indices));
 
-        render.BindMeshes(mesh);
+        render.BindMesh(mesh);
         render.SetProjection(projection);
 
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
         const int slots[] = { textures[0].Slot(), textures[1].Slot(), };
-        render.Shader().Bind();
-        render.Shader().SetUniformIntArr("u_textures", slots);
-        render.Shader().Unbind();
+        render->shader.Bind();
+        render->shader.SetUniformIntArr("u_textures", slots);
+        render->shader.Unbind();
     }
 
     void TestBatchedTextured::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Maths::mat3D mat = Maths::mat3D::transform(modelTranslation,
+        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
         mesh.ApplyMaterial(&Vertex::Color, color);

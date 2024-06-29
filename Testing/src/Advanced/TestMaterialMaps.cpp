@@ -1,7 +1,7 @@
 #include "TestMaterialMaps.h"
 
 #include "imgui.h"
-#include "OBJModelLoader.h"
+#include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
 
 namespace Test {
@@ -23,17 +23,17 @@ namespace Test {
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
-        scene.Shader().Bind();
-        scene.Shader().SetUniformTex("diffuseMap", diffuseMap);
-        scene.Shader().SetUniformTex("specularMap", specularMap);
-        scene.Shader().Unbind();
+        scene->shader.Bind();
+        scene->shader.SetUniformTex("diffuseMap", diffuseMap);
+        scene->shader.SetUniformTex("specularMap", specularMap);
+        scene->shader.Unbind();
 
         using namespace Graphics::VertexBuilder;
         lightSource = Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
-            .Color = Constant { Maths::colorf { 1 } }
+            .Color = Constant { Math::fColor { 1 } }
         });
-        lightScene.BindMeshes(lightSource);
+        lightScene.BindMesh(lightSource);
         lightScene.UseShader(Graphics::Shader::StdColored);
 
         camera.position = { 4.116068, 10.243308, 4.7378902 };
@@ -55,7 +55,7 @@ namespace Test {
         lightScene.SetCamera(camera.GetViewMat());
 
         lightSource.ApplyMaterial(&Graphics::VertexColor3D::Color, lightColor.with_alpha(1));
-        lightSource.SetTransform(Maths::mat3D::translate_mat(lightPos));
+        lightSource.SetTransform(Math::Matrix3D::translate_mat(lightPos));
         lightScene.ResetData();
         lightScene.Render();
 

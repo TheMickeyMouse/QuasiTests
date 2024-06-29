@@ -2,7 +2,7 @@
 
 #include <imgui.h>
 
-#include "Tri.h"
+#include "Primitives/Tri.h"
 #include "Meshes/Icosphere.h"
 #include "Meshes/Sphere.h"
 
@@ -13,18 +13,18 @@ namespace Test {
         using namespace Graphics::VertexBuilder;
         sphere = Graphics::MeshUtils::Sphere({ 20 }, Vertex::Blueprint {
             .Position = GetPosition {},
-            .Color = Constant { Maths::colorf::BETTER_AQUA() },
+            .Color = Constant { Math::fColor::BETTER_AQUA() },
             .Normal = GetNormal {},
-        }, Maths::mat3D::scale_mat(10.0f));
+        }, Math::Matrix3D::scale_mat(10.0f));
 
         icosphere = Graphics::MeshUtils::Icosphere({ 2 }, Vertex::Blueprint {
             .Position = GetPosition {},
-            .Color = Constant { Maths::colorf::BETTER_RED() },
+            .Color = Constant { Math::fColor::BETTER_RED() },
             .Normal = GetNormal {},
-        }, Maths::mat3D::scale_mat(10.0f));
+        }, Math::Matrix3D::scale_mat(10.0f));
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         flatShader = Graphics::Shader::FromFile(res("flat.vert"), res("flat.frag"), res("flat.geom"));
         normalShader = Graphics::Shader::FromFile(res("norm.vert"), res("norm.frag"), res("norm.geom"));
@@ -49,31 +49,31 @@ namespace Test {
     void TestGeometryShader::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
-        const Maths::mat3D translate = Maths::mat3D::translate_mat({ 0, 0, 30 }),
-                           norm = scene.ViewMat().inv().transpose();
+        const Math::Matrix3D translate = Math::Matrix3D::translate_mat({ 0, 0, 30 }),
+                           norm = scene->camera.inv().transpose();
 
         flatShader.Bind();
         flatShader.SetUniformInt("faceIndex", displayFace);
 
         scene.ClearData();
-        scene.AddNewMeshes(sphere);
-        scene.Render(useFlatShading ? flatShader : scene.Shader(), {
-            { "lightDirection", Maths::fvec3::from_spheric(1, lightYaw, lightPitch) },
+        scene.AddNewMesh(sphere);
+        scene.Render(useFlatShading ? flatShader : scene->shader, {
+            { "lightDirection",  Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
-            { "u_model", Maths::mat3D::identity() }
+            { "u_model",         Math::Matrix3D::identity() }
         });
         if (useGeomShader) {
             scene.Render(normalShader, {
                 { "normalColor", normColor },
                 { "normalMagnitude", normMag },
-                { "u_model", Maths::mat3D::identity() },
+                { "u_model", Math::Matrix3D::identity() },
                 { "normMat", norm },
             });
         }
 
         scene.ClearData();
-        scene.AddNewMeshes(icosphere);
-        scene.Render(useFlatShading ? flatShader : scene.Shader(), {
+        scene.AddNewMesh(icosphere);
+        scene.Render(useFlatShading ? flatShader : scene->shader, {
             { "u_model", translate }
         });
         if (useGeomShader) {
@@ -87,8 +87,8 @@ namespace Test {
         ImGui::SliderInt("Display Face", &displayFace, -1, 20);
 
         ImGui::Checkbox("Use Flat Shading", &useFlatShading);
-        ImGui::SliderFloat("Light Yaw", &lightYaw, -Maths::PI, Maths::PI);
-        ImGui::SliderFloat("Light Pitch", &lightPitch, -Maths::HALF_PI * 0.95f, Maths::HALF_PI * 0.95f);
+        ImGui::SliderFloat("Light Yaw", &lightYaw, -Math::PI, Math::PI);
+        ImGui::SliderFloat("Light Pitch", &lightPitch, -Math::HALF_PI * 0.95f, Math::HALF_PI * 0.95f);
         ImGui::SliderFloat("Ambient", &ambStrength, 0.0f, 1.0f);
 
         ImGui::Separator();

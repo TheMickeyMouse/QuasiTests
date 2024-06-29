@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 #include "lambdas.h"
-#include "OBJModelLoader.h"
+#include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
 
 namespace Test {
@@ -25,7 +25,7 @@ namespace Test {
         scene.BindMeshes(meshes);
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
-        scene.SetProjection(Maths::mat3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 10.506737, 11.603662, 6.2335258 };
         camera.yaw = -3.6930802f; camera.pitch = -0.64090014f;
@@ -78,12 +78,12 @@ namespace Test {
         lightScene.ResetData();
         lightScene.Render();
 
-        scene.Shader().Bind();
-        for (uint i = 0; i < materials.size(); ++i) {
+        scene->shader.Bind();
+        for (u32 i = 0; i < materials.size(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
         }
 
-        for (uint i = 0; i < lights.size(); ++i) {
+        for (u32 i = 0; i < lights.size(); ++i) {
             UniformLight(std::format("lights[{}]", i), lights[i]);
         }
 
@@ -115,10 +115,10 @@ namespace Test {
                 lights.pop_back();
             }
 
-            for (uint i = 0; i < lights.size(); ++i) {
+            for (u32 i = 0; i < lights.size(); ++i) {
                 lights[i].ImGuiEdit(std::format("Light {}", i + 1).c_str());
                 lightMeshes[i].ApplyMaterial(&Graphics::VertexColor3D::Color, lights[i].color);
-                lightMeshes[i].SetTransform(Maths::mat3D::translate_mat(lights[i].Position()));
+                lightMeshes[i].SetTransform(Math::Matrix3D::translate_mat(lights[i].Position()));
             }
             ImGui::TreePop();
         }
@@ -130,7 +130,7 @@ namespace Test {
     }
 
     void TestLightCasters::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
-        Graphics::Shader& shader = scene.Shader();
+        Graphics::Shader& shader = scene->shader;
         shader.SetUniformArgs({
             { name + ".ambient",   material.Ka },
             { name + ".diffuse",   material.Kd },
@@ -140,29 +140,21 @@ namespace Test {
     }
 
     void TestLightCasters::UniformLight(const std::string& name, const Graphics::Light& light) {
-        Graphics::Shader& shader = scene.Shader();
-        Maths::fvec3 top, bottom;
-        switch (light.type) {
-            case Graphics::LightType::SUNLIGHT:
-                top = light.As<Graphics::SunLight>()->direction;
-                break;
-            case Graphics::LightType::POINTLIGHT: {
-                const Graphics::PointLight& p = light.As<Graphics::PointLight>();
-                top = p.position;
-                bottom = { p.constant, p.linear, p.quadratic };
-                break;
+        Graphics::Shader& shader = scene->shader;
+        Math::fVector3 top, bottom;
+        light.Visit(
+            [&] (const Graphics::SunLight& sun) { top = sun.direction; },
+            [&] (const Graphics::PointLight& point) {
+                top = point.position;
+                bottom = { point.constant, point.linear, point.quadratic };
+            },
+            [&] (const Graphics::FlashLight& flash) {
+                top = flash.position;
+                bottom = { flash.yaw, flash.pitch, flash.innerCut };
             }
-            case Graphics::LightType::FLASHLIGHT: {
-                const Graphics::FlashLight& f = light.As<Graphics::FlashLight>();
-                top = f.position;
-                bottom = { f.yaw, f.pitch, f.innerCut };
-                break;
-            }
-            case Graphics::LightType::NONE:
-                break;
-        }
+        );
         shader.SetUniformArgs({
-            { name + ".lightId", (int)light.type + 1 },
+            { name + ".lightId", (int)light.ID() + 1 },
             { name + ".d1", top },
             { name + ".d2", bottom },
             { name + ".d3", light.Is<Graphics::FlashLight>() ? light.As<Graphics::FlashLight>()->outerCut : 0 },
@@ -170,9 +162,9 @@ namespace Test {
         });
     }
 
-    void TestLightCasters::AddPointLight(const Graphics::PointLight& point, const Maths::colorf& color) {
+    void TestLightCasters::AddPointLight(const Graphics::PointLight& point, const Math::fColor& color) {
         lights.emplace_back();
-        lights.back() = point;
+        lights.back() = { point };
         lights.back().color = color;
 
         using namespace Graphics::VertexBuilder;
@@ -182,7 +174,7 @@ namespace Test {
                 .Color = Constant { color }
             })
         );
-        lightMeshes.back().SetTransform(Maths::mat3D::translate_mat(point.position));
+        lightMeshes.back().SetTransform(Math::Matrix3D::translate_mat(point.position));
         lightMeshes.back().Bind(lightScene);
     }
 }
