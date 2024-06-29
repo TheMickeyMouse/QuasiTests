@@ -1,8 +1,5 @@
 set(PROJECT_NAME Testing)
 
-################################################################################
-# Source groups
-################################################################################
 set(HEADER_FILES
     src/Advanced/TestAdvancedLighting.h
     src/Advanced/TestCubeMap.h
@@ -55,9 +52,6 @@ set(ALL_FILES
         src/TestManager.cpp
 )
 
-################################################################################
-# Target
-################################################################################
 add_executable(${PROJECT_NAME} ${ALL_FILES})
 
 set(ROOT_NAMESPACE Testing)
