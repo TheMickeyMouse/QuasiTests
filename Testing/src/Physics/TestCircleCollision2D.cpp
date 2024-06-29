@@ -25,12 +25,12 @@ namespace Test {
         ResetBalls(gdevice);
 
         auto& vert = totalLineMesh.vertices; auto& inds = totalLineMesh.indices;
-        for (int i = 0; i < 6; ++i) vert.emplace_back(0.0f);
+        for (int i = 0; i < 10; ++i) vert.emplace_back(0.0f);
         inds.emplace_back(0, 1, 1);
-        inds.emplace_back(1, 3, 3);
         inds.emplace_back(2, 3, 3);
-        inds.emplace_back(0, 2, 2);
         inds.emplace_back(4, 5, 5);
+        inds.emplace_back(6, 7, 7);
+        inds.emplace_back(8, 9, 9);
     }
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -62,15 +62,15 @@ namespace Test {
         }
 
         if (mouse.RightPressed() && selected) {
-            totalLineMesh.vertices[4].Position = selected->position;
-            totalLineMesh.vertices[5].Position = mousePos;
+            totalLineMesh.vertices[8].Position = selected->position;
+            totalLineMesh.vertices[9].Position = mousePos;
         }
 
         if (mouse.RightOnRelease() && selected && selected->IsDynamic()) {
             const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
             selected->velocity -= (scale ? 10.0f : 1.0f) * (mousePos - selected->position);
-            totalLineMesh.vertices[4].Position = 0;
-            totalLineMesh.vertices[5].Position = 0;
+            totalLineMesh.vertices[8].Position = 0;
+            totalLineMesh.vertices[9].Position = 0;
             selected = nullptr;
         }
 
@@ -78,7 +78,8 @@ namespace Test {
 
         for (int i = 0; i < 4; ++i) {
             Ref<const Physics2D::Body> e = edge[i];
-            totalLineMesh.vertices[i].Position = e->position + e->shape.As<Physics2D::EdgeShape>()->start;
+            totalLineMesh.vertices[2 * i + 0].Position = e->position + e->shape.As<Physics2D::EdgeShape>()->start;
+            totalLineMesh.vertices[2 * i + 1].Position = e->position + e->shape.As<Physics2D::EdgeShape>()->end;
         }
 
         lineShader.Bind();
@@ -144,7 +145,7 @@ namespace Test {
     void TestCircleCollision2D::AddRandomBall(Graphics::GraphicsDevice& gdevice) {
         auto& rand = gdevice.GetRand();
 
-        const Math::fVector2 position = Math::fVector2::random(rand, viewport);
+        const Math::fVector2 position = Math::fVector2::random(rand, viewport.inset(1.0f));
         const float radius = rand.Get(1.0f, 3.0f);
         world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius);
     }
@@ -166,10 +167,12 @@ namespace Test {
             rand.Get(4.0f, 6.0f));
         }
 
-        edge[0] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(0), viewport.corner(1));
-        edge[1] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(1), viewport.corner(3));
-        edge[2] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(2), viewport.corner(0));
-        edge[3] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewport.corner(3), viewport.corner(2));
+        Math::fRect2D viewExt = viewport.extrude(1.0f);
+
+        edge[0] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(0), viewExt.corner(1), 1.0f);
+        edge[1] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(1), viewExt.corner(3), 1.0f);
+        edge[2] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(2), viewExt.corner(0), 1.0f);
+        edge[3] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(3), viewExt.corner(2), 1.0f);
     }
 
     Ref<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
