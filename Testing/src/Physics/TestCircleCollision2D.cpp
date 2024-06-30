@@ -91,9 +91,9 @@ namespace Test {
         float scales[TOTAL_BALL_COUNT];
         Math::fColor colors[TOTAL_BALL_COUNT];
 
-        Math::fRange xRange = {
-            world.bodies.back ()->ComputeBoundingBox().max.x,
-            world.bodies.front()->ComputeBoundingBox().min.x
+        const Math::fRange xRange = {
+            world.bodies.front()->ComputeBoundingBox().min.x,
+            world.bodies.back() ->ComputeBoundingBox().max.x
         };
         usize i = 0;
         int selectedIndex = -1;
@@ -105,7 +105,7 @@ namespace Test {
             colors[i]  = Math::fColor::from_hsv(
                 Math::Unit { offsets[i].x }.map(xRange, { 0, 360.f }).value(),
                 body->IsStatic() ? 0.2f : 0.8f,
-                body->IsStatic() ? 0.2f : 0.8f);
+                body->IsStatic() ? 0.5f : 0.8f);
             ++i;
         }
 

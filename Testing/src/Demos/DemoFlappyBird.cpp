@@ -92,8 +92,8 @@ namespace Test {
         if (nextSpawnTime > 2) {
             nextSpawnTime -= 2;
             const float midY = gdevice.GetRand().Get(-100.0f, 100.0f);
-            Math::Geometry::fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
-            Math::Geometry::fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
+            Math::fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
+            Math::fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
 
             spikes.emplace_back(
                 Graphics::Primitives::Tri::FromGeometry(top)
@@ -126,7 +126,7 @@ namespace Test {
         if (yPos <= -190.0f || 190.0f <= yPos) goto die; // NOLINT(cppcoreguidelines-avoid-goto, hicpp-avoid-goto)
         for (const Spike& spike : spikes) {
             for (int i = 1; i < 3; ++i) {
-                const Math::Geometry::fLine2D line = spike.collider.line(i) + Math::fVector2::unit_x(spike.xOff);
+                const Math::fLine2D  line = spike.collider.line(i) + Math::fVector2::unit_x(spike.xOff);
                 const Math::fVector2 center   = Math::fVector2 { -150, yPos },
                                      toCenter = center - line.start,
                                      dist     = line.as_vec(),

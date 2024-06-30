@@ -21,7 +21,7 @@ namespace Test {
 
         struct Spike {
             Graphics::Mesh<Vertex> mesh;
-            Math::Geometry::fTriangle2D collider;
+            Math::fTriangle2D collider;
             float xOff;
         };
 
