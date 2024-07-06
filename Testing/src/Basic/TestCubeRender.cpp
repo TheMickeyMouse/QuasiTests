@@ -3,7 +3,6 @@
 
 #include "imgui.h"
 #include "Meshes/Cube.h"
-#include "lambdas.h"
 
 namespace Test {
     void TestCubeRender::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -13,9 +12,10 @@ namespace Test {
         using namespace Math;
 
         using namespace Graphics::VertexBuilder;
+        u32 i = 0 - 1;
         cube = Graphics::MeshUtils::Cube(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
-            .Color = FromArg<VIndexArg>(Q_LAMBDA(uint i, fColor::color_id((int)(i / 4) + 1)))
+            .Color = FromArg<>([&] { ++i; return fColor::color_id((int)(i / 4) + 1); })
         });
 
         render.BindMesh(cube);

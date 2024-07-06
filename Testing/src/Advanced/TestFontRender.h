@@ -12,9 +12,9 @@ namespace Test {
             Math::fVector2 TextureCoordinate;
             int isText = 0;
     
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(isText));
-            GL_VERTEX_TRANSFORM_FIELDS((Position))
+            Q_GL_VERTEX_T(Vertex);
+            Q_GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(isText));
+            Q_GL_VERTEX_TRANSFORM_FIELDS((Position))
         };
     private:
         Graphics::RenderObject<Vertex> render;

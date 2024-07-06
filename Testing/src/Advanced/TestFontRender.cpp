@@ -2,7 +2,6 @@
 
 #include "imgui.h"
 #include "imgui_stdlib.h"
-#include "lambdas.h"
 #include "RichString.h"
 #include "VertexConverter.h"
 #include "Textures/Texture.h"
@@ -87,7 +86,7 @@ namespace Test {
                     .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
                 ).Convert<Vertex>(Vertex::Blueprint {
                     .Position = GetPosition {},
-                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>(LAMB(int r, const Math::fColor& col, r ? color : col)),
+                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
                     .TextureCoordinate = GetTextureCoord {},
                     .isText = Get<&FontVertex::RenderType> {}
                 }));

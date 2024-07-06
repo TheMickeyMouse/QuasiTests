@@ -14,9 +14,9 @@ namespace Test {
             Math::fVector2 TextureCoord;
             int RenderType;
 
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(Color)(TextureCoord)(RenderType));
-            GL_VERTEX_TRANSFORM_FIELDS((Position));
+            Q_GL_VERTEX_T(Vertex);
+            Q_GL_VERTEX_FIELD((Position)(Color)(TextureCoord)(RenderType));
+            Q_GL_VERTEX_TRANSFORM_FIELDS((Position));
         };
 
         struct Spike {

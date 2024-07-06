@@ -16,7 +16,7 @@ namespace Test {
         Graphics::Texture renderResult;
         Graphics::RenderBuffer depthStencilAttachment;
 
-        std::vector<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
+        Vec<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
         Math::fVector3 modelTranslation = { 0, 0, -3.5 };

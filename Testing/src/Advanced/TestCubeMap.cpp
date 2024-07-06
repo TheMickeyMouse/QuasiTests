@@ -1,10 +1,8 @@
 #include "TestCubeMap.h"
 
-#include <imgui_stdlib.h>
+#include <imgui.h>
 
 #include "Constants.h"
-#include "lambdas.h"
-#include "VertexConverter.h"
 #include "Meshes/Cube.h"
 
 namespace Test {
@@ -15,7 +13,7 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>();
         skybox = Graphics::MeshUtils::Cube(Vertex::Blueprint {
             .Position = GetPosition {},
-            .TextureCoord = GetPosition {},
+            .TextureCoordinate = GetPosition {},
             .Normal = GetNormal {}
         });
 
@@ -28,10 +26,11 @@ namespace Test {
         boxTex = Graphics::Texture::LoadPNG(res("box.png"));
         boxTex.Activate();
 
+        u32 i = 0 - 1;
         box = Graphics::MeshUtils::Cube(
             Vertex::Blueprint {
                 .Position = GetPosition {},
-                .TextureCoord = FromArg<VIndexArg>(LAMB(u32 i, 0.5f + fVector2 { (Math::Corner2D)(i % 4) } * 0.5f)),
+                .TextureCoordinate = FromArg<>([&] { ++i; return 0.5f + fVector2 { (Math::Corner2D)(i % 4) } * 0.5f; }),
                 .Normal = GetNormal {}
             }
         );

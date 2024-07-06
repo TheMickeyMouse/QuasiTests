@@ -2,7 +2,6 @@
 
 #include "Constants.h"
 #include "imgui.h"
-#include "lambdas.h"
 #include "Mesh.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Plane.h"
@@ -57,7 +56,7 @@ namespace Test {
 
         screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
                         .Position = GetPosition {},
-                        .TextureCoordinate = FromArg<PositionArg2D>(LAMB(const auto& v, (v + 1) * 0.5f))
+                        .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& v) { return (v + 1) * 0.5f; })
                     });
         postProcessingQuad.BindMesh(screenQuad);
 

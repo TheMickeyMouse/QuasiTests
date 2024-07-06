@@ -15,9 +15,9 @@ namespace Test {
             Math::fVector3 Position, Normal;
             int MaterialID;
 
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(Normal)(MaterialID));
-            GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
+            Q_GL_VERTEX_T(Vertex);
+            Q_GL_VERTEX_FIELD((Position)(Normal)(MaterialID));
+            Q_GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
         };
     private:
         Graphics::RenderObject<Vertex> scene;

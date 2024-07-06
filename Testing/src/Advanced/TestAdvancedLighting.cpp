@@ -1,7 +1,6 @@
 #include "TestAdvancedLighting.h"
 
 #include "imgui.h"
-#include "lambdas.h"
 #include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
@@ -18,8 +17,8 @@ namespace Test {
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
                 obj.mesh.Convert<Vertex>(
-                LAMB(const Graphics::OBJVertex& v, (Vertex { v.Position, v.Normal, obj.materialIndex })
-            )));
+                [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
+            ));
         }
         scene.BindMeshes(meshes);
 

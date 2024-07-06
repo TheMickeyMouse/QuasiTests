@@ -50,11 +50,11 @@ set(ALL_FILES
     ${HEADER_FILES}
     ${SOURCE_FILES}
         src/TestManager.cpp
+        src/Physics/TestPhysicsPlayground2D.cpp
+        src/Physics/TestPhysicsPlayground2D.h
 )
 
 add_executable(${PROJECT_NAME} ${ALL_FILES})
-
-set(ROOT_NAMESPACE Testing)
 
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 

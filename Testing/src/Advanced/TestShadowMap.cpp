@@ -2,7 +2,6 @@
 
 #include <imgui.h>
 
-#include "Utils/Lambdas.h"
 #include "VertexConverter.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Quad.h"
@@ -15,12 +14,13 @@ namespace Test {
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("untitled.obj"));
         const Graphics::OBJModel model = mloader.RetrieveModel();
+        using namespace Graphics::VertexBuilder;
         for (int i = 0; i < model.objects.size(); ++i) {
             meshes.emplace_back(
                 model.objects[i].mesh.Convert<Vertex>(Vertex::Blueprint {
-                    .Position = Graphics::VertexBuilder::GetPosition {},
-                    .Color = Graphics::VertexBuilder::Constant { Math::fColor::color_id(1 + i) },
-                    .Normal = Graphics::VertexBuilder::GetNormal {}
+                    .Position = GetPosition {},
+                    .Color = Constant { Math::fColor::color_id(1 + i) },
+                    .Normal = GetNormal {}
                 })
             );
         }
@@ -54,7 +54,7 @@ namespace Test {
         using namespace Graphics::VertexBuilder;
         screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
             .Position = GetPosition {},
-            .TextureCoordinate = FromArg<PositionArg2D>(LAMB(const Math::fVector2& p, (p + 1) / 2))
+            .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& p) { return (p + 1) / 2; })
         });
         shadowMapDisplay.BindMesh(screenQuad);
         shadowMapDisplay.AddBoundMeshes();

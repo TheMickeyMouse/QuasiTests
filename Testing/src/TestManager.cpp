@@ -22,6 +22,7 @@
 #include "Demos/DemoFlappyBird.h"
 
 #include "Physics/TestCircleCollision2D.h"
+#include "Physics/TestPhysicsPlayground2D.h"
 
 namespace Test {
     void TestManager::OnInit() {
@@ -85,8 +86,11 @@ namespace Test {
             menu->DeclareTestType(TestType::SIM_PHYSICS);
             menu->AddSectionDescription("Physics Simulations designed to test Physics implementations.");
 
-            menu->RegisterTest<TestCircleCollision2D>("Circle Collisions");
+            menu->RegisterTest<TestCircleCollision2D>("2D Circle Collisions");
             menu->AddDescription("Checks for Collisions between circles.");
+
+            menu->RegisterTest<TestPhysicsPlayground2D>("2D Physics Playground");
+            menu->AddDescription("A physics sandbox in 2D");
 
             // =========================================================================
 

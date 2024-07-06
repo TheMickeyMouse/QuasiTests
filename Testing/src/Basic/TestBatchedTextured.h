@@ -7,14 +7,14 @@ namespace Test {
     class TestBatchedTextured : public Test {
     public:
         struct Vertex {
-            Math::fVector3  Position;
-            Math::fColor Color;
-            Math::fVector2  TextureCoordinate;
+            Math::fVector3 Position;
+            Math::fColor   Color;
+            Math::fVector2 TextureCoordinate;
             int TextureID;
 
-            GL_VERTEX_T(Vertex);
-            GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(TextureID));
-            GL_VERTEX_TRANSFORM_FIELDS((Position))
+            Q_GL_VERTEX_T(Vertex);
+            Q_GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(TextureID));
+            Q_GL_VERTEX_TRANSFORM_FIELDS((Position))
         };
     private:
         Graphics::RenderObject<Vertex> render;
