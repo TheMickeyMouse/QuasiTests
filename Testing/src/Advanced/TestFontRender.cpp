@@ -56,8 +56,6 @@ namespace Test {
         };
         
         meshBg = Graphics::Mesh(std::move(bgVertices), std::move(bgIndices));
-
-        render.BindMesh(meshBg);
     }
 
     void TestFontRender::OnRender(Graphics::GraphicsDevice& gdevice) {
@@ -71,35 +69,31 @@ namespace Test {
         vert[1].Position = textBox.corner(1);
         vert[2].Position = textBox.corner(3); // yes this is correct
         vert[3].Position = textBox.corner(2);
-        
-        render.ResetData();
-        if (showAtlas) {
-            render.AddNewMesh(meshAtlas);
-        } else {
+
+        if (!showAtlas) {
             using namespace Graphics::VertexBuilder;
             using FontVertex = Graphics::Font::Vertex;
-            meshStr.Replace(font.RenderRichText(
-                    Text::RichString::ParseMarkdown(string),
-                    Graphics::PointPer64::inP64((int)(fontSize * 64.0f)),
-                    Graphics::TextAlign { textBox }
-                    .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
-                    .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
-                ).Convert<Vertex>(Vertex::Blueprint {
-                    .Position = GetPosition {},
-                    .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
-                    .TextureCoordinate = GetTextureCoord {},
-                    .isText = Get<&FontVertex::RenderType> {}
-                }));
-            render.AddNewMesh(meshStr);
+            meshStr = font.RenderRichText(
+                Text::RichString::ParseMarkdown(string),
+                Graphics::PointPer64::inP64((int)(fontSize * 64.0f)),
+                Graphics::TextAlign { textBox }
+                .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
+                .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
+            ).Convert<Vertex>(Vertex::Blueprint {
+                .Position = GetPosition {},
+                .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
+                .TextureCoordinate = GetTextureCoord {},
+                .isText = Get<&FontVertex::RenderType> {}
+            });
         }
-        render.Render({
+        render.Draw({ &meshBg, showAtlas ? &meshAtlas : &meshStr }, Graphics::UseArgs({
             { "u_font",           font.GetTexture() },
             { "u_thickness",      thickness },
             { "u_softness",       softness },
             { "u_shadowColor",    shadowColor },
             { "u_shadowSoftness", shadowSoftness },
             { "u_shadowOffset",   shadowOffset },
-        });
+        }));
     }
 
     void TestFontRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

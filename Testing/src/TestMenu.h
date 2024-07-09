@@ -1,8 +1,10 @@
-﻿#pragma once
+#pragma once
 
 #include "Test.h"
 
 namespace Test {
+    class TestManager;
+
     class TestMenu : public Test {
     public:
         struct TestMenuItem {
@@ -17,12 +19,12 @@ namespace Test {
         };
 
     private:
-        Ref<Test*> currentTest;
+        Ref<TestManager> manager;
         Vec<TestMenuItem> menuItems;
         Vec<TestSection> testTypeSegments;
         TestType currentType = (TestType)-2;
     public:
-        TestMenu(Ref<Test*> currTest);
+        TestMenu(Ref<TestManager> manager);
 
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
 
@@ -44,23 +46,5 @@ namespace Test {
         void OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) override {}
         void OnRender(Graphics::GraphicsDevice& gdevice) override {}
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override {}
-    };
-
-    class TestManager {
-    private:
-        Test* currentTest = nullptr;
-        UniqueRef<TestMenu> menu = NewUnique<TestMenu>(currentTest);
-        Graphics::GraphicsDevice gdevice;
-    public:
-        TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
-
-        void OnInit();
-        void OnUpdate(float deltaTime = NAN);
-        void OnRender();
-        void OnImGuiRender();
-        void OnDestroy();
-        void OnRun();
-
-        [[nodiscard]] bool WindowIsOpen() const { return gdevice.WindowIsOpen(); }
     };
 }

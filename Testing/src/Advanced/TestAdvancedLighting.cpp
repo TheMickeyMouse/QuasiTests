@@ -20,7 +20,6 @@ namespace Test {
                 [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
             ));
         }
-        scene.BindMeshes(meshes);
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
@@ -53,14 +52,13 @@ namespace Test {
 
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
-        scene.ResetData();
-        scene.Render({
+        scene.Draw(meshes, Graphics::UseArgs({
             { "lightPosition",     lightPos },
             { "lightColor",        lightColor },
             { "ambientStrength",   ambientStrength },
             { "viewPosition",      camera.position },
             { "specularIntensity", specularStrength }
-        });
+        }));
     }
 
     void TestAdvancedLighting::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

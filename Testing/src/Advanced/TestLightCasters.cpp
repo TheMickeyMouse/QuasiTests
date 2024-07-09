@@ -21,7 +21,6 @@ namespace Test {
                     [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
             ));
         }
-        scene.BindMeshes(meshes);
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
@@ -74,8 +73,7 @@ namespace Test {
     void TestLightCasters::OnRender(Graphics::GraphicsDevice& gdevice) {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
-        lightScene.ResetData();
-        lightScene.Render();
+        lightScene.Draw(lightMeshes);
 
         scene->shader.Bind();
         for (u32 i = 0; i < materials.size(); ++i) {
@@ -88,12 +86,11 @@ namespace Test {
 
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
-        scene.ResetData();
-        scene.Render({
+        scene.Draw(meshes, Graphics::UseArgs({
             { "ambientStrength",   ambientStrength },
             { "viewPosition",      camera.position },
             { "specularIntensity", specularStrength },
-        });
+        }));
     }
 
     void TestLightCasters::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -174,6 +171,5 @@ namespace Test {
             })
         );
         lightMeshes.back().SetTransform(Math::Matrix3D::translate_mat(point.position));
-        lightMeshes.back().Bind(lightScene);
     }
 }

@@ -25,8 +25,6 @@ namespace Test {
             );
         }
 
-        scene.BindMeshes(meshes);
-        scene.AddBoundMeshes();
         depthShader = Graphics::Shader::FromFile(res("depth.vert"), res("depth.frag"));
         scene.UseShaderFromFile(res("shadow.vert"), res("shadow.frag"));
 
@@ -56,8 +54,6 @@ namespace Test {
             .Position = GetPosition {},
             .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& p) { return (p + 1) / 2; })
         });
-        shadowMapDisplay.BindMesh(screenQuad);
-        shadowMapDisplay.AddBoundMeshes();
         depthTex.Activate(0);
 
         Graphics::Render::EnableCullFace();
@@ -88,30 +84,30 @@ namespace Test {
             scene.SetProjection(lightProj);
             scene.SetCamera(lightView);
 
-            scene.Render(depthShader);
+            scene.Draw(meshes, UseShader(depthShader));
             depthMap.Unbind();
         }
         Graphics::Render::SetCullFace(Graphics::FacingMode::BACK);
         Graphics::Render::ClearColorBit();
         Graphics::Render::ClearDepthBit();
         if (showDepthMap) {
-            shadowMapDisplay.Render({
+            shadowMapDisplay.Draw(screenQuad, Graphics::UseArgs({
                 { "displayTex", depthTex },
                 { "near", clipDistance.min.value() },
                 { "far", clipDistance.max.value() }
-            }, false);
+            }, false));
         } else {
             scene.SetProjection(camera.GetProjMat());
             scene.SetCamera(camera.GetViewMat());
 
-            scene.Render({
+            scene.Draw(meshes, Graphics::UseArgs({
                 { "lightSpaceMat", lightProj * lightView },
                 { "depthMap", depthTex },
                 { "lightPos", lightPosition },
                 { "viewPos", camera.position },
                 { "ambStrength", ambStrength },
                 { "useSmoothShadows", useSmoothShadows }
-            });
+            }));
         }
     }
 

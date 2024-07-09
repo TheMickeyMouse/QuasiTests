@@ -28,12 +28,10 @@ namespace Test {
         };
 
         mesh = Graphics::Mesh(std::move(vertices), std::move(indices));
-        render.BindMesh(mesh);
     }
 
     void TestDynamicVertexGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
-        render.ResetData();
-        render.Render();
+        render.Draw(mesh);
     }
 
     void TestDynamicVertexGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

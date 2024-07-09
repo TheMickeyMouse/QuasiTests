@@ -14,8 +14,6 @@ namespace Test {
 
         meshes = mloader.GetModel().RetrieveMeshes();
 
-        scene.BindMeshes(meshes);
-
         diffuseMap = Graphics::Texture::LoadPNG(res("diffuse.png"));
         specularMap = Graphics::Texture::LoadPNG(res("specular.png"));
         diffuseMap.Activate(0);
@@ -33,7 +31,6 @@ namespace Test {
             .Position = GetPosition {},
             .Color = Constant { Math::fColor { 1 } }
         });
-        lightScene.BindMesh(lightSource);
         lightScene.UseShader(Graphics::Shader::StdColored);
 
         camera.position = { 4.116068, 10.243308, 4.7378902 };
@@ -56,20 +53,18 @@ namespace Test {
 
         lightSource.ApplyMaterial(&Graphics::VertexColor3D::Color, lightColor.with_alpha(1));
         lightSource.SetTransform(Math::Matrix3D::translate_mat(lightPos));
-        lightScene.ResetData();
-        lightScene.Render();
+        lightScene.Draw(lightSource);
 
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
 
-        scene.ResetData();
-        scene.Render({
+        scene.Draw(meshes, Graphics::UseArgs({
             { "lightPosition",     lightPos },
             { "lightColor",        lightColor },
             { "ambientStrength",   ambientStrength },
             { "viewPosition",      camera.position },
             { "specularIntensity", specularStrength },
-        });
+        }));
     }
 
     void TestMaterialMaps::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

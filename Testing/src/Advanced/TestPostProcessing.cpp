@@ -30,7 +30,6 @@ namespace Test {
             .Color = Constant { Math::fColor::BETTER_GRAY() }
         }, Math::Matrix3D::scale_mat(s)));
 
-        scene.BindMeshes(cubes);
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
@@ -58,7 +57,6 @@ namespace Test {
                         .Position = GetPosition {},
                         .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& v) { return (v + 1) * 0.5f; })
                     });
-        postProcessingQuad.BindMesh(screenQuad);
 
         const String vert = res("vertex.vert");
         postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));
@@ -91,8 +89,7 @@ namespace Test {
             Graphics::Render::Clear();
         }
 
-        scene.ResetData();
-        scene.Render();
+        scene.Draw(cubes);
 
         if (usePostProcessing) {
             Graphics::Render::DisableDepth();
@@ -113,9 +110,8 @@ namespace Test {
                 currShader->SetUniformFloat("dv", valShift);
             }
 
-            postProcessingQuad.ResetData();
             // Graphics::Render::Draw(postProcessingQuad.GetRenderData(), *currShader);
-            postProcessingQuad.Render(*currShader, {}, false);
+            postProcessingQuad.Draw(screenQuad, UseShader(*currShader, false));
         }
     }
 

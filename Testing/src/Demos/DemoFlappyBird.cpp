@@ -1,5 +1,7 @@
 #include "DemoFlappyBird.h"
 
+#include <ranges>
+
 #include "imgui.h"
 #include "Keyboard.h"
 #include "Random.h"
@@ -36,8 +38,6 @@ namespace Test {
             }, Math::Matrix3D::transform({ 0, -240, 0 }, { 320, 20, 0 }, {}))
         });
 
-        render.BindMeshes({ &mBg, &mPlayer });
-
         time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;
         Graphics::Render::SetClearColor(Math::fColor::BETTER_BLACK());
@@ -64,17 +64,17 @@ namespace Test {
 
         using namespace Graphics;
         mPlayer.SetTransform(Math::Matrix3D::translate_mat({ -150, yPos, 0 }));
-        mText.Replace(font.RenderText(std::to_string(score), 80,
+        mText = font.RenderText(std::to_string(score), 80,
             TextAlign { { -20, 20, 100, 140 } }.SpaceOut(1, -16))
             .Convert<Vertex>([](const Font::Vertex& v) -> Vertex {
                 return { v.Position, v.Color, v.TextureCoord, 1 };
-            }));
+        });
 
-        render.ClearData();
-        render.AddBoundMeshes();
-        for (const Spike& spike : spikes) render.AddNewMesh(spike.mesh);
-        render.AddNewMesh(mText);
-        render.Render();
+        render.BeginContext();
+        render.AddMeshes({ &mPlayer, &mBg, &mText });
+        render.AddMeshes(spikes | std::ranges::views::transform(&Spike::mesh));
+        render.EndContext();
+        render.DrawContext();
     }
 
     void DemoFlappyBird::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

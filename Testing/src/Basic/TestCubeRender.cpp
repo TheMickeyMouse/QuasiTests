@@ -18,8 +18,6 @@ namespace Test {
             .Color = FromArg<>([&] { ++i; return fColor::color_id((int)(i / 4) + 1); })
         });
 
-        render.BindMesh(cube);
-
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(projection);
     }
@@ -28,9 +26,7 @@ namespace Test {
         const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
 
         render.SetCamera(mat);
-
-        render.ResetData();
-        render.Render({{ "u_alpha", alpha }});
+        render.Draw(cube, Graphics::UseArgs({{ "u_alpha", alpha }}));
     }
 
     void TestCubeRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

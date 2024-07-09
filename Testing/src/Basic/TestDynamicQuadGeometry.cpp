@@ -11,14 +11,12 @@ namespace Test {
         render.SetProjection(projection);
 
         quads.push_back(NewQuad());
-        quads.back().Bind(render);
     }
 
     void TestDynamicQuadGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
         quads.back().SetTransform(Math::Matrix3D::transform(modelTranslation, modelScale.with_z(1), { 0.0f, 0.0f, modelRotation }));
 
-        render.ResetData();
-        render.Render();
+        render.Draw(quads);
     }
 
     void TestDynamicQuadGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -37,7 +35,6 @@ namespace Test {
         if (ImGui::Button("Add Quad") && !isMax) {
             if (quadCount >= MAX_QUAD) { isMax = true; } else {
                 quads.push_back(NewQuad());
-                quads.back().Bind(render);
                 modelTranslation = 0;
                 modelScale = 1;
                 modelRotation = 0.0f;
@@ -50,7 +47,6 @@ namespace Test {
         
         if (ImGui::Button("Remove Quad") && !isMin) {
             if (quadCount <= 1) { isMin = true; } else {
-                quads.back().Unbind();
                 quads.pop_back();
                 modelTranslation = 0;
                 modelScale = 1;

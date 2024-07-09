@@ -55,31 +55,33 @@ namespace Test {
         flatShader.Bind();
         flatShader.SetUniformInt("faceIndex", displayFace);
 
-        scene.ClearData();
-        scene.AddNewMesh(sphere);
-        scene.Render(useFlatShading ? flatShader : scene->shader, {
+        scene.BeginContext();
+        scene.AddMesh(sphere);
+        scene.EndContext();
+        scene.DrawContext(UseShaderWithArgs(useFlatShading ? flatShader : scene->shader, {
             { "lightDirection",  Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
             { "u_model",         Math::Matrix3D::identity() }
-        });
+        }));
         if (useGeomShader) {
-            scene.Render(normalShader, {
+            scene.DrawContext(UseShaderWithArgs( normalShader, {
                 { "normalColor", normColor },
                 { "normalMagnitude", normMag },
                 { "u_model", Math::Matrix3D::identity() },
                 { "normMat", norm },
-            });
+            }));
         }
 
-        scene.ClearData();
-        scene.AddNewMesh(icosphere);
-        scene.Render(useFlatShading ? flatShader : scene->shader, {
+        scene.BeginContext();
+        scene.AddMesh(icosphere);
+        scene.EndContext();
+        scene.DrawContext(UseShaderWithArgs(useFlatShading ? flatShader : scene->shader, {
             { "u_model", translate }
-        });
+        }));
         if (useGeomShader) {
-            scene.Render(normalShader, {
+            scene.DrawContext(UseShaderWithArgs(normalShader, {
                 { "u_model", translate },
-            });
+            }));
         }
     }
 

@@ -61,35 +61,30 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
 
-        scene.ClearData();
-        scene.AddNewMesh(skybox);
-        scene.Render(cubemapShader, {{ "cubemap", cubemap }});
-
-        scene.ClearData();
-        scene.AddNewMesh(box);
+        scene.Draw(skybox, UseShaderWithArgs(cubemapShader, {{ "cubemap", cubemap }}));
 
         switch (shaderID) {
             case DIFFUSE_SHADER_ID:
-                scene.Render(boxShader, {
+                scene.Draw(box, UseShaderWithArgs(boxShader, {
                     { "boxTex", boxTex },
                     { "lightPosition", Math::fVector3::from_spheric(10.0f, lightYaw, lightPitch) },
                     { "ambientStrength", ambStrength }
-                });
+                }));
             break;
             case REFLECTION_SHADER_ID:
-                scene.Render(reflectShader, {
+                scene.Draw(box, UseShaderWithArgs(reflectShader, {
                     { "skybox", cubemap },
                     { "viewPosition", camera.position },
                     { "ambStrength", ambStrength }
-                });
+                }));
             break;
             case REFRACTION_SHADER_ID:
-                scene.Render(refractShader, {
+                scene.Draw(box, UseShaderWithArgs(refractShader, {
                     { "skybox", cubemap },
                     { "viewPosition", camera.position },
                     { "ambStrength", ambStrength },
                     { "invRefractIndex", 1.0f / refractiveIndex }
-                });
+                }));
             break;
             default:;
         }

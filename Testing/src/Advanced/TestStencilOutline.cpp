@@ -25,7 +25,6 @@ namespace Test {
         outlinedMeshes = meshes; // yes we need a copy
         for (auto& o : outlinedMeshes) o.Scale(1.1f);
 
-        scene.BindMeshes(meshes);
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
@@ -48,16 +47,13 @@ namespace Test {
     void TestStencilOutline::OnRender(Graphics::GraphicsDevice& gdevice) {
         const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
         scene.SetCamera(mat);
-        scene.ResetData();
-        scene.Render();
+        scene.Draw(meshes);
 
         Graphics::Render::UseStencilTest(Graphics::CmpOperation::NOTEQUAL, 1); // pass if it hasnt been set (drawn to) yet
         Graphics::Render::DisableDepth();
         Graphics::Render::DisableStencilWrite();
 
-        scene.ClearData();
-        scene.AddNewMeshes(outlinedMeshes);
-        scene.Render(outlineShader, {{ "outlineColor", outlineColor }});
+        scene.Draw(outlinedMeshes, UseShaderWithArgs(outlineShader, {{ "outlineColor", outlineColor }}));
 
         Graphics::Render::UseStencilTest(Graphics::CmpOperation::ALWAYS, 1);
         Graphics::Render::EnableStencilWrite(); // write to stencil

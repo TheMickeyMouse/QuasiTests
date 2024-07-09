@@ -11,7 +11,6 @@ namespace Test {
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
         world = { { 0, -40.0f }, Physics2D::Drag(0.98f, 60.0f) };
-        scene.BindMesh(worldMesh);
         scene.SetProjection(Math::Matrix3D::ortho_projection({ -40, 40, -30, 30, -1, 1 }));
 
         world.CreateBody<Physics2D::EdgeShape>(
@@ -143,8 +142,7 @@ namespace Test {
                 AddNewPoint(controlPoints[j] + selected->body->position, Math::fColor::GREEN());
         }
 
-        scene.ResetData();
-        scene.Render({{ "u_projection", scene->projection }}, false);
+        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", scene->projection }}, false));
     }
 
     void TestPhysicsPlayground2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

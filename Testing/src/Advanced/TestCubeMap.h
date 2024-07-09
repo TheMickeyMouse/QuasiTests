@@ -6,7 +6,13 @@
 
 namespace Test {
     class TestCubeMap : public Test {
-        using Vertex = Graphics::VertexTextureNormal3D;
+        struct Vertex {
+            Math::fVector3 Position, TextureCoordinate, Normal;
+
+            Q_GL_VERTEX_T(Vertex);
+            Q_GL_VERTEX_FIELD((Position)(TextureCoordinate)(Normal));
+            Q_GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer));
+        };
 
         static constexpr u32 DIFFUSE_SHADER_ID = 0;
         static constexpr u32 REFLECTION_SHADER_ID = 1;

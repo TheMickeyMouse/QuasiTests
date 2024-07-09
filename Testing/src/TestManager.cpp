@@ -1,6 +1,6 @@
 #include <imgui.h>
 
-#include "TestingFramework.h"
+#include "TestManager.h"
 
 #include "Basic/TestClearColor.h"
 #include "Basic/TestBatchedTextured.h"
@@ -26,7 +26,8 @@
 
 namespace Test {
     void TestManager::OnInit() {
-        currentTest = menu.get();
+        menu = NewUnique<TestMenu>(*this);
+        currentTest = *menu;
         {
             menu->DeclareTestType(TestType::BASIC);
             menu->AddSectionDescription("Simple OpenGL Tests to make sure the renderer is working. \nTests mostly involve: Texture Rendering and Vertex manipulation");
@@ -111,23 +112,19 @@ namespace Test {
 
     void TestManager::OnUpdate(float deltaTime) {
         deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTimef() : deltaTime;
-        if (currentTest)
-            currentTest->OnUpdate(gdevice, deltaTime);
+        currentTest->OnUpdate(gdevice, deltaTime);
     }
 
     void TestManager::OnRender() {
-        if (currentTest)
-            currentTest->OnRender(gdevice);
+        currentTest->OnRender(gdevice);
     }
 
     void TestManager::OnImGuiRender() {
-        if (!currentTest) return;
-
         ImGui::Begin("Test");
-        if (currentTest != menu.get() && ImGui::Button("<< Back")) {
+        if (currentTest.RefEquals(*testInstance) && ImGui::Button("<< Back")) {
             currentTest->OnDestroy(gdevice);
-            delete currentTest;
-            currentTest = menu.get();
+            testInstance.reset();
+            currentTest = *menu;
             currentTest->OnInit(gdevice);
         }
 
@@ -139,12 +136,7 @@ namespace Test {
         ImGui::End();
     }
 
-    void TestManager::OnDestroy() {
-        if (currentTest != menu.get()) {
-            delete currentTest;
-            currentTest = nullptr;
-        }
-    }
+    void TestManager::OnDestroy() {}
 
     void TestManager::OnRun() {
         OnUpdate();

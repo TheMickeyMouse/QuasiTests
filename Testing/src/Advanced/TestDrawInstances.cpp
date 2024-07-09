@@ -29,7 +29,6 @@ namespace Test {
         }
 
         cube = Graphics::MeshUtils::Cube();
-        scene.BindMesh(cube);
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 
         camera.position = { -6.923308, -7.435342, -6.919785 };
@@ -50,9 +49,7 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
 
-        scene.ResetData();
-
-        std::vector<Math::Matrix3D> modelMats, normMats;
+        Vec<Math::Matrix3D> modelMats, normMats;
         modelMats.resize(INSTANCE_NUM);
         normMats.resize(INSTANCE_NUM);
         std::ranges::transform(transforms, modelMats.begin(),
@@ -64,13 +61,13 @@ namespace Test {
                 return m.inv().transpose();
             });
 
-        scene.RenderInstanced(INSTANCE_NUM, {
+        scene.DrawInstanced(cube, INSTANCE_NUM, Graphics::UseArgs({
             { "models",         modelMats }, // yeah c++ is just needy
             { "normMat",        normMats },
             { "colors",         colors },
             { "lightDirection", Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
-        });
+        }));
     }
 
     void TestDrawInstances::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

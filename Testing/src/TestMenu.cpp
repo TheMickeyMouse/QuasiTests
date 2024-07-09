@@ -1,8 +1,10 @@
 ﻿#include "imgui.h"
-#include "TestingFramework.h"
+#include "TestMenu.h"
+
+#include "TestManager.h"
 
 namespace Test {
-    TestMenu::TestMenu(Ref<Test*> currTest) : currentTest(currTest) {
+    TestMenu::TestMenu(Ref<TestManager> manager) : manager(manager) {
         testTypeSegments.resize((int)TestType::TOTAL, { TestType::OTHER, {}, "" });
     }
 
@@ -15,8 +17,9 @@ namespace Test {
                     const TestMenuItem& testItem = menuItems[j];
                     if (ImGui::Button(testItem.name.data())) {
                         // LOG("clicked " << testItem.name);
-                        *currentTest = testItem.testConstruct();
-                        currentTest.Value()->OnInit(gdevice);
+                        manager->testInstance.reset(testItem.testConstruct());
+                        manager->currentTest = *manager->testInstance;
+                        manager->currentTest->OnInit(gdevice);
                     }
                     if (ImGui::IsItemHovered())
                         ImGui::SetTooltip("%s", testItem.description.data());

@@ -14,8 +14,6 @@ namespace Test {
             .Position = GetPosition {}
         });
 
-        scene.BindMesh(circleMesh);
-
         scene.UseShaderFromFile(res("circle.vert"), res("circle.frag"));
         lineShader = Graphics::Shader::FromFile(res("line.vert"), res("line.frag"), res("line.geom"));
 
@@ -109,20 +107,17 @@ namespace Test {
             ++i;
         }
 
-        scene.ResetData();
-        scene.RenderInstanced(TOTAL_BALL_COUNT, {
+        scene.DrawInstanced(circleMesh, TOTAL_BALL_COUNT, Graphics::UseArgs({
             { "u_projection", scene->projection },
             { "selected",     selectedIndex },
             { "offsets",      offsets },
             { "scales",       scales },
             { "colors",       colors }
-        }, false);
+        }, false));
 
-        scene.ClearData();
-        scene.AddNewMesh(totalLineMesh);
-        scene.Render(lineShader, {
+        scene.Draw(totalLineMesh, UseShaderWithArgs(lineShader, {
             { "u_projection", scene->projection }
-        }, false);
+        }, false));
     }
 
     void TestCircleCollision2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

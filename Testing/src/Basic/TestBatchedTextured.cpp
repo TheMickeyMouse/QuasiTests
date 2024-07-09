@@ -33,7 +33,6 @@ namespace Test {
 
         mesh = Mesh(std::move(vertices), std::move(indices));
 
-        render.BindMesh(mesh);
         render.SetProjection(projection);
 
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
@@ -51,8 +50,7 @@ namespace Test {
         mesh.ApplyMaterial(&Vertex::Color, color);
 
         render.SetCamera(mat);
-        render.ResetData();
-        render.Render();
+        render.Draw(mesh);
     }
 
     void TestBatchedTextured::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

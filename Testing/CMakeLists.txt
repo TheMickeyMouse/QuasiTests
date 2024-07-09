@@ -20,6 +20,7 @@ set(HEADER_FILES
     src/Physics/TestCircleCollision2D.h
     src/Test.h
     src/TestingFramework.h
+        src/TestMenu.h
 )
 source_group("Header Files" FILES ${HEADER_FILES})
 
