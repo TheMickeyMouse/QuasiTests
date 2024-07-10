@@ -25,7 +25,7 @@ namespace Test {
         float letterSpace = 0, lineSpace = 1;
         Math::fRect2D textBox = { -200, 200, -200, 200 };
 
-        float fontSize = 48;
+        float fontSize = 20;
         float thickness = 0.5f, softness = 0.05f;
         
         Math::fColor shadowColor = 0;
@@ -38,6 +38,7 @@ New Line with `<br>`<br>
 *italic text* with `*`<br>
 ***bold & italic*** with `***`<br>
 ~~Strike trough like dis~~ with `~~`)";
+        bool useMarkdown = true;
 
         Graphics::Font font;
         Math::fColor color = 1;

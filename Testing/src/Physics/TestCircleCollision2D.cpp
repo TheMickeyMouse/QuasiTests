@@ -22,13 +22,14 @@ namespace Test {
         world = { { 0, -40.0f }, Physics2D::Drag(0.98f, 60.0f) };
         ResetBalls(gdevice);
 
-        auto& vert = totalLineMesh.vertices; auto& inds = totalLineMesh.indices;
-        for (int i = 0; i < 10; ++i) vert.emplace_back(0.0f);
-        inds.emplace_back(0, 1, 1);
-        inds.emplace_back(2, 3, 3);
-        inds.emplace_back(4, 5, 5);
-        inds.emplace_back(6, 7, 7);
-        inds.emplace_back(8, 9, 9);
+        auto meshp = totalLineMesh.NewBatch();
+        for (int i = 0; i < 10; ++i)
+            meshp.PushV({ 0.0f });
+        meshp.PushI(0, 1, 1);
+        meshp.PushI(2, 3, 3);
+        meshp.PushI(4, 5, 5);
+        meshp.PushI(6, 7, 7);
+        meshp.PushI(8, 9, 9);
     }
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {

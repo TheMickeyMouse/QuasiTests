@@ -109,11 +109,11 @@ namespace Test {
                 }
                 case Physics2D::TRIANGLE: {
                     Ref<const Physics2D::TriangleShape> tri = body->shape.As<Physics2D::TriangleShape>();
-                    const u32 iOff = worldMesh.vertices.size();
-                    worldMesh.vertices.emplace_back(body->position + tri->a, color);
-                    worldMesh.vertices.emplace_back(body->position + tri->b, color);
-                    worldMesh.vertices.emplace_back(body->position + tri->c, color);
-                    worldMesh.indices.emplace_back(iOff, iOff + 1, iOff + 2);
+                    auto meshp = worldMesh.NewBatch();
+                    meshp.PushV({ body->position + tri->a, color });
+                    meshp.PushV({ body->position + tri->b, color });
+                    meshp.PushV({ body->position + tri->c, color });
+                    meshp.PushI(0, 1, 2);
                     break;
                 }
                 case Physics2D::MAX:
@@ -123,14 +123,14 @@ namespace Test {
         }
 
         if (hasAddedForce) {
-            const u32 iOff = worldMesh.vertices.size();
             const Math::fColor blue = Math::fColor::BLUE();
             const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }),
                                  direction = (selected->body->position - mouse).norm(0.5f);
-            worldMesh.vertices.emplace_back(selected->body->position + Math::fVector2 { direction.y, -direction.x }, blue);
-            worldMesh.vertices.emplace_back(selected->body->position + Math::fVector2 { -direction.y, direction.x }, blue);
-            worldMesh.vertices.emplace_back(mouse, blue);
-            worldMesh.indices.emplace_back(iOff + 0, iOff + 1, iOff + 2);
+            auto meshp = worldMesh.NewBatch();
+            meshp.PushV({ selected->body->position + Math::fVector2 { direction.y, -direction.x }, blue });
+            meshp.PushV({ selected->body->position + Math::fVector2 { -direction.y, direction.x }, blue });
+            meshp.PushV({ mouse, blue });
+            meshp.PushI(0, 1, 2);
         }
 
         if (selected) {
@@ -190,13 +190,13 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::AddNewPoint(const Math::fVector2& point, const Math::fColor& color) {
-        const u32 iOff = worldMesh.vertices.size();
-        worldMesh.vertices.emplace_back(point + Math::fVector2 { -0.5f, -0.5f }, color);
-        worldMesh.vertices.emplace_back(point + Math::fVector2 { -0.5f, +0.5f }, color);
-        worldMesh.vertices.emplace_back(point + Math::fVector2 { +0.5f, -0.5f }, color);
-        worldMesh.vertices.emplace_back(point + Math::fVector2 { +0.5f, +0.5f }, color);
-        worldMesh.indices.emplace_back(iOff + 0, iOff + 1, iOff + 2);
-        worldMesh.indices.emplace_back(iOff + 1, iOff + 2, iOff + 3);
+        auto meshp = worldMesh.NewBatch();
+        meshp.PushV({ point + Math::fVector2 { -0.5f, -0.5f }, color });
+        meshp.PushV({ point + Math::fVector2 { -0.5f, +0.5f }, color });
+        meshp.PushV({ point + Math::fVector2 { +0.5f, -0.5f }, color });
+        meshp.PushV({ point + Math::fVector2 { +0.5f, +0.5f }, color });
+        meshp.PushI(0, 1, 2);
+        meshp.PushI(1, 2, 3);
     }
 
     Ref<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) {

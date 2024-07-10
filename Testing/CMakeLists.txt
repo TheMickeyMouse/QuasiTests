@@ -18,9 +18,10 @@ set(HEADER_FILES
     src/Advanced/TestDrawInstances.h
     src/Advanced/TestShadowMap.h
     src/Physics/TestCircleCollision2D.h
+    src/Physics/TestPhysicsPlayground2D.h
     src/Test.h
-    src/TestingFramework.h
-        src/TestMenu.h
+    src/TestManager.h
+    src/TestMenu.h
 )
 source_group("Header Files" FILES ${HEADER_FILES})
 
@@ -42,6 +43,8 @@ set(SOURCE_FILES
     src/Advanced/TestDrawInstances.cpp
     src/Advanced/TestShadowMap.cpp
     src/Physics/TestCircleCollision2D.cpp
+    src/Physics/TestPhysicsPlayground2D.cpp
+    src/TestManager.cpp
     src/TestMenu.cpp
     Testing.cpp
 )
@@ -50,9 +53,6 @@ source_group("Source Files" FILES ${SOURCE_FILES})
 set(ALL_FILES
     ${HEADER_FILES}
     ${SOURCE_FILES}
-        src/TestManager.cpp
-        src/Physics/TestPhysicsPlayground2D.cpp
-        src/Physics/TestPhysicsPlayground2D.h
 )
 
 add_executable(${PROJECT_NAME} ${ALL_FILES})

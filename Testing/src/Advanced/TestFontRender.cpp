@@ -73,12 +73,15 @@ namespace Test {
         if (!showAtlas) {
             using namespace Graphics::VertexBuilder;
             using FontVertex = Graphics::Font::Vertex;
-            meshStr = font.RenderRichText(
-                Text::RichString::ParseMarkdown(string),
-                Graphics::PointPer64::inP64((int)(fontSize * 64.0f)),
+
+            Graphics::TextAlign alignment =
                 Graphics::TextAlign { textBox }
                 .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
-                .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)))
+                .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)));
+
+            meshStr = (useMarkdown ?
+                font.RenderRichText(Text::RichString::ParseMarkdown(string), fontSize, alignment) :
+                font.RenderText(string, fontSize, alignment)
             ).Convert<Vertex>(Vertex::Blueprint {
                 .Position = GetPosition {},
                 .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
@@ -102,6 +105,7 @@ namespace Test {
         ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
 
         ImGui::InputTextMultiline("String", &string);
+        ImGui::Checkbox("Parse as Markdown", &useMarkdown);
         
         ImGui::ColorEdit4("Color",       color.begin());
         ImGui::SliderFloat("Font Size",   &fontSize, 4, 48);

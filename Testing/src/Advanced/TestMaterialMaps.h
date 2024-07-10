@@ -10,7 +10,7 @@ namespace Test {
         Graphics::RenderObject<Graphics::VertexTextureNormal3D> scene;
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
 
-        std::vector<Graphics::Mesh<Graphics::VertexTextureNormal3D>> meshes;
+        Vec<Graphics::Mesh<Graphics::VertexTextureNormal3D>> meshes;
         Graphics::Mesh<Graphics::VertexColor3D> lightSource;
         Graphics::CameraController camera;
 
