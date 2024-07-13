@@ -10,9 +10,7 @@ namespace Test {
             Math::fVector3 Position, Normal;
             int MaterialId;
 
-            Q_GL_VERTEX_T(Vertex);
-            Q_GL_VERTEX_FIELD((Position)(Normal)(MaterialId));
-            Q_GL_VERTEX_TRANSFORM_FIELDS((Position)(Normal, Graphics::NormalTransformer))
+            Q_GL_VERTEX_T(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialId));
         };
 
     private:

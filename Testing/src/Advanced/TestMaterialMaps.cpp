@@ -51,8 +51,8 @@ namespace Test {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
 
-        lightSource.ApplyMaterial(&Graphics::VertexColor3D::Color, lightColor.with_alpha(1));
-        lightSource.SetTransform(Math::Matrix3D::translate_mat(lightPos));
+        lightSource.GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lightColor.with_alpha(1); });
+        lightSource.SetTransform(Math::Transform3D::Translation(lightPos));
         lightScene.Draw(lightSource);
 
         scene.SetProjection(camera.GetProjMat());

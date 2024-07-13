@@ -14,13 +14,13 @@ namespace Test {
             meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
                 .Position = GetPosition {},
                 .Color = Constant { Math::fColor::color_id(i) }
-            }, Math::Matrix3D::scale_mat(s)));
-            meshes[i].SetTransform(Math::Matrix3D::translate_mat(Math::fVector3 { (Math::Corner3D)i }));
+            }, Math::Transform3D::Scaling(s)));
+            meshes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3 { (Math::Corner3D)i }));
         }
         meshes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
             .Color = Constant { Math::fColor::BETTER_GRAY() }
-        }, Math::Matrix3D::scale_mat(s)));
+        }, Math::Transform3D::Scaling(s)));
 
         outlinedMeshes = meshes; // yes we need a copy
         for (auto& o : outlinedMeshes) o.Scale(1.1f);

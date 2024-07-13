@@ -16,8 +16,9 @@ namespace Test {
         meshes.reserve(model.objects.size());
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
-                obj.mesh.Convert<Vertex>(
-                [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
+                obj.mesh.GeometryMap<Vertex>([&] (const Graphics::OBJVertex& v) {
+                    return Vertex { v.Position, v.Normal, obj.materialIndex };
+                }
             ));
         }
 

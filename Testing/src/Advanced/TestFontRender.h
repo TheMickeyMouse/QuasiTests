@@ -7,14 +7,12 @@ namespace Test {
     class TestFontRender : public Test {
     public:
         struct Vertex {
-            Math::fVector3 Position;
+            Math::fVector2 Position;
             Math::fColor   Color;
             Math::fVector2 TextureCoordinate;
             int isText = 0;
     
-            Q_GL_VERTEX_T(Vertex);
-            Q_GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(isText));
-            Q_GL_VERTEX_TRANSFORM_FIELDS((Position))
+            Q_GL_VERTEX_T(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(isText));
         };
     private:
         Graphics::RenderObject<Vertex> render;

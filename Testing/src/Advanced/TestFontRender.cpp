@@ -29,10 +29,10 @@ namespace Test {
         const Math::fVector2 size = font.GetTexture().Size2D();
         const float x = size.x / size.y;
         Vec<Vertex> atlVertices = {
-            { { -100.0f * x, -100.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },
-            { { +100.0f * x, -100.0f, 0 }, 1, { 1.0f, 1.0f }, 1 },
-            { { +100.0f * x, +100.0f, 0 }, 1, { 1.0f, 0.0f }, 1 },
-            { { -100.0f * x, +100.0f, 0 }, 1, { 0.0f, 0.0f }, 1 },
+            { { -100.0f * x, -100.0f }, 1, { 0.0f, 1.0f }, 1 },
+            { { +100.0f * x, -100.0f }, 1, { 1.0f, 1.0f }, 1 },
+            { { +100.0f * x, +100.0f }, 1, { 1.0f, 0.0f }, 1 },
+            { { -100.0f * x, +100.0f }, 1, { 0.0f, 0.0f }, 1 },
         };
         
         Vec<Graphics::TriIndices> atlIndices = {
@@ -44,10 +44,10 @@ namespace Test {
 
         const Math::fColor bgColor = Math::fColor::BETTER_BLACK();
         Vec<Vertex> bgVertices = {
-            { { -200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
-            { { +200.0f, -200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
-            { { +200.0f, +200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
-            { { -200.0f, +200.0f, 0 }, bgColor, { 0.0f, 0.0f }, 0 },
+            { { -200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
+            { { +200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
+            { { +200.0f, +200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
+            { { -200.0f, +200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
         };
         
         Vec<Graphics::TriIndices> bgIndices = {
@@ -82,7 +82,7 @@ namespace Test {
             meshStr = (useMarkdown ?
                 font.RenderRichText(Text::RichString::ParseMarkdown(string), fontSize, alignment) :
                 font.RenderText(string, fontSize, alignment)
-            ).Convert<Vertex>(Vertex::Blueprint {
+            ).GeometryMap<Vertex>(Vertex::Blueprint {
                 .Position = GetPosition {},
                 .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
                 .TextureCoordinate = GetTextureCoord {},
@@ -135,7 +135,7 @@ namespace Test {
         if (showAtlas) {
             const float x = meshAtlas.vertices[1].Position.x;
             const auto& glyph = font.GetGlyphRect(string.back());
-            meshAtlas.SetTransform(Math::Matrix3D::translate_mat({ x * (1 - 2 * glyph.rect.center().x), 0, 0 }));
+            meshAtlas.SetTransform(Math::Transform2D::Translation({ x * (1 - 2 * glyph.rect.center().x), 0 }));
         }
     }
 

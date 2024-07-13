@@ -17,7 +17,7 @@ namespace Test {
         using namespace Graphics::VertexBuilder;
         for (int i = 0; i < model.objects.size(); ++i) {
             meshes.emplace_back(
-                model.objects[i].mesh.Convert<Vertex>(Vertex::Blueprint {
+                model.objects[i].mesh.GeometryMap<Vertex>(Vertex::Blueprint {
                     .Position = GetPosition {},
                     .Color = Constant { Math::fColor::color_id(1 + i) },
                     .Normal = GetNormal {}

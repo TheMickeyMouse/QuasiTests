@@ -23,12 +23,17 @@ namespace Test {
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
             const u32 x = i % 3, y = i / 3 % 3, z = i / 9;
             const fVector3 pos = { x, y, z };
-            transforms[i].translation = (pos - 1) * 3;
+            transforms[i].position = (pos - 1) * 3;
             transforms[i].scale = 0.75f;
             colors[i] = (colorTransformer * (pos * pos / 4).with_w(1)).xyz().to_color3();
         }
 
-        cube = Graphics::MeshUtils::Cube();
+        using namespace Graphics::VertexBuilder;
+        cube = Graphics::MeshUtils::Cube(Vertex::Blueprint {
+            .Position = GetPosition {},
+            .Normal = GetNormal {},
+        });
+
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 
         camera.position = { -6.923308, -7.435342, -6.919785 };
@@ -50,19 +55,15 @@ namespace Test {
         scene.SetCamera(camera.GetViewMat());
 
         Vec<Math::Matrix3D> modelMats, normMats;
-        modelMats.resize(INSTANCE_NUM);
-        normMats.resize(INSTANCE_NUM);
-        std::ranges::transform(transforms, modelMats.begin(),
-            [](const Transform& t) {
-                return Math::Matrix3D::transform(t.translation, t.scale, t.rotation);
-            });
-        std::ranges::transform(modelMats, normMats.begin(),
-            [](const Math::Matrix3D& m) {
-                return m.inv().transpose();
-            });
+        modelMats.reserve(INSTANCE_NUM);
+        normMats.reserve(INSTANCE_NUM);
+        for (const auto& t : transforms) {
+            modelMats.push_back(t.TransformMatrix());
+            normMats.push_back(t.NormalTransform().TransformMatrix());
+        }
 
         scene.DrawInstanced(cube, INSTANCE_NUM, Graphics::UseArgs({
-            { "models",         modelMats }, // yeah c++ is just needy
+            { "models",         modelMats },
             { "normMat",        normMats },
             { "colors",         colors },
             { "lightDirection", Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
@@ -77,9 +78,9 @@ namespace Test {
         if (ImGui::TreeNode("Cube Instances")) {
             for (u32 i = 0; i < INSTANCE_NUM; ++i) {
                 if (!ImGui::TreeNode(std::format("Cube #{}", i + 1).c_str())) continue;
-                ImGui::DragFloat3("Translation", transforms[i].translation.begin());
+                ImGui::DragFloat3("Translation", transforms[i].position.begin());
                 ImGui::DragFloat3("Scale", transforms[i].scale.begin(), 0.2f);
-                ImGui::DragFloat3("Rotation", transforms[i].rotation.begin(), 0.05f);
+                // ImGui::DragFloat3("Rotation", transforms[i].rotation.begin(), 0.05f);
                 ImGui::ColorEdit3("Color", colors[i].begin());
 
                 ImGui::TreePop();
@@ -97,7 +98,7 @@ namespace Test {
 
     void TestDrawInstances::RandomizeRotations(Graphics::GraphicsDevice& gdevice) {
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
-            transforms[i].rotation = Math::fVector3::random(gdevice.GetRand(), { -Math::PI, Math::PI });
+            transforms[i].rotation = Math::Quaternion::random_rot(gdevice.GetRand());
         }
     }
 } // Test

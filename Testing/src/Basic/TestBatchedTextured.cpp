@@ -47,7 +47,7 @@ namespace Test {
         const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation,
                                                    modelScale,
                                                    modelRotation);
-        mesh.ApplyMaterial(&Vertex::Color, color);
+        mesh.GeometryPass([&] (Vertex& v) { v.Color = color; });
 
         render.SetCamera(mat);
         render.Draw(mesh);

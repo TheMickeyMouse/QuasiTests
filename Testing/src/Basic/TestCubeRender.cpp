@@ -1,5 +1,4 @@
 ﻿#include "TestCubeRender.h"
-#include "Primitives/Quad.h"
 
 #include "imgui.h"
 #include "Meshes/Cube.h"
@@ -8,7 +7,6 @@ namespace Test {
     void TestCubeRender::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Graphics::VertexColor3D>(4 * 6, 12);
 
-        using Graphics::Primitives::Quad;
         using namespace Math;
 
         using namespace Graphics::VertexBuilder;

@@ -20,15 +20,15 @@ namespace Test {
             cubes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
                 .Position = GetPosition {},
                 .Color = Constant { Math::fColor::color_id(i) }
-            }, Math::Matrix3D::scale_mat(s)));
+            }, Math::Transform3D::Scaling(s)));
 
-            cubes[i].SetTransform(Math::Matrix3D::translate_mat(Math::fVector3 { (Math::Corner3D)i }));
+            cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3 { (Math::Corner3D)i }));
         }
         cubes.push_back(
         Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
             .Position = GetPosition {},
             .Color = Constant { Math::fColor::BETTER_GRAY() }
-        }, Math::Matrix3D::scale_mat(s)));
+        }, Math::Transform3D::Scaling(s)));
 
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));

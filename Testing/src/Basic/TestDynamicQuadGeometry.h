@@ -13,8 +13,8 @@ namespace Test {
         bool isMin = false;
         bool isMax = false;
 
-        Graphics::RenderObject<Graphics::VertexColor3D> render;
-        Vec<Graphics::Mesh<Graphics::VertexColor3D>> quads;
+        Graphics::RenderObject<Graphics::VertexColor2D> render;
+        Vec<Graphics::Mesh<Graphics::VertexColor2D>> quads;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
 
@@ -32,6 +32,6 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        Graphics::Mesh<Graphics::VertexColor3D> NewQuad();
+        Graphics::Mesh<Graphics::VertexColor2D> NewQuad();
     };
 }

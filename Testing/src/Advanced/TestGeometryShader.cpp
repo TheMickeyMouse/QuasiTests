@@ -2,7 +2,6 @@
 
 #include <imgui.h>
 
-#include "Primitives/Tri.h"
 #include "Meshes/Icosphere.h"
 #include "Meshes/Sphere.h"
 
@@ -15,13 +14,13 @@ namespace Test {
             .Position = GetPosition {},
             .Color = Constant { Math::fColor::BETTER_AQUA() },
             .Normal = GetNormal {},
-        }, Math::Matrix3D::scale_mat(10.0f));
+        }, Math::Transform3D::Scaling(10.0f));
 
         icosphere = Graphics::MeshUtils::Icosphere({ 2 }, Vertex::Blueprint {
             .Position = GetPosition {},
             .Color = Constant { Math::fColor::BETTER_RED() },
             .Normal = GetNormal {},
-        }, Math::Matrix3D::scale_mat(10.0f));
+        }, Math::Transform3D::Scaling(10.0f));
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));

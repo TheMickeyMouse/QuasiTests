@@ -12,9 +12,7 @@ namespace Test {
             Math::fVector2 TextureCoordinate;
             int TextureID;
 
-            Q_GL_VERTEX_T(Vertex);
-            Q_GL_VERTEX_FIELD((Position)(Color)(TextureCoordinate)(TextureID));
-            Q_GL_VERTEX_TRANSFORM_FIELDS((Position))
+            Q_GL_VERTEX_T(Vertex, 3D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(TextureID));
         };
     private:
         Graphics::RenderObject<Vertex> render;

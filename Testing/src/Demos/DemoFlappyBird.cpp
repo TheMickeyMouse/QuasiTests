@@ -7,7 +7,6 @@
 #include "Random.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Quad.h"
-#include "Primitives/Tri.h"
 #include "Textures/Texture.h"
 
 namespace Test {
@@ -25,17 +24,17 @@ namespace Test {
         mPlayer = Graphics::MeshUtils::Circle({ 32 }, Vertex::Blueprint {
             .Position = Get<PositionArg2D> {},
             .Color = Constant { Math::fColor::BETTER_WHITE() }
-        }, Math::Matrix3D::scale_mat(30.0f));
+        }, Math::Transform2D::Scaling(30.0f));
 
         mBg = Graphics::Mesh<Vertex>::Combine({
             Graphics::MeshUtils::Quad(Vertex::Blueprint {
                 .Position = GetPosition {},
                 .Color = Constant { Math::fColor::BETTER_GREEN() }
-            }, Math::Matrix3D::transform({ 0, +240, 0 }, { 320, 20, 0 }, {})),
+            }, Math::Transform2D { { 0, +240 }, { 320, 20 } }),
             Graphics::MeshUtils::Quad(Vertex::Blueprint {
                 .Position = GetPosition {},
                 .Color = Constant { Math::fColor::BETTER_GREEN() }
-            }, Math::Matrix3D::transform({ 0, -240, 0 }, { 320, 20, 0 }, {}))
+            }, Math::Transform2D { { 0, -240 }, { 320, 20 } })
         });
 
         time = gdevice.GetIO().Time.currentTime;
@@ -63,10 +62,10 @@ namespace Test {
         render->shader.SetUniformTex("u_font", font.GetTexture());
 
         using namespace Graphics;
-        mPlayer.SetTransform(Math::Matrix3D::translate_mat({ -150, yPos, 0 }));
+        mPlayer.SetTransform(Math::Transform2D::Translation({ -150, yPos }));
         mText = font.RenderText(std::to_string(score), 80,
             TextAlign { { -20, 20, 100, 140 } }.SpaceOut(1, -16))
-            .Convert<Vertex>([](const Font::Vertex& v) -> Vertex {
+            .GeometryMap<Vertex>([](const Font::Vertex& v) -> Vertex {
                 return { v.Position, v.Color, v.TextureCoord, 1 };
         });
 
@@ -95,25 +94,19 @@ namespace Test {
             Math::fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
             Math::fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
 
-            spikes.emplace_back(
-                Graphics::Primitives::Tri::FromGeometry(top)
-               .IntoMesh<Vertex>(
-                   [](const Math::fVector3& v) -> Math::fVector2 { return v.xy(); },
-                   &Vertex::Position)
-               .ApplyMaterial(&Vertex::Color, Math::fColor::BETTER_LIME()),
-                top, 370.0f);
-            spikes.emplace_back(
-                Graphics::Primitives::Tri::FromGeometry(bot)
-               .IntoMesh<Vertex>(
-                   [](const Math::fVector3& v) -> Math::fVector2 { return v.xy(); },
-                   &Vertex::Position)
-               .ApplyMaterial(&Vertex::Color, Math::fColor::BETTER_AQUA()),
-                bot, 370.0f);
+            spikes.emplace_back(Graphics::Mesh<Vertex> {
+                { { top.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
+                { { 0, 1, 2 } }
+            }, top, 370.0f);
+            spikes.emplace_back(Graphics::Mesh<Vertex> {
+                { { bot.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
+                { { 0, 1, 2 } }
+            }, bot, 370.0f);
         }
 
         for (Spike& spike : spikes) {
             spike.xOff -= 150 * gdevice.GetIO().Time.DeltaTimef();
-            spike.mesh.SetTransform(Math::Matrix3D::translate_mat({ spike.xOff, 0, 0 }));
+            spike.mesh.SetTransform(Math::Transform2D::Translation({ spike.xOff, 0 }));
         }
 
         if (!spikes.empty() && spikes.front().xOff <= -370.0f) {
@@ -140,6 +133,6 @@ namespace Test {
 
         die:
         isEnd = true;
-        mPlayer.ApplyMaterial(&Vertex::Color, Math::fColor::BETTER_RED());
+        mPlayer.GeometryPass([] (Vertex& v) { v.Color = Math::fColor::BETTER_RED(); });
     }
 }

@@ -5,8 +5,8 @@
 namespace Test {
     class TestDynamicVertexGeometry : public Test {
     private:
-        Graphics::RenderObject<Graphics::VertexColor3D> render;
-        Graphics::Mesh<Graphics::VertexColor3D> mesh;
+        Graphics::RenderObject<Graphics::VertexColor2D> render;
+        Graphics::Mesh<Graphics::VertexColor2D> mesh;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
 

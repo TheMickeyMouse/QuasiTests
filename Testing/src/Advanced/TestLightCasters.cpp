@@ -17,7 +17,7 @@ namespace Test {
         meshes.reserve(model.objects.size());
         for (const Graphics::OBJObject& obj : model.objects) {
             meshes.emplace_back(
-                obj.mesh.Convert<Vertex>(
+                obj.mesh.GeometryMap<Vertex>(
                     [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
             ));
         }
@@ -113,8 +113,8 @@ namespace Test {
 
             for (u32 i = 0; i < lights.size(); ++i) {
                 lights[i].ImGuiEdit(std::format("Light {}", i + 1).c_str());
-                lightMeshes[i].ApplyMaterial(&Graphics::VertexColor3D::Color, lights[i].color);
-                lightMeshes[i].SetTransform(Math::Matrix3D::translate_mat(lights[i].Position()));
+                lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
+                lightMeshes[i].SetTransform(Math::Transform3D::Translation(lights[i].Position()));
             }
             ImGui::TreePop();
         }
@@ -170,6 +170,6 @@ namespace Test {
                 .Color = Constant { color }
             })
         );
-        lightMeshes.back().SetTransform(Math::Matrix3D::translate_mat(point.position));
+        lightMeshes.back().SetTransform(Math::Transform3D::Translation(point.position));
     }
 }

@@ -5,16 +5,12 @@
 
 namespace Test {
     class TestDrawInstances : public Test {
-        struct Transform {
-            Math::fVector3 translation, scale, rotation;
-        };
-
         using Vertex = Graphics::VertexNormal3D;
         static constexpr int INSTANCE_NUM = 27;
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> cube;
 
-        Vec<Transform> transforms;
+        Vec<Math::Transform3D> transforms;
         Vec<Math::fColor3> colors;
 
         float lightYaw = -2.136f, lightPitch = -0.262f, ambStrength = 0.2f;
