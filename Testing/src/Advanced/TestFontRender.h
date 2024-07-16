@@ -42,9 +42,7 @@ New Line with `<br>`<br>
         Math::fColor color = 1;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
-        Math::fVector3 modelTranslation = 0;
-        Math::fVector3 modelScale = 1;
-        Math::fVector3 modelRotation = 0;
+        Math::Transform2D transform;
 
         DEFINE_TEST_T(TestFontRender, ADVANCED)
     public:

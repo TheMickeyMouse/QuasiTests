@@ -1,6 +1,7 @@
 ﻿#include "TestDynamicQuadGeometry.h"
 
 #include "imgui.h"
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Quad.h"
 
 namespace Test {
@@ -14,31 +15,24 @@ namespace Test {
     }
 
     void TestDynamicQuadGeometry::OnRender(Graphics::GraphicsDevice& gdevice) {
-        auto& quad = quads.back();
-        quad.SetTransform(Math::Transform2D { modelTranslation, modelScale, modelRotation });
-
         render.Draw(quads);
     }
 
     void TestDynamicQuadGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         const usize quadCount = quads.size();
 
-        auto& verts = quads.back().vertices;
-        ImGui::DragFloat2("Quad Vertex 1", verts[0].Position.begin());
-        ImGui::DragFloat2("Quad Vertex 2", verts[1].Position.begin());
-        ImGui::DragFloat2("Quad Vertex 3", verts[2].Position.begin());
-        ImGui::DragFloat2("Quad Vertex 4", verts[3].Position.begin());
+        auto& quad = quads.back();
+        auto& verts = quad.vertices;
+        ImGui::EditVector("Quad Vertex 1", verts[0].Position);
+        ImGui::EditVector("Quad Vertex 2", verts[1].Position);
+        ImGui::EditVector("Quad Vertex 3", verts[2].Position);
+        ImGui::EditVector("Quad Vertex 4", verts[3].Position);
 
-        ImGui::DragFloat2("Current Tri Translation", modelTranslation.begin());
-        ImGui::DragFloat2("Current Tri Scale      ", modelScale.begin(), 0.10f);
-        ImGui::DragFloat ("Current Tri Rotation   ", &modelRotation, 0.05f);
+        ImGui::EditTransform("Transform", quad.modelTransform, 0.1f);
 
         if (ImGui::Button("Add Quad") && !isMax) {
             if (quadCount >= MAX_QUAD) { isMax = true; } else {
                 quads.push_back(NewQuad());
-                modelTranslation = 0;
-                modelScale = 1;
-                modelRotation = 0.0f;
 
                 isMin = false;
             }
@@ -49,9 +43,6 @@ namespace Test {
         if (ImGui::Button("Remove Quad") && !isMin) {
             if (quadCount <= 1) { isMin = true; } else {
                 quads.pop_back();
-                modelTranslation = 0;
-                modelScale = 1;
-                modelRotation = 0.0f;
 
                 isMax = false;
             }

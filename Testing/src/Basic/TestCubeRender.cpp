@@ -1,6 +1,7 @@
 ﻿#include "TestCubeRender.h"
 
 #include "imgui.h"
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Cube.h"
 
 namespace Test {
@@ -21,17 +22,12 @@ namespace Test {
     }
 
     void TestCubeRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
-
-        render.SetCamera(mat);
         render.Draw(cube, Graphics::UseArgs({{ "u_alpha", alpha }}));
     }
 
     void TestCubeRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Translation" , modelTranslation.begin(), 0.01f);
-        ImGui::DragFloat3("Scale"       , modelScale.begin(),       0.01f);
-        ImGui::DragFloat3("Rotation"    , modelRotation.begin(),    0.01f);
-        ImGui::DragFloat ("Transparency", &alpha,                   0.01f);
+        ImGui::EditTransform("Transform", cube.modelTransform, 0.01f);
+        ImGui::EditScalar("Transparency", alpha, 0.01f, Math::fRange { 0, 1 });
     }
 
     void TestCubeRender::OnDestroy(Graphics::GraphicsDevice& gdevice) {

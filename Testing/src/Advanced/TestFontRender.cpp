@@ -4,6 +4,7 @@
 #include "imgui_stdlib.h"
 #include "RichString.h"
 #include "VertexConverter.h"
+#include "Extension/ImGuiExt.h"
 #include "Textures/Texture.h"
 
 namespace Test {
@@ -59,10 +60,7 @@ namespace Test {
     }
 
     void TestFontRender::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation,
-                                                   modelScale,
-                                                   modelRotation);
-        render.SetCamera(mat);
+        render.SetCamera(transform.As3D().TransformMatrix());
 
         auto& vert = meshBg.vertices;
         vert[0].Position = textBox.corner(0);
@@ -100,32 +98,30 @@ namespace Test {
     }
 
     void TestFontRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Translation", modelTranslation.begin());
-        ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
-        ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
+        ImGui::EditTransform("Transform", transform);
 
         ImGui::InputTextMultiline("String", &string);
         ImGui::Checkbox("Parse as Markdown", &useMarkdown);
         
-        ImGui::ColorEdit4("Color",       color.begin());
-        ImGui::SliderFloat("Font Size",   &fontSize, 4, 48);
-        ImGui::SliderFloat("Thickness",   &thickness, 0, 1);
-        ImGui::SliderFloat("Softness",    &softness,  0, 1);
+        ImGui::EditColor ("Color",       color);
+        ImGui::EditScalar("Font Size",   fontSize,  1,    Math::fRange { 4, 48 });
+        ImGui::EditScalar("Thickness",   thickness, 0.01, Math::fRange { 0, 1 });
+        ImGui::EditScalar("Softness",    softness,  0.01, Math::fRange { 0, 1 });
 
-        ImGui::SliderFloat2("Text Bottom Left", textBox.min.begin(), -300, 300);
-        ImGui::SliderFloat2("Text Top Right",   textBox.max.begin(), -300, 300);
+        ImGui::EditVector("Text Bottom Left", textBox.min, 1, Math::fRect2D { -300, 300 });
+        ImGui::EditVector("Text Top Right",   textBox.max, 1, Math::fRect2D { -300, 300 });
 
         ImGui::Combo("Alignment X", &alignX, "Center\0Left\0Right\0Justified\0\0");
         ImGui::Combo("Alignment Y", &alignY, "Center\0Top\0Bottom\0Justified\0\0");
         ImGui::Combo("Wrap Mode", &wrapMethod, "None\0Break Sentence\0Break Words\0\0");
         ImGui::Checkbox("Crop X", &cropX); ImGui::SameLine(); ImGui::Checkbox("Crop Y", &cropY);
-        ImGui::SliderFloat("Letter Spacing", &letterSpace, -10, 10);
-        ImGui::SliderFloat("Line   Spacing", &lineSpace, -1, 2);
+        ImGui::EditScalar("Letter Spacing", letterSpace, 0.01, Math::fRange { -10, 10 });
+        ImGui::EditScalar("Line   Spacing", lineSpace,   0.01, Math::fRange { -1, 2 });
 
         if (ImGui::CollapsingHeader("Shadow Properties")) {
-            ImGui::ColorEdit4("Shadow Color", shadowColor.begin());
-            ImGui::SliderFloat("Shadow Softness", &shadowSoftness, 0, 1);
-            ImGui::SliderFloat2("Shadow Offset", shadowOffset.begin(), -10, 10);
+            ImGui::EditColor ("Shadow Color",    shadowColor);
+            ImGui::EditScalar("Shadow Softness", shadowSoftness, 0.01, Math::fRange { 0, 1 });
+            ImGui::EditVector("Shadow Offset",   shadowOffset, 0.1, Math::fRect2D { -10, 10 });
         }
 
         if (ImGui::Button(showAtlas ? "Hide Atlas" : "Show Atlas")) {

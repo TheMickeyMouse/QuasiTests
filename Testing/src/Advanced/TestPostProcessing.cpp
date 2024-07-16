@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "imgui.h"
 #include "Mesh.h"
+#include "Extension/ImGuiExt.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Plane.h"
 #include "Meshes/Quad.h"
@@ -74,14 +75,11 @@ namespace Test {
     }
 
     void TestPostProcessing::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-        modelRotation += turnSpeed * deltaTime;
-        modelRotation = modelRotation % Math::TAU;
+        transform.rotation.rotate_by(turnSpeed.pow(deltaTime));
     }
 
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation, modelScale, modelRotation);
-
-        scene.SetCamera(mat);
+        scene.SetCamera(transform.TransformMatrix());
 
         Graphics::Render::EnableDepth();
         if (usePostProcessing) {
@@ -116,11 +114,9 @@ namespace Test {
     }
 
     void TestPostProcessing::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Translation" , modelTranslation.begin(), 0.01f);
-        ImGui::DragFloat3("Scale"       , modelScale.begin(),       0.01f);
-        ImGui::DragFloat3("Rotation"    , modelRotation.begin(),    0.01f);
+        ImGui::EditTransform("Transform", transform, 0.01);
 
-        ImGui::DragFloat3("Spin Speed", turnSpeed.begin(), 0.01f, -10, 10);
+        ImGui::EditQuatRotation("Spin Speed", turnSpeed);
 
         ImGui::Separator();
 
@@ -131,11 +127,11 @@ namespace Test {
             TAB_ITEM(NONE, "None", postProcessingQuad->shader, )
             TAB_ITEM(COLOR_INVERT, "Color Invert", shaderInv, )
             TAB_ITEM(COLOR_HSL, "Color Hue", shaderHsv,
-                ImGui::DragFloat("Hue Shift", &hueShift, 0.01f, 0, 1);
-                ImGui::DragFloat("Saturation Multiplier", &satMul, 0.01f, 0);
-                ImGui::DragFloat("Value Shift", &valShift, 0.01f, -1, 1);)
-            TAB_ITEM(BLUR, "Blur", shaderBlur, ImGui::DragFloat2("Blur Offset", effectOff.begin(), 0.1f); )
-            TAB_ITEM(EDGE_DETECT, "Edge Detection", shaderEdgeDetect, ImGui::DragFloat2("Detect Offset", effectOff.begin(), 0.1f); )
+                ImGui::EditScalar("Hue Shift", hueShift, 0.01f, Math::fRange { 0, 1 });
+                ImGui::EditScalar("Saturation Multiplier", satMul, 0.01f, Math::fRange { 0, 10 });
+                ImGui::EditScalar("Value Shift", valShift, 0.01f, Math::fRange { -1, 1 });)
+            TAB_ITEM(BLUR, "Blur", shaderBlur, ImGui::EditVector("Blur Offset", effectOff, 0.1f); )
+            TAB_ITEM(EDGE_DETECT, "Edge Detection", shaderEdgeDetect, ImGui::EditVector("Detect Offset", effectOff, 0.1f); )
             ImGui::EndTabBar();
         }
 #undef TAB_ITEM

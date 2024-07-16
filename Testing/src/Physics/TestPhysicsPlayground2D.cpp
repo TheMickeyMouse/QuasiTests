@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Stadium.h"
 
@@ -156,11 +157,11 @@ namespace Test {
 
         if (ImGui::TreeNode("Edit Body")) {
             if (auto circle = selected->body->shape.As<Physics2D::CircleShape>()) {
-                ImGui::DragFloat("Radius", &circle->radius);
+                ImGui::EditScalar("Radius", circle->radius);
             }
 
-            ImGui::DragFloat ("Mass", &selected->body->mass);
-            ImGui::ColorEdit4("Tint", selected->color.begin());
+            ImGui::EditScalar("Mass", selected->body->mass);
+            ImGui::EditColor ("Tint", selected->color);
 
             ImGui::TreePop();
         }

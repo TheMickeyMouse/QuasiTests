@@ -1,6 +1,6 @@
 ﻿#include "TestClearColor.h"
 
-#include "imgui.h"
+#include "Extension/ImGuiExt.h"
 
 namespace Test {
     void TestClearColor::OnRender(Graphics::GraphicsDevice& gdevice) {
@@ -8,7 +8,7 @@ namespace Test {
     }
 
     void TestClearColor::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::ColorEdit4("Clear Color", clearColor.begin());
+        ImGui::EditColor("Clear Color", clearColor);
     }
 
     void TestClearColor::OnDestroy(Graphics::GraphicsDevice& gdevice) {

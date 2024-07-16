@@ -3,6 +3,7 @@
 #include <imgui.h>
 
 #include "VertexConverter.h"
+#include "Extension/ImGuiExt.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Quad.h"
 #include "ModelLoading/OBJModelLoader.h"
@@ -59,13 +60,13 @@ namespace Test {
         Graphics::Render::EnableCullFace();
         Graphics::Render::SetFrontFacing(Graphics::OrientationMode::CLOCKWISE);
 
-        camera.position = { -9.154451, 11.725401, -5.1758237 };
-        camera.yaw = -7.029104f; camera.pitch = -0.51121765f;
+        camera.position = { -9.684464, 10.050441, -1.4917407 };
+        camera.yaw = -8.13158; camera.pitch = 0.6891256;
         camera.speed = 5;
-        camera.sensitivity = 0.12f;
+        camera.sensitivity = 0.12;
         camera.fov = 90;
         camera.fovRange = { 1, 90 };
-        camera.zoomRatio = 0.5f;
+        camera.zoomRatio = 0.5;
         camera.smoothZoom = 120;
     }
 
@@ -114,10 +115,10 @@ namespace Test {
     void TestShadowMap::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         ImGui::Checkbox("Show Depth Mag [Debug]", &showDepthMap);
         ImGui::Checkbox("Use Smooth Shading", &useSmoothShadows);
-        ImGui::DragFloat("Ambient Strength", &ambStrength, 0.05f);
-        ImGui::DragFloatRange2("Clip Distance", &clipDistance.min.value(), &clipDistance.max.value());
-        ImGui::DragFloat3("Light Position", lightPosition.begin(), 0.2f);
-        camera.ImGuiEdit();
+        ImGui::EditScalar("Ambient Strength", ambStrength, 0.05f);
+        ImGui::EditRange("Clip Distance", clipDistance);
+        ImGui::EditVector("Light Position", lightPosition, 0.2f);
+        ImGui::EditCameraController("Camera", camera);
         // ImGui::Image((void*)(intptr_t)depthTex.rendererID, { 400.0f, 300.0f }, { 0, 1 }, { 1, 0 });
     }
 

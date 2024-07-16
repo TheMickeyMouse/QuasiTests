@@ -1,6 +1,7 @@
 ﻿#include "TestDynamicVertexGeometry.h"
 
 #include "imgui.h"
+#include "Extension/ImGuiExt.h"
 
 namespace Test {
     void TestDynamicVertexGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -36,15 +37,15 @@ namespace Test {
 
     void TestDynamicVertexGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         Graphics::VertexColor2D* vertices = mesh.vertices.data();
-        ImGui::DragFloat2("Red    Vertex [0]", vertices[0].Position.begin());
-        ImGui::DragFloat2("Green  Vertex [1]", vertices[1].Position.begin());
-        ImGui::DragFloat2("Blue   Vertex [2]", vertices[2].Position.begin());
-        ImGui::DragFloat2("Gray   Vertex [3]", vertices[3].Position.begin());
+        ImGui::EditVector("Red    Vertex [0]", vertices[0].Position);
+        ImGui::EditVector("Green  Vertex [1]", vertices[1].Position);
+        ImGui::EditVector("Blue   Vertex [2]", vertices[2].Position);
+        ImGui::EditVector("Gray   Vertex [3]", vertices[3].Position);
 
-        ImGui::DragFloat2("Purple Vertex [4]", vertices[4].Position.begin());
-        ImGui::DragFloat2("Yellow Vertex [5]", vertices[5].Position.begin());
-        ImGui::DragFloat2("Cyan   Vertex [6]", vertices[6].Position.begin());
-        ImGui::DragFloat2("White  Vertex [7]", vertices[7].Position.begin());
+        ImGui::EditVector("Purple Vertex [4]", vertices[4].Position);
+        ImGui::EditVector("Yellow Vertex [5]", vertices[5].Position);
+        ImGui::EditVector("Cyan   Vertex [6]", vertices[6].Position);
+        ImGui::EditVector("White  Vertex [7]", vertices[7].Position);
     }
 
     void TestDynamicVertexGeometry::OnDestroy(Graphics::GraphicsDevice& gdevice) {

@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Cube.h"
 
@@ -36,10 +37,10 @@ namespace Test {
 
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 
-        camera.position = { -6.923308, -7.435342, -6.919785 };
-        camera.yaw = -0.85972655f; camera.pitch = 0.6728243f;
+        camera.position = { -6.8653593, -7.7674685, -6.846223 };
+        camera.yaw = -2.2986794; camera.pitch = -0.55294377;
         camera.speed = 5;
-        camera.sensitivity = 0.12f;
+        camera.sensitivity = 0.12;
         camera.fov = 90;
         camera.fovRange = { 1, 90 };
         camera.zoomRatio = 0.5;
@@ -72,16 +73,13 @@ namespace Test {
     }
 
     void TestDrawInstances::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::SliderFloat("Light Yaw",   &lightYaw,   -Math::PI,              Math::PI);
-        ImGui::SliderFloat("Light Pitch", &lightPitch, -Math::HALF_PI * 0.95f, Math::HALF_PI * 0.95f);
-        ImGui::SliderFloat("Ambient", &ambStrength, 0.0f, 1.0f);
+        ImGui::EditRotation("Light Rotation", lightYaw, lightPitch);
+        ImGui::EditScalar("Ambient", ambStrength, 0.05f);
         if (ImGui::TreeNode("Cube Instances")) {
             for (u32 i = 0; i < INSTANCE_NUM; ++i) {
                 if (!ImGui::TreeNode(std::format("Cube #{}", i + 1).c_str())) continue;
-                ImGui::DragFloat3("Translation", transforms[i].position.begin());
-                ImGui::DragFloat3("Scale", transforms[i].scale.begin(), 0.2f);
-                // ImGui::DragFloat3("Rotation", transforms[i].rotation.begin(), 0.05f);
-                ImGui::ColorEdit3("Color", colors[i].begin());
+                ImGui::EditTransform("Transform", transforms[i], 0.2f);
+                ImGui::EditColor("Color", colors[i]);
 
                 ImGui::TreePop();
             }
@@ -89,7 +87,7 @@ namespace Test {
         }
         if (ImGui::Button("Randomize Rotations")) RandomizeRotations(gdevice);
 
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
     }
 
     void TestDrawInstances::OnDestroy(Graphics::GraphicsDevice& gdevice) {

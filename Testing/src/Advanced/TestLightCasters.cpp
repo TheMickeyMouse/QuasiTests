@@ -1,6 +1,7 @@
 #include "TestLightCasters.h"
 
 #include "imgui.h"
+#include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
 
@@ -25,13 +26,13 @@ namespace Test {
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
-        camera.position = { 10.506737, 11.603662, 6.2335258 };
-        camera.yaw = -3.6930802f; camera.pitch = -0.64090014f;
+        camera.position = { 8.746245, 16.436476, 7.217131 };
+        camera.yaw = -5.5221653; camera.pitch = 1.1316143;
         camera.speed = 5;
-        camera.sensitivity = 0.12f;
+        camera.sensitivity = 0.12;
         camera.fov = 90;
         camera.fovRange = { 1, 90 };
-        camera.zoomRatio = 0.5f;
+        camera.zoomRatio = 0.5;
         camera.smoothZoom = 120;
 
         lights.reserve(MAX_LIGHTS);
@@ -94,10 +95,10 @@ namespace Test {
     }
 
     void TestLightCasters::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat("Ambient Strength", &ambientStrength, 0.01f);
-        ImGui::DragFloat("Specular Strength", &specularStrength, 0.01f);
+        ImGui::EditScalar("Ambient Strength", ambientStrength, 0.01f);
+        ImGui::EditScalar("Specular Strength", specularStrength, 0.01f);
 
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
 
         if (ImGui::TreeNode("Lights")) {
             if (ImGui::Button("+") && lights.size() < MAX_LIGHTS) {
@@ -112,7 +113,7 @@ namespace Test {
             }
 
             for (u32 i = 0; i < lights.size(); ++i) {
-                lights[i].ImGuiEdit(std::format("Light {}", i + 1).c_str());
+                ImGui::EditLight(std::format("Light {}", i + 1).c_str(), lights[i]);
                 lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
                 lightMeshes[i].SetTransform(Math::Transform3D::Translation(lights[i].Position()));
             }

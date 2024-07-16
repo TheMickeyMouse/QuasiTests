@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Icosphere.h"
 #include "Meshes/Sphere.h"
 
@@ -85,21 +86,20 @@ namespace Test {
     }
 
     void TestGeometryShader::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::SliderInt("Display Face", &displayFace, -1, 20);
+        ImGui::EditScalar("Display Face", displayFace, 0.015, Math::iRange { -1, 20 });
 
         ImGui::Checkbox("Use Flat Shading", &useFlatShading);
-        ImGui::SliderFloat("Light Yaw", &lightYaw, -Math::PI, Math::PI);
-        ImGui::SliderFloat("Light Pitch", &lightPitch, -Math::HALF_PI * 0.95f, Math::HALF_PI * 0.95f);
-        ImGui::SliderFloat("Ambient", &ambStrength, 0.0f, 1.0f);
+        ImGui::EditRotation("Light Rotation", lightYaw, lightPitch);
+        ImGui::EditScalar("Ambient", ambStrength, 0.01f, Math::fRange { 0.0f, 1.0f });
 
         ImGui::Separator();
         ImGui::Checkbox("Enable Geometry Shader", &useGeomShader);
         if (useGeomShader) {
-            ImGui::ColorEdit4("Normal Line Color", normColor.begin());
-            ImGui::DragFloat("Normal Length", &normMag, 0.1f);
+            ImGui::EditColor("Normal Line Color", normColor);
+            ImGui::EditScalar("Normal Length", normMag, 0.1f);
         }
 
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
     }
 
     void TestGeometryShader::OnDestroy(Graphics::GraphicsDevice& gdevice) {

@@ -7,12 +7,12 @@ namespace Test {
     class TestBatchedTextured : public Test {
     public:
         struct Vertex {
-            Math::fVector3 Position;
+            Math::fVector2 Position;
             Math::fColor   Color;
             Math::fVector2 TextureCoordinate;
             int TextureID;
 
-            Q_GL_VERTEX_T(Vertex, 3D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(TextureID));
+            Q_GL_VERTEX_T(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(TextureID));
         };
     private:
         Graphics::RenderObject<Vertex> render;
@@ -22,9 +22,6 @@ namespace Test {
         Math::fColor color = 1;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
-        Math::fVector3 modelTranslation = 0;
-        Math::fVector3 modelScale = 1;
-        Math::fVector3 modelRotation = 0;
 
         DEFINE_TEST_T(TestBatchedTextured, BASIC)
     public:

@@ -19,14 +19,11 @@ namespace Test {
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
-        Math::fVector3 modelTranslation = { 0, 0, -3.5 };
-        Math::fVector3 modelScale       = 1;
-        Math::fVector3 modelRotation    = 0;
+        Math::Transform3D transform;
+        Math::Quaternion turnSpeed = 1;
 
         Math::fVector2 effectOff = 3;
         float hueShift = 0, satMul = 0, valShift = 0;
-
-        Math::fVector3 turnSpeed = 1;
 
         Graphics::Shader shaderInv, shaderHsv, shaderBlur, shaderEdgeDetect, *currShader;
 

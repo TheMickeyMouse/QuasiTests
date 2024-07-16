@@ -10,9 +10,6 @@ namespace Test {
         Graphics::Mesh<Graphics::VertexColor3D> cube;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f });
-        Math::fVector3 modelTranslation = 0;
-        Math::fVector3 modelScale       = 1;
-        Math::fVector3 modelRotation    = 0;
         float alpha = 1.0f;
 
         DEFINE_TEST_T(TestCubeRender, BASIC)

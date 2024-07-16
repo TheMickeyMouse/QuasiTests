@@ -1,6 +1,6 @@
 #include "TestAdvancedLighting.h"
 
-#include "imgui.h"
+#include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
@@ -25,10 +25,10 @@ namespace Test {
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
-        camera.position = { 3.3716135, 9.015127, 0.29202303 };
-        camera.yaw = -3.4856012f; camera.pitch = -1.166767f;
+        camera.position = { 4.7875953, 9.015127, 0.9847422 };
+        camera.yaw = -11.068636; camera.pitch = 1.0935568;
         camera.speed = 3;
-        camera.sensitivity = 0.12f;
+        camera.sensitivity = 0.12;
         camera.fov = 90;
         camera.fovRange = { 1, 90 };
         camera.zoomRatio = 0.5;
@@ -63,12 +63,12 @@ namespace Test {
     }
 
     void TestAdvancedLighting::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Light Position", lightPos.begin());
-        ImGui::ColorEdit3("Light Color", lightColor.begin());
-        ImGui::DragFloat("Ambient Strength", &ambientStrength, 0.01f);
-        ImGui::DragFloat("Specular Strength", &specularStrength, 0.01f);
+        ImGui::EditVector("Light Position", lightPos);
+        ImGui::EditColor ("Light Color", lightColor);
+        ImGui::EditScalar("Ambient Strength", ambientStrength, 0.01f);
+        ImGui::EditScalar("Specular Strength", specularStrength, 0.01f);
 
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
     }
 
     void TestAdvancedLighting::OnDestroy(Graphics::GraphicsDevice& gdevice) {

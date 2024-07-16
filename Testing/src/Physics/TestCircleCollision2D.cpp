@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 
 namespace Test {
@@ -130,8 +131,8 @@ namespace Test {
         ImGui::Text(" + Control for increased Force");
         ImGui::Text("Middle Click = Move");
 
-        ImGui::DragFloat2("Gravity", world.gravity.begin());
-        ImGui::DragFloat("Inverse Drag", &world.drag, 0.005f, 0.0f, 1.0f);
+        ImGui::EditVector("Gravity", world.gravity);
+        ImGui::EditScalar("Inverse Drag", world.drag, 0.005f, Math::fRange { 0, 1 });
     }
 
     void TestCircleCollision2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {

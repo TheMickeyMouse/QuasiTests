@@ -3,6 +3,7 @@
 #include <imgui.h>
 
 #include "Constants.h"
+#include "Extension/ImGuiExt.h"
 #include "Meshes/Cube.h"
 
 namespace Test {
@@ -91,11 +92,10 @@ namespace Test {
     }
 
     void TestCubeMap::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
 
-        ImGui::SliderFloat("Light Yaw",   &lightYaw,   -Math::PI,             Math::PI);
-        ImGui::SliderFloat("Light Pitch", &lightPitch, -Math::HALF_PI * 0.9f, Math::HALF_PI * 0.9f);
-        ImGui::DragFloat("Ambient Strength", &ambStrength, 0.05f);
+        ImGui::EditRotation("Light Rotation", lightYaw, lightPitch);
+        ImGui::EditScalar("Ambient Strength", ambStrength, 0.05f);
 
         ImGui::BeginTabBar("Shader Type");
 
@@ -105,10 +105,10 @@ namespace Test {
 
         switch (shaderID) {
             case REFRACTION_SHADER_ID:
-                ImGui::DragFloat("Refractive Index", &refractiveIndex, 0.05f);
+                ImGui::EditScalar("Refractive Index", refractiveIndex, 0.05f);
             case DIFFUSE_SHADER_ID:
             case REFLECTION_SHADER_ID:
-                ImGui::DragFloat("Ambient Strength", &ambStrength, 0.05f);
+                ImGui::EditScalar("Ambient Strength", ambStrength, 0.05f);
             default:;
         }
 

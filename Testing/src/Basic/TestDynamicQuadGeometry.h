@@ -18,10 +18,6 @@ namespace Test {
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
 
-        Math::fVector2 modelTranslation = 0;
-        Math::fVector2 modelScale = 1;
-        float modelRotation = 0.0f;
-
         DEFINE_TEST_T(TestDynamicQuadGeometry, BASIC)
     public:
         TestDynamicQuadGeometry() = default;

@@ -108,6 +108,25 @@ namespace Test {
 
             menu->FinishDeclare();
         }
+
+        {
+            constexpr Str fontFile = Q_USER_FONTS "JetBrainsMono-Regular.ttf";
+            if (!Text::ExistsFile(fontFile)) {
+                Debug::Warn("couldn't load font {}, some characters may not load properly", fontFile);
+                return;
+            }
+
+            const ImGuiIO& io = ImGui::GetIO();
+
+            ImVector<ImWchar> glyphRange;
+            ImFontGlyphRangesBuilder builder;
+            builder.AddRanges(io.Fonts->GetGlyphRangesDefault());
+            builder.AddText((const char*)u8"°αβγνξΔδεζπΠρΘΛθιητυκλμΨΣςσΦφΩψω"); // greek letters
+            builder.BuildRanges(&glyphRange);
+
+            io.Fonts->AddFontFromFileTTF(fontFile.data(), 21, nullptr, glyphRange.Data);
+            io.Fonts->Build();
+        }
     }
 
     void TestManager::OnUpdate(float deltaTime) {

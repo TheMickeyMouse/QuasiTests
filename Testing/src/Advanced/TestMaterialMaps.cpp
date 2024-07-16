@@ -1,6 +1,7 @@
 #include "TestMaterialMaps.h"
 
 #include "imgui.h"
+#include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
 
@@ -33,10 +34,10 @@ namespace Test {
         });
         lightScene.UseShader(Graphics::Shader::StdColored);
 
-        camera.position = { 4.116068, 10.243308, 4.7378902 };
-        camera.yaw = -10.371004f; camera.pitch = -0.8459675f;
+        camera.position = { 6.3579054, 11.043502, 0.9266781 };
+        camera.yaw = -11.125194; camera.pitch = 0.94481784;
         camera.speed = 1.5;
-        camera.sensitivity = 0.12f;
+        camera.sensitivity = 0.12;
         camera.fov = 45;
         camera.fovRange = { 1, 45 };
         camera.zoomRatio = 0.5;
@@ -68,12 +69,12 @@ namespace Test {
     }
 
     void TestMaterialMaps::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Light Position", lightPos.begin());
-        ImGui::ColorEdit3("Light Color", lightColor.begin());
-        ImGui::DragFloat("Ambient Strength", &ambientStrength, 0.01f);
-        ImGui::DragFloat("Specular Strength", &specularStrength, 0.01f);
+        ImGui::EditVector("Light Position", lightPos);
+        ImGui::EditColor("Light Color", lightColor);
+        ImGui::EditScalar("Ambient Strength", ambientStrength, 0.01f);
+        ImGui::EditScalar("Specular Strength", specularStrength, 0.01f);
 
-        camera.ImGuiEdit();
+        ImGui::EditCameraController("Camera", camera);
     }
 
     void TestMaterialMaps::OnDestroy(Graphics::GraphicsDevice& gdevice) {

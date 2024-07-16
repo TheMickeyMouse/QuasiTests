@@ -1,7 +1,7 @@
 ﻿#include "TestBatchedTextured.h"
 #include "TriIndices.h"
 
-#include "imgui.h"
+#include "Extension/ImGuiExt.h"
 
 namespace Test {
     void TestBatchedTextured::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -15,15 +15,15 @@ namespace Test {
         textures[1].Activate();
 
         Vec<Vertex> vertices = {
-            { { -240.0f, -80.0f, 0 }, 1, { 0.0f, 0.0f }, 0 },
-            { { -80.00f, -80.0f, 0 }, 1, { 1.0f, 0.0f }, 0 },
-            { { -80.00f, +80.0f, 0 }, 1, { 1.0f, 1.0f }, 0 },
-            { { -240.0f, +80.0f, 0 }, 1, { 0.0f, 1.0f }, 0 },
+            { { -240.0f, -80.0f }, 1, { 0.0f, 0.0f }, 0 },
+            { { -80.00f, -80.0f }, 1, { 1.0f, 0.0f }, 0 },
+            { { -80.00f, +80.0f }, 1, { 1.0f, 1.0f }, 0 },
+            { { -240.0f, +80.0f }, 1, { 0.0f, 1.0f }, 0 },
 
-            { { +80.00f, -80.0f, 0 }, 1, { 0.0f, 0.0f }, 1 },
-            { { +240.0f, -80.0f, 0 }, 1, { 1.0f, 0.0f }, 1 },
-            { { +240.0f, +80.0f, 0 }, 1, { 1.0f, 1.0f }, 1 },
-            { { +80.00f, +80.0f, 0 }, 1, { 0.0f, 1.0f }, 1 },
+            { { +80.00f, -80.0f }, 1, { 0.0f, 0.0f }, 1 },
+            { { +240.0f, -80.0f }, 1, { 1.0f, 0.0f }, 1 },
+            { { +240.0f, +80.0f }, 1, { 1.0f, 1.0f }, 1 },
+            { { +80.00f, +80.0f }, 1, { 0.0f, 1.0f }, 1 },
         };
 
         Vec<TriIndices> indices = {
@@ -44,20 +44,13 @@ namespace Test {
     }
 
     void TestBatchedTextured::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Math::Matrix3D mat = Math::Matrix3D::transform(modelTranslation,
-                                                   modelScale,
-                                                   modelRotation);
         mesh.GeometryPass([&] (Vertex& v) { v.Color = color; });
-
-        render.SetCamera(mat);
         render.Draw(mesh);
     }
 
     void TestBatchedTextured::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::DragFloat3("Translation", modelTranslation.begin());
-        ImGui::DragFloat3("Scale",       modelScale.begin(), 0.1f);
-        ImGui::DragFloat3("Rotation",    modelRotation.begin(), 0.03f);
-        ImGui::ColorEdit4("Texture Color", color.begin());
+        ImGui::EditTransform("Transform", mesh.modelTransform, 0.1);
+        ImGui::EditColor("Texture Color", color);
     }
 
     void TestBatchedTextured::OnDestroy(Graphics::GraphicsDevice& gdevice) {
