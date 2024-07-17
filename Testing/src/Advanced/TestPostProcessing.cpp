@@ -33,19 +33,19 @@ namespace Test {
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         const auto [winX, winY] = gdevice.GetWindowSize();
-        fbo.Create();
+        fbo = Graphics::FrameBuffer::New();
         fbo.Bind();
 
-        renderResult = Graphics::Texture {
+        renderResult = Graphics::Texture::New(
             nullptr, { winX, winY },
             { .load = { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 } }
-        };
+        );
 
         fbo.Attach(renderResult);
 
-        depthStencilAttachment = Graphics::RenderBuffer {
+        depthStencilAttachment = Graphics::RenderBuffer::New(
             Graphics::TextureIFormat::DEPTH_24_STENCIL_8, gdevice.GetWindowSize()
-        };
+        );
 
         fbo.Bind();
         fbo.Attach(depthStencilAttachment, Graphics::AttachmentType::DEPTH_STENCIL);

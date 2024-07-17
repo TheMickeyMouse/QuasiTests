@@ -29,19 +29,20 @@ namespace Test {
         depthShader = Graphics::Shader::FromFile(res("depth.vert"), res("depth.frag"));
         scene.UseShaderFromFile(res("shadow.vert"), res("shadow.frag"));
 
-        depthMap.Create();
-        depthTex = Graphics::Texture {
-            nullptr, gdevice.GetWindowSize().as<u32>(),
-            { .load = {
-                .format = Graphics::TextureFormat::DEPTH,
-                .internalformat = Graphics::TextureIFormat::DEPTH_16,
-                .type = Graphics::GLTypeID::FLOAT },
-              .params = {
-                { Graphics::TextureParamName::XT_WRAPPING, Graphics::TextureBorder::CLAMP_TO_BORDER },
-                { Graphics::TextureParamName::BORDER_COLOR, Math::fVector4::ONE().cbegin() }
-              }
+        depthMap = Graphics::FrameBuffer::New();
+        depthTex = Graphics::Texture::New(
+            nullptr, gdevice.GetWindowSize().as<u32>(), {
+                .load = {
+                    .format = Graphics::TextureFormat::DEPTH,
+                    .internalformat = Graphics::TextureIFormat::DEPTH_16,
+                    .type = Graphics::GLTypeID::FLOAT
+                },
+                .params = {
+                    { Graphics::TextureParamName::XT_WRAPPING, Graphics::TextureBorder::CLAMP_TO_BORDER },
+                    { Graphics::TextureParamName::BORDER_COLOR, Math::fVector4::ONE().cbegin() }
+                }
             }
-        };
+        );
         depthMap.Bind();
         depthMap.Attach(depthTex, Graphics::AttachmentType::DEPTH);
         Graphics::Render::SetColorWrite(Graphics::BufferMode::NONE);
