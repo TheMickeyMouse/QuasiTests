@@ -1,7 +1,5 @@
 #include "TestPostProcessing.h"
 
-#include "Constants.h"
-#include "imgui.h"
 #include "Mesh.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/CubeNormless.h"
@@ -61,14 +59,12 @@ namespace Test {
 
         const String vert = res("vertex.vert");
         postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));
-        // inv shader
+
         shaderInv = Graphics::Shader::FromFile(vert, res("invert.frag"));
-        // hsl shader
         shaderHsv = Graphics::Shader::FromFile(vert, res("hsv.frag"));
-        // blur shader
         shaderBlur = Graphics::Shader::FromFile(vert, res("simple_blur.frag"));
-        // edge detect shader
         shaderEdgeDetect = Graphics::Shader::FromFile(vert, res("simple_ed.frag"));
+        shaderOutline = Graphics::Shader::FromFile(res("outline.vert"), res("outline.frag"));
 
         currShader = &postProcessingQuad->shader;
         renderResult.Activate(0);
@@ -81,15 +77,32 @@ namespace Test {
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene.SetCamera(transform.TransformMatrix());
 
-        Graphics::Render::EnableDepth();
-        if (usePostProcessing) {
-            fbo.Bind();
-            Graphics::Render::Clear();
+        if (currShader != &shaderOutline) {
+            Graphics::Render::EnableDepth();
+            if (usePostProcessing) {
+                fbo.Bind();
+                Graphics::Render::Clear();
+            }
         }
 
         scene.Draw(cubes);
 
         if (usePostProcessing) {
+            if (currShader == &shaderOutline) {
+                Graphics::Render::UseStencilTest(Graphics::CmpOperation::NOTEQUAL, 1); // pass if it hasnt been set (drawn to) yet
+                Graphics::Render::DisableDepth();
+                Graphics::Render::DisableStencilWrite();
+
+                for (auto& cube : cubes) cube.modelTransform.scale = outlineSize;
+                scene.Draw(cubes, UseShaderWithArgs(shaderOutline, {{ "outlineColor", Math::fColor { 1 } }}));
+                for (auto& cube : cubes) cube.modelTransform.scale = 1;
+
+                Graphics::Render::UseStencilTest(Graphics::CmpOperation::ALWAYS, 1);
+                Graphics::Render::EnableStencilWrite(); // write to stencil
+                Graphics::Render::EnableDepth();
+                return;
+            }
+
             Graphics::Render::DisableDepth();
             fbo.Unbind();
 
@@ -122,6 +135,7 @@ namespace Test {
 
         ImGui::Checkbox("Use Post Processing", &usePostProcessing);
 
+        Graphics::Shader* prev = currShader;
 #define TAB_ITEM(X, N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
         if (ImGui::BeginTabBar("Post Processing Shader")) {
             TAB_ITEM(NONE, "None", postProcessingQuad->shader, )
@@ -132,13 +146,32 @@ namespace Test {
                 ImGui::EditScalar("Value Shift", valShift, 0.01f, Math::fRange { -1, 1 });)
             TAB_ITEM(BLUR, "Blur", shaderBlur, ImGui::EditVector("Blur Offset", effectOff, 0.1f); )
             TAB_ITEM(EDGE_DETECT, "Edge Detection", shaderEdgeDetect, ImGui::EditVector("Detect Offset", effectOff, 0.1f); )
+            TAB_ITEM(OUTLINE, "Outline (Stencil)", shaderOutline,
+                ImGui::EditScalar("Outline Size", outlineSize, 0.01f, Math::fRange { 1, 2 });
+            )
             ImGui::EndTabBar();
         }
 #undef TAB_ITEM
+
+        if (prev != currShader) {
+            if (currShader == &shaderOutline) {
+                Graphics::Render::EnableStencil();
+                Graphics::Render::UseStencilTest(Graphics::CmpOperation::NOTEQUAL, 1); // always pass stencil test
+                Graphics::Render::UseStencilWriteOp(
+                    Graphics::StencilOperation::KEEP,
+                    Graphics::StencilOperation::KEEP,
+                    Graphics::StencilOperation::REPLACE // set to 1 (ref from stencil func)
+                );
+                Graphics::Render::EnableStencilWrite(); // write to stencil
+            } else {
+                Graphics::Render::DisableStencil();
+            }
+        }
     }
 
     void TestPostProcessing::OnDestroy(Graphics::GraphicsDevice& gdevice) {
         scene.Destroy();
         Graphics::Render::EnableDepth();
+        Graphics::Render::DisableStencil();
     }
 }

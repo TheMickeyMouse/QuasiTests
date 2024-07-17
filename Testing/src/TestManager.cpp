@@ -13,7 +13,6 @@
 #include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestMaterialMaps.h"
 #include "Advanced/TestLightCasters.h"
-#include "Advanced/TestStencilOutline.h"
 #include "Advanced/TestCubeMap.h"
 #include "Advanced/TestDrawInstances.h"
 #include "Advanced/TestGeometryShader.h"
@@ -66,9 +65,6 @@ namespace Test {
 
             menu->RegisterTest<TestLightCasters>("Light Casters");
             menu->AddDescription("Draws a scene with many types of light casting.");
-
-            menu->RegisterTest<TestStencilOutline>("Stencil Outline");
-            menu->AddDescription("Draws an outline using the stencil buffer.");
 
             menu->RegisterTest<TestCubeMap>("Cube Map");
             menu->AddDescription("Draws a skybox using a cubemap texture.");

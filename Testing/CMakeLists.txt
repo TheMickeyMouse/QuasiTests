@@ -7,8 +7,7 @@ set(HEADER_FILES
     src/Advanced/TestLightCasters.h
     src/Advanced/TestMaterialMaps.h
     src/Advanced/TestPostProcessing.h
-    src/Advanced/TestStencilOutline.h
-    src/Basic/TestBatchedTextured.h
+        src/Basic/TestBatchedTextured.h
     src/Basic/TestClearColor.h
     src/Basic/TestCubeRender.h
     src/Basic/TestDynamicQuadGeometry.h
@@ -32,8 +31,7 @@ set(SOURCE_FILES
     src/Advanced/TestLightCasters.cpp
     src/Advanced/TestMaterialMaps.cpp
     src/Advanced/TestPostProcessing.cpp
-    src/Advanced/TestStencilOutline.cpp
-    src/Basic/TestBatchedTextured.cpp
+        src/Basic/TestBatchedTextured.cpp
     src/Basic/TestClearColor.cpp
     src/Basic/TestCubeRender.cpp
     src/Basic/TestDynamicQuadGeometry.cpp

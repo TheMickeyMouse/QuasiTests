@@ -19,13 +19,14 @@ namespace Test {
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
-        Math::Transform3D transform;
+        Math::Transform3D transform { { 0, 0, -5 } };
         Math::Quaternion turnSpeed = 1;
 
         Math::fVector2 effectOff = 3;
         float hueShift = 0, satMul = 0, valShift = 0;
+        float outlineSize = 1.1f;
 
-        Graphics::Shader shaderInv, shaderHsv, shaderBlur, shaderEdgeDetect, *currShader;
+        Graphics::Shader shaderInv, shaderHsv, shaderBlur, shaderEdgeDetect, shaderOutline, *currShader;
 
         bool usePostProcessing = true;
 
