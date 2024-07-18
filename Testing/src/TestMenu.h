@@ -22,7 +22,7 @@ namespace Test {
         Ref<TestManager> manager;
         Vec<TestMenuItem> menuItems;
         Vec<TestSection> testTypeSegments;
-        TestType currentType = (TestType)-2;
+        TestType currentType = TestType::NONE;
     public:
         TestMenu(Ref<TestManager> manager);
 

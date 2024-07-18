@@ -5,13 +5,13 @@
 
 namespace Test {
     TestMenu::TestMenu(Ref<TestManager> manager) : manager(manager) {
-        testTypeSegments.resize((int)TestType::TOTAL, { TestType::OTHER, {}, "" });
+        testTypeSegments.resize(TestType::Num(), { TestType::OTHER, {}, "" });
     }
 
     void TestMenu::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         if (!ImGui::BeginTabBar("Testing Projects")) return;
         for (const auto& [type, span, desc] : testTypeSegments) {
-            if (ImGui::BeginTabItem(ToDirString(type).data())) {
+            if (ImGui::BeginTabItem(type->name.data())) {
                 ImGui::Text("%s", desc.data());
                 for (usize j = span.min; j < span.max; ++j) {
                     const TestMenuItem& testItem = menuItems[j];
@@ -31,23 +31,20 @@ namespace Test {
     }
 
     void TestMenu::DeclareTestType(TestType type) {
-        const int t = (int)currentType;
-        if (t >= 0 && t < (int)TestType::TYPE_MAX) {
-            testTypeSegments[t].span.max = menuItems.size();
-        }
-        TestSection& section = testTypeSegments[(int)type];
+        if (currentType)
+            testTypeSegments[currentType.Ord()].span.max = menuItems.size();
+        TestSection& section = testTypeSegments[type.Ord()];
         section.type = type;
         section.span.min = menuItems.size();
         currentType = type;
     }
 
     void TestMenu::FinishDeclare() {
-        const int t = (int)currentType;
-        testTypeSegments[t].span.max = menuItems.size();
+        testTypeSegments[currentType.Ord()].span.max = menuItems.size();
     }
 
     void TestMenu::AddSectionDescription(const Str desc) {
-        testTypeSegments[(int)currentType].description = desc;
+        testTypeSegments[currentType.Ord()].description = desc;
     }
 
     void TestMenu::AddDescription(const Str desc) {

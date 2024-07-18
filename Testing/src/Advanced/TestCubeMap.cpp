@@ -2,14 +2,13 @@
 
 #include <imgui.h>
 
-#include "Constants.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Cube.h"
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {
         using namespace Graphics::VertexBuilder;
-        using Math::fVector2, Math::Direction2D;
+        using Math::fVector2;
 
         scene = gdevice.CreateNewRender<Vertex>();
         skybox = Graphics::MeshUtils::Cube(Vertex::Blueprint {
@@ -31,7 +30,7 @@ namespace Test {
         box = Graphics::MeshUtils::Cube(
             Vertex::Blueprint {
                 .Position = GetPosition {},
-                .TextureCoordinate = FromArg<>([&] { ++i; return 0.5f + fVector2 { (Math::Corner2D)(i % 4) } * 0.5f; }),
+                .TextureCoordinate = FromArg<>([&] { ++i; return 0.5f + fVector2::from_corner(i % 4, 1) * 0.5f; }),
                 .Normal = GetNormal {}
             }
         );

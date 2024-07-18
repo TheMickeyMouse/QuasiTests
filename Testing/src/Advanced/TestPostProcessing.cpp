@@ -21,7 +21,7 @@ namespace Test {
                 .Color = Constant { Math::fColor::color_id(i) }
             }, Math::Transform3D::Scaling(s)));
 
-            cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3 { (Math::Corner3D)i }));
+            cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3::from_corner(i, 1)));
         }
         cubes.push_back(
         Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
