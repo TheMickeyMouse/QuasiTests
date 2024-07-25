@@ -122,7 +122,7 @@ namespace Test {
                 const Math::fLine2D  line = spike.collider.line(i) + Math::fVector2::unit_x(spike.xOff);
                 const Math::fVector2 center   = Math::fVector2 { -150, yPos },
                                      toCenter = center - line.start,
-                                     dist     = line.as_vec(),
+                                     dist     = line.forward(),
                                      proj     = toCenter.projected(dist);
                 const float          factor   = std::abs(dist.x) > std::abs(dist.y) ? proj.x / dist.x : proj.y / dist.y;
                 if (center.distsq(factor <= 0 ? line.start : (factor >= 1 ? line.end : proj + line.start)) <= 30.0f * 30.0f)

@@ -18,11 +18,15 @@ namespace Test {
         Physics2D::World world;
 
         Math::fVector2 lastDragPosition;
-        Ref<Object> selected;
+        Math::fVector2 selectOffset;
         Math::fVector2 controlPoints[3];
         u32 controlPointCount = 0;
         u32 selectedControl = ~0;
+        u32 selectedIndex = ~0;
         bool hasAddedForce = false;
+        bool selectedIsStatic = false;
+
+        u32 onPause = 0;
 
         DEFINE_TEST_T(TestPhysicsPlayground2D, SIM_PHYSICS)
     public:
@@ -35,11 +39,12 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        void Select(Ref<Object> toSelect);
+        void Select(u32 toSelect);
         void Unselect();
 
+        Ref<Object> Selected();
         void AddNewPoint(const Math::fVector2& point, const Math::fColor& color);
-        Ref<Object> FindAt(const Math::fVector2& mousePos);
+        u32 FindAt(const Math::fVector2& mousePos) const;
         void AddBodyTint(const Math::fColor& color);
         void SetControlPoints();
         void UpdateBodyFromControl();

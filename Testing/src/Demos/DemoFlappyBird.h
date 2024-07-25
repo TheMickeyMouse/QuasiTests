@@ -27,6 +27,7 @@ namespace Test {
         Graphics::Font font;
         Graphics::Mesh<Vertex> mPlayer, mText, mBg;
         std::deque<Spike> spikes;
+
         float velocityY = 0, yPos = 0;
         double time = 0, nextSpawnTime = 0;
 

@@ -24,56 +24,65 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-        auto& mouse = gdevice.GetIO().Mouse;
-        const Math::fVector2 mousePos = mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 });
+        auto& imguiio = ImGui::GetIO();
+        if (!imguiio.WantCaptureMouse && !imguiio.WantCaptureKeyboard) {
+            auto& mouse = gdevice.GetIO().Mouse;
+            const Math::fVector2 mousePos = mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 });
 
-        if (mouse.LeftOnPress()) {
-            selectedControl = ~0;
-            for (u32 i = 0; i < controlPointCount; ++i) {
-                if (Physics2D::Collision::Between(
-                    Physics2D::CircleShape { 0.0f }, mousePos,
-                    Physics2D::CircleShape { 2.0f }, selected->body->position + controlPoints[i])) {
-                    selectedControl = i;
+            if (mouse.LeftOnPress()) {
+                selectedControl = ~0;
+                for (u32 i = 0; i < controlPointCount; ++i) {
+                    if (Physics2D::Collision::CollideShapeDyn(
+                        Physics2D::CircleShape { 0.0f }, mousePos,
+                        Physics2D::CircleShape { 2.0f }, Selected()->body->position + controlPoints[i])) {
+                        selectedControl = i;
+                        }
+                }
+                if (selectedControl == ~0) {
+                    if (const auto s = FindAt(mousePos); s != ~0) {
+                        Select(s);
+                        selectOffset = Selected()->body->position - mousePos;
+                    } else Unselect();
                 }
             }
-            if (selectedControl == ~0) {
-                if (const auto s = FindAt(mousePos)) { Select(s); }
-                else Unselect();
+            if (mouse.LeftPressed()) {
+                if (selectedControl != ~0) {
+                    controlPoints[selectedControl] = mousePos - Selected()->body->position;
+                    UpdateBodyFromControl();
+                } else if (selectedIndex != ~0) {
+                    Selected()->body->position = mousePos + selectOffset;
+                }
+            }
+
+            if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
+            if (mouse.MiddlePressed()) {
+                for (auto b : world.bodies) b->position -= lastDragPosition - mousePos;
+                lastDragPosition = mousePos;
+            }
+
+            if (mouse.RightOnPress()) {
+                const u32 target = FindAt(mousePos);
+                if (target != ~0 && bodyData[target].body->IsDynamic()) {
+                    Select(target);
+                }
+            }
+
+            if (mouse.RightPressed() && selectedIndex != ~0) {
+                hasAddedForce = true;
+            }
+
+            if (mouse.RightOnRelease() && selectedIndex != ~0 && Selected()->body->IsDynamic()) {
+                const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
+                Selected()->body->velocity -= (scale ? 10.0f : 1.0f) * (mousePos - Selected()->body->position);
+                Unselect();
+                hasAddedForce = false;
             }
         }
-        if (mouse.LeftPressed()) {
-            if (selectedControl != ~0) {
-                controlPoints[selectedControl] = mousePos - selected->body->position;
-                UpdateBodyFromControl();
-            } else if (selected) {
-                selected->body->position = mousePos;
-            }
-        }
 
-        if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
-        if (mouse.MiddlePressed()) {
-            for (auto b : world.bodies) b->position -= lastDragPosition - mousePos;
-            lastDragPosition = mousePos;
-        }
-
-        if (mouse.RightOnPress()) {
-            Ref<Object> target = FindAt(mousePos);
-            target = target && target->body->IsDynamic() ? target : nullptr;
-            Select(target);
-        }
-
-        if (mouse.RightPressed() && selected) {
-            hasAddedForce = true;
-        }
-
-        if (mouse.RightOnRelease() && selected && selected->body->IsDynamic()) {
-            const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
-            selected->body->velocity -= (scale ? 10.0f : 1.0f) * (mousePos - selected->body->position);
-            Unselect();
-            hasAddedForce = false;
-        }
-
-        world.Update(deltaTime, 8, 2);
+        worldUpdate:
+        if (onPause & 1) return;
+        world.Update(std::min(deltaTime, 1 / 60.0f), 8, 2);
+        onPause = onPause == 2 ? 1 : 0;
     }
 
     void TestPhysicsPlayground2D::OnRender(Graphics::GraphicsDevice& gdevice) {
@@ -126,21 +135,21 @@ namespace Test {
         if (hasAddedForce) {
             const Math::fColor blue = Math::fColor::BLUE();
             const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }),
-                                 direction = (selected->body->position - mouse).norm(0.5f);
+                                 direction = (Selected()->body->position - mouse).norm(0.5f);
             auto meshp = worldMesh.NewBatch();
-            meshp.PushV({ selected->body->position + Math::fVector2 { direction.y, -direction.x }, blue });
-            meshp.PushV({ selected->body->position + Math::fVector2 { -direction.y, direction.x }, blue });
+            meshp.PushV({ Selected()->body->position + Math::fVector2 { direction.y, -direction.x }, blue });
+            meshp.PushV({ Selected()->body->position + Math::fVector2 { -direction.y, direction.x }, blue });
             meshp.PushV({ mouse, blue });
             meshp.PushI(0, 1, 2);
         }
 
-        if (selected) {
-            AddNewPoint(selected->body->position, Math::fColor::RED());
+        if (selectedIndex != ~0) {
+            AddNewPoint(Selected()->body->position, Math::fColor::RED());
         }
 
         if (controlPointCount) {
             for (u32 j = 0; j < controlPointCount; ++j)
-                AddNewPoint(controlPoints[j] + selected->body->position, Math::fColor::GREEN());
+                AddNewPoint(controlPoints[j] + Selected()->body->position, Math::fColor::GREEN());
         }
 
         scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", scene->projection }}, false));
@@ -150,20 +159,35 @@ namespace Test {
         if (ImGui::Button("+ New Circle")) {
             world.CreateBody<Physics2D::CircleShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f }, 5.0f);
             goto addColor;
-        } if (ImGui::Button("+ New Edge")) {
-            world.CreateBody<Physics2D::EdgeShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f }, Math::fVector2 { 0, 5 }, Math::fVector2 { 0, 0 }, 5.0f);
+        }
+        if (ImGui::Button("+ New Edge")) {
+            world.CreateBody<Physics2D::EdgeShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f },
+                Math::fVector2 { 0, 5 }, Math::fVector2 { 0, 0 }, 5.0f);
+            goto addColor;
+        }
+        if (ImGui::Button("+ New Triangle")) {
+            world.CreateBody<Physics2D::TriangleShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f },
+                Math::fVector2 { 0, 5 }, Math::fVector2 { -3, -1 }, Math::fVector2 { 3, -1 });
             goto addColor;
         }
 
-        if (ImGui::TreeNode("Edit Body")) {
-            if (auto circle = selected->body->shape.As<Physics2D::CircleShape>()) {
+        if (selectedIndex != ~0 && ImGui::TreeNode("Edit Body")) {
+            if (auto circle = Selected()->body->shape.As<Physics2D::CircleShape>()) {
                 ImGui::EditScalar("Radius", circle->radius);
             }
 
-            ImGui::EditScalar("Mass", selected->body->mass);
-            ImGui::EditColor ("Tint", selected->color);
+            ImGui::EditScalar("Mass", Selected()->body->mass, 1, Math::fRange { 0, INFINITY });
+            ImGui::EditColor ("Tint", Selected()->color);
+
 
             ImGui::TreePop();
+        }
+
+        if (ImGui::Button(onPause ? "Unpause" : "Pause")) {
+            onPause = !onPause;
+        }
+        if (onPause) {
+            onPause += ImGui::Button("Step");
         }
 
         return;
@@ -176,18 +200,26 @@ namespace Test {
         scene.Destroy();
     }
 
-    void TestPhysicsPlayground2D::Select(Ref<Object> toSelect) {
+    void TestPhysicsPlayground2D::Select(u32 toSelect) {
         Unselect();
-        selected = toSelect;
-        if (selected && selected->body->IsDynamic()) selected->body->Disable();
+        selectedIndex = toSelect;
+        if (selectedIndex != ~0) {
+            selectedIsStatic = Selected()->body->IsStatic();
+            Selected()->body->type = Physics2D::BodyType::STATIC;
+        }
         SetControlPoints();
     }
 
     void TestPhysicsPlayground2D::Unselect() {
-        if (selected) selected->body->Enable();
-        selected = nullptr;
+        if (selectedIndex != ~0 && !selectedIsStatic)
+            Selected()->body->type = Physics2D::BodyType::DYNAMIC;
+        selectedIndex = ~0;
         controlPointCount = 0;
         selectedControl = ~0;
+    }
+
+    Ref<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::Selected() {
+        return selectedIndex == ~0 ? nullptr : Refer(bodyData[selectedIndex]);
     }
 
     void TestPhysicsPlayground2D::AddNewPoint(const Math::fVector2& point, const Math::fColor& color) {
@@ -200,14 +232,15 @@ namespace Test {
         meshp.PushI(1, 2, 3);
     }
 
-    Ref<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) {
+    u32 TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) const {
         const Physics2D::CircleShape mouseCollider = { 0.0f };
-        for (auto& b : bodyData) {
-            if (Physics2D::Collision::Between(mouseCollider, mousePos, b.body->shape, b.body->GetTransform())) {
-                return b;
+        for (u32 i = 0; i < bodyData.size(); ++i) {
+            const auto& b = bodyData[i];
+            if (Physics2D::Collision::CollideShapeDyn(mouseCollider, mousePos, b.body->shape, b.body->GetTransform())) {
+                return i;
             }
         }
-        return nullptr;
+        return ~0;
     }
 
     void TestPhysicsPlayground2D::AddBodyTint(const Math::fColor& color) {
@@ -215,8 +248,8 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::SetControlPoints() {
-        if (!selected) return;
-        const auto shape = selected->body->shape;
+        if (selectedIndex == ~0) return;
+        const auto shape = Selected()->body->shape;
         switch (shape->TypeIndex()) {
             case Physics2D::CIRCLE: {
                 controlPoints[0] = Math::fVector2::unit_x(shape.As<Physics2D::CircleShape>()->radius);
@@ -246,7 +279,7 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::UpdateBodyFromControl() {
-        auto shape = selected->body->shape;
+        auto shape = Selected()->body->shape;
         switch (shape->TypeIndex()) {
             case Physics2D::CIRCLE: {
                 shape.As<Physics2D::CircleShape>()->radius = controlPoints[0].len();
