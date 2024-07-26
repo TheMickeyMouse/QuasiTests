@@ -25,6 +25,10 @@ namespace Test {
         u32 selectedIndex = ~0;
         bool hasAddedForce = false;
         bool selectedIsStatic = false;
+        Math::fVector2 originalVelocity;
+
+        float zoomFactor = 1.0f;
+        Math::fVector2 cameraPosition;
 
         u32 onPause = 0;
 

@@ -32,11 +32,11 @@ namespace Test {
             if (mouse.LeftOnPress()) {
                 selectedControl = ~0;
                 for (u32 i = 0; i < controlPointCount; ++i) {
-                    if (Physics2D::Collision::CollideShapeDyn(
+                    if (Physics2D::Collision::OverlapShapeDyn(
                         Physics2D::CircleShape { 0.0f }, mousePos,
                         Physics2D::CircleShape { 2.0f }, Selected()->body->position + controlPoints[i])) {
                         selectedControl = i;
-                        }
+                    }
                 }
                 if (selectedControl == ~0) {
                     if (const auto s = FindAt(mousePos); s != ~0) {
@@ -56,7 +56,7 @@ namespace Test {
 
             if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
             if (mouse.MiddlePressed()) {
-                for (auto b : world.bodies) b->position -= lastDragPosition - mousePos;
+                cameraPosition -= lastDragPosition - mousePos;
                 lastDragPosition = mousePos;
             }
 
@@ -71,12 +71,14 @@ namespace Test {
                 hasAddedForce = true;
             }
 
-            if (mouse.RightOnRelease() && selectedIndex != ~0 && Selected()->body->IsDynamic()) {
+            if (mouse.RightOnRelease() && selectedIndex != ~0 && !selectedIsStatic) {
                 const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
-                Selected()->body->velocity -= (scale ? 10.0f : 1.0f) * (mousePos - Selected()->body->position);
+                originalVelocity -= (scale ? 10.0f : 1.0f) * (mousePos - Selected()->body->position);
                 Unselect();
                 hasAddedForce = false;
             }
+
+            zoomFactor *= (float)(1 + 0.05f * mouse.GetMouseScrollDelta().y);
         }
 
         worldUpdate:
@@ -152,7 +154,10 @@ namespace Test {
                 AddNewPoint(controlPoints[j] + Selected()->body->position, Math::fColor::GREEN());
         }
 
-        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", scene->projection }}, false));
+        Math::fRect3D viewport = Math::fRect3D { -40, 40, -30, 30, -1, 1 } * zoomFactor + cameraPosition;
+        viewport.min.z = -1;
+        viewport.max.z = +1;
+        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", Math::Matrix3D::ortho_projection(viewport) }}, false));
     }
 
     void TestPhysicsPlayground2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -206,13 +211,17 @@ namespace Test {
         if (selectedIndex != ~0) {
             selectedIsStatic = Selected()->body->IsStatic();
             Selected()->body->type = Physics2D::BodyType::STATIC;
+            originalVelocity = Selected()->body->velocity;
+            Selected()->body->velocity = 0;
         }
         SetControlPoints();
     }
 
     void TestPhysicsPlayground2D::Unselect() {
-        if (selectedIndex != ~0 && !selectedIsStatic)
+        if (selectedIndex != ~0 && !selectedIsStatic) {
             Selected()->body->type = Physics2D::BodyType::DYNAMIC;
+            Selected()->body->velocity = originalVelocity;
+        }
         selectedIndex = ~0;
         controlPointCount = 0;
         selectedControl = ~0;
@@ -236,7 +245,7 @@ namespace Test {
         const Physics2D::CircleShape mouseCollider = { 0.0f };
         for (u32 i = 0; i < bodyData.size(); ++i) {
             const auto& b = bodyData[i];
-            if (Physics2D::Collision::CollideShapeDyn(mouseCollider, mousePos, b.body->shape, b.body->GetTransform())) {
+            if (Physics2D::Collision::OverlapShapeDyn(mouseCollider, mousePos, b.body->shape, b.body->GetTransform())) {
                 return i;
             }
         }
