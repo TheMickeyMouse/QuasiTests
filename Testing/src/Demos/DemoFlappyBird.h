@@ -14,7 +14,7 @@ namespace Test {
             Math::fVector2 TextureCoord;
             int RenderType;
 
-            Q_GL_VERTEX_T(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoord)(RenderType));
+            Q_GL_DEFINE_VERTEX(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoord)(RenderType));
         };
 
         struct Spike {

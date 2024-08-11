@@ -12,7 +12,7 @@ namespace Test {
             Math::fVector2 TextureCoordinate;
             int isText = 0;
     
-            Q_GL_VERTEX_T(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(isText));
+            Q_GL_DEFINE_VERTEX(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(isText));
         };
     private:
         Graphics::RenderObject<Vertex> render;

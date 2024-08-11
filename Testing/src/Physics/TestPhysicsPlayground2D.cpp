@@ -24,10 +24,12 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-        auto& imguiio = ImGui::GetIO();
+        const auto& imguiio = ImGui::GetIO();
         if (!imguiio.WantCaptureMouse && !imguiio.WantCaptureKeyboard) {
-            auto& mouse = gdevice.GetIO().Mouse;
-            const Math::fVector2 mousePos = mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 });
+            const auto& mouse = gdevice.GetIO().Mouse;
+            const Math::fVector2
+                rawMouse = mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }),
+                mousePos = rawMouse * zoomFactor + cameraPosition;
 
             if (mouse.LeftOnPress()) {
                 selectedControl = ~0;
@@ -54,10 +56,10 @@ namespace Test {
                 }
             }
 
-            if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
+            if (mouse.MiddleOnPress()) lastDragPosition = rawMouse;
             if (mouse.MiddlePressed()) {
-                cameraPosition -= lastDragPosition - mousePos;
-                lastDragPosition = mousePos;
+                cameraPosition += (lastDragPosition - rawMouse) * zoomFactor;
+                lastDragPosition = rawMouse;
             }
 
             if (mouse.RightOnPress()) {
@@ -78,7 +80,7 @@ namespace Test {
                 hasAddedForce = false;
             }
 
-            zoomFactor *= (float)(1 + 0.05f * mouse.GetMouseScrollDelta().y);
+            zoomFactor *= (float)(1 - 0.05f * mouse.GetMouseScrollDelta().y);
         }
 
         worldUpdate:
@@ -136,7 +138,7 @@ namespace Test {
 
         if (hasAddedForce) {
             const Math::fColor blue = Math::fColor::BLUE();
-            const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }),
+            const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }) * zoomFactor + cameraPosition,
                                  direction = (Selected()->body->position - mouse).norm(0.5f);
             auto meshp = worldMesh.NewBatch();
             meshp.PushV({ Selected()->body->position + Math::fVector2 { direction.y, -direction.x }, blue });
