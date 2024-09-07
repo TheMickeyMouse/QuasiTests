@@ -20,7 +20,7 @@ namespace Test {
 
         scene.SetProjection(Math::Matrix3D::ortho_projection({ 0, 80, 0, 60, -1, 1 }));
 
-        world = { { 0, -40.0f }, Physics2D::Drag(0.98f, 60.0f) };
+        world = { { 0, -40.0f } };
         ResetBalls(gdevice);
 
         auto meshp = totalLineMesh.NewBatch();
@@ -74,7 +74,7 @@ namespace Test {
             selected = nullptr;
         }
 
-        world.Update(deltaTime, 8, 2);
+        world.Update(deltaTime, 16);
 
         for (int i = 0; i < 4; ++i) {
             Ref<const Physics2D::Body> e = edge[i];
@@ -132,7 +132,6 @@ namespace Test {
         ImGui::Text("Middle Click = Move");
 
         ImGui::EditVector("Gravity", world.gravity);
-        ImGui::EditScalar("Inverse Drag", world.drag, 0.005f, Math::fRange { 0, 1 });
     }
 
     void TestCircleCollision2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -174,7 +173,7 @@ namespace Test {
 
     Ref<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
         for (auto circ : world.bodies) {
-            if (circ->CollidesWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
+            if (circ->OverlapsWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
                 return circ;
             }
         }

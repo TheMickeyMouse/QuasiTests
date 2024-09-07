@@ -11,16 +11,35 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>();
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
 
-        world = { { 0, -40.0f }, Physics2D::Drag(0.98f, 60.0f) };
+        world = { { 0, -40.0f } };
         scene.SetProjection(Math::Matrix3D::ortho_projection({ -40, 40, -30, 30, -1, 1 }));
 
-        world.CreateBody<Physics2D::EdgeShape>(
+        // world.CreateBody<Physics2D::EdgeShape>(
+        //     { { 0, -30 }, Physics2D::BodyType::STATIC, 0.0f },
+        //     Math::fVector2 { -100, 0 }, Math::fVector2 { 100, 0 }, 5); // floor
+        // AddBodyTint(Math::fColor::BETTER_GRAY());
+        //
+        // world.CreateBody<Physics2D::CircleShape>({ { 0, 20 }, Physics2D::BodyType::DYNAMIC, 1.0f }, 5);
+        // AddBodyTint(Math::fColor::BETTER_BLUE());
+        world.CreateBody<Physics2D::RectShape>(
             { { 0, -30 }, Physics2D::BodyType::STATIC, 0.0f },
-            Math::fVector2 { -100, 0 }, Math::fVector2 { 100, 0 }, 5); // floor
+            Math::fVector2 { -100, -5 }.to({ 100, 5 })); // floor
         AddBodyTint(Math::fColor::BETTER_GRAY());
-
-        world.CreateBody<Physics2D::CircleShape>({ { 0, 20 }, Physics2D::BodyType::DYNAMIC, 1.0f }, 5);
-        AddBodyTint(Math::fColor::BETTER_BLUE());
+        // world.CreateBody<Physics2D::TriangleShape>(
+        //     { { 0, -20 }, Physics2D::BodyType::STATIC, 1.0f },
+        //     Math::fVector2 { 20, 0 }, Math::fVector2 { -20, 0 }, Math::fVector2 { 0, -5 } // Math::fVector2 { -5, -5 }.to({ 5, 5 })
+        // );
+        // AddBodyTint(Math::fColor::BETTER_LIME());
+        //
+        // world.CreateBody<Physics2D::RectShape>(
+        //     { { 0, 20 }, Physics2D::BodyType::DYNAMIC, 1.0f },
+        //     Math::fVector2 { -5, -5 }.to({ 5, 5 }));
+        // AddBodyTint(Math::fColor::BETTER_PURPLE());
+        // world.CreateBody<Physics2D::TriangleShape>(
+        //     { { 0, 20 }, Physics2D::BodyType::DYNAMIC, 1.0f },
+        //     Math::fVector2 { 5, 0 }, Math::fVector2 { 0, 8 }, Math::fVector2 { -5, 0 } // Math::fVector2 { -5, -5 }.to({ 5, 5 })
+        // );
+        // AddBodyTint(Math::fColor::BETTER_AQUA());
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -34,7 +53,7 @@ namespace Test {
             if (mouse.LeftOnPress()) {
                 selectedControl = ~0;
                 for (u32 i = 0; i < controlPointCount; ++i) {
-                    if (Physics2D::Collision::OverlapShapeDyn(
+                    if (Physics2D::Collision::OverlapShapes(
                         Physics2D::CircleShape { 0.0f }, mousePos,
                         Physics2D::CircleShape { 2.0f }, Selected()->body->position + controlPoints[i])) {
                         selectedControl = i;
@@ -85,7 +104,7 @@ namespace Test {
 
         worldUpdate:
         if (onPause & 1) return;
-        world.Update(std::min(deltaTime, 1 / 60.0f), 8, 2);
+        world.Update(std::min(deltaTime, 1 / 60.0f), 8);
         onPause = onPause == 2 ? 1 : 0;
     }
 
@@ -128,6 +147,17 @@ namespace Test {
                     meshp.PushV({ body->position + tri->b, color });
                     meshp.PushV({ body->position + tri->c, color });
                     meshp.PushI(0, 1, 2);
+                    break;
+                }
+                case Physics2D::RECT: {
+                    Ref<const Physics2D::RectShape> rect = body->shape.As<Physics2D::RectShape>();
+                    auto meshp = worldMesh.NewBatch();
+                    meshp.PushV({ body->position + rect->rect.corner(0), color });
+                    meshp.PushV({ body->position + rect->rect.corner(1), color });
+                    meshp.PushV({ body->position + rect->rect.corner(2), color });
+                    meshp.PushV({ body->position + rect->rect.corner(3), color });
+                    meshp.PushI(0, 1, 2);
+                    meshp.PushI(2, 1, 3);
                     break;
                 }
                 case Physics2D::MAX:
@@ -247,7 +277,7 @@ namespace Test {
         const Physics2D::CircleShape mouseCollider = { 0.0f };
         for (u32 i = 0; i < bodyData.size(); ++i) {
             const auto& b = bodyData[i];
-            if (Physics2D::Collision::OverlapShapeDyn(mouseCollider, mousePos, b.body->shape, b.body->GetTransform())) {
+            if (b.body->OverlapsWith(mouseCollider, mousePos)) {
                 return i;
             }
         }
