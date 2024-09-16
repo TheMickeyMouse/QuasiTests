@@ -8,7 +8,7 @@ namespace Test {
         using Vertex = Graphics::VertexColor2D;
 
         struct Object {
-            Ref<Physics2D::Body> body;
+            Physics2D::BodyHandle body;
             Math::fColor color;
         };
 

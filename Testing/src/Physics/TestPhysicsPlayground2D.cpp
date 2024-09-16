@@ -23,7 +23,7 @@ namespace Test {
         // AddBodyTint(Math::fColor::BETTER_BLUE());
         world.CreateBody<Physics2D::RectShape>(
             { { 0, -30 }, Physics2D::BodyType::STATIC, 0.0f },
-            Math::fVector2 { -100, -5 }.to({ 100, 5 })); // floor
+            100, 5); // floor
         AddBodyTint(Math::fColor::BETTER_GRAY());
         // world.CreateBody<Physics2D::TriangleShape>(
         //     { { 0, -20 }, Physics2D::BodyType::STATIC, 1.0f },
@@ -53,7 +53,7 @@ namespace Test {
             if (mouse.LeftOnPress()) {
                 selectedControl = ~0;
                 for (u32 i = 0; i < controlPointCount; ++i) {
-                    if (Physics2D::Collision::OverlapShapes(
+                    if (OverlapShapes(
                         Physics2D::CircleShape { 0.0f }, mousePos,
                         Physics2D::CircleShape { 2.0f }, Selected()->body->position + controlPoints[i])) {
                         selectedControl = i;
@@ -114,8 +114,8 @@ namespace Test {
         u32 i = 0;
         using namespace Graphics::VertexBuilder;
         for (const auto& [body, color] : bodyData) {
-            switch (body->shape->TypeIndex()) {
-                case Physics2D::CIRCLE: {
+            switch (body->shape.TypeIndex()) {
+                case Physics2D::Shape::CIRCLE: {
                     const Ref<const Physics2D::CircleShape> circle = body->shape.As<Physics2D::CircleShape>();
                     Graphics::MeshUtils::CircleCreator::Merge(
                         { 16 },
@@ -129,10 +129,10 @@ namespace Test {
                     );
                     break;
                 }
-                case Physics2D::EDGE: {
-                    Ref<const Physics2D::EdgeShape> edge = body->shape.As<Physics2D::EdgeShape>();
+                case Physics2D::Shape::CAPSULE: {
+                    Ref<const Physics2D::CapsuleShape> cap = body->shape.As<Physics2D::CapsuleShape>();
                     Graphics::MeshUtils::StadiumCreator::Merge(
-                        { .start = edge->start, .end = edge->end, .radius = edge->radius, .subdivisions = 4 },
+                        { .start = 0, .end = cap->forward, .radius = cap->radius, .subdivisions = 4 },
                         Vertex::Blueprint {
                             .Position = FromArg<PositionArg2D>([&] (const Math::fVector2 vec) { return vec + body->position; }),
                             .Color = Constant { color }
@@ -140,27 +140,28 @@ namespace Test {
                     );
                     break;
                 }
-                case Physics2D::TRIANGLE: {
+                case Physics2D::Shape::TRI: {
                     Ref<const Physics2D::TriangleShape> tri = body->shape.As<Physics2D::TriangleShape>();
                     auto meshp = worldMesh.NewBatch();
-                    meshp.PushV({ body->position + tri->a, color });
-                    meshp.PushV({ body->position + tri->b, color });
-                    meshp.PushV({ body->position + tri->c, color });
+                    meshp.PushV({ body->position + tri->points[0], color });
+                    meshp.PushV({ body->position + tri->points[1], color });
+                    meshp.PushV({ body->position + tri->points[2], color });
                     meshp.PushI(0, 1, 2);
                     break;
                 }
-                case Physics2D::RECT: {
+                case Physics2D::Shape::RECT: {
                     Ref<const Physics2D::RectShape> rect = body->shape.As<Physics2D::RectShape>();
                     auto meshp = worldMesh.NewBatch();
-                    meshp.PushV({ body->position + rect->rect.corner(0), color });
-                    meshp.PushV({ body->position + rect->rect.corner(1), color });
-                    meshp.PushV({ body->position + rect->rect.corner(2), color });
-                    meshp.PushV({ body->position + rect->rect.corner(3), color });
+                    meshp.PushV({ body->position + rect->Corner(false, false), color });
+                    meshp.PushV({ body->position + rect->Corner(true,  false), color });
+                    meshp.PushV({ body->position + rect->Corner(false, true ), color });
+                    meshp.PushV({ body->position + rect->Corner(true,  true ), color });
                     meshp.PushI(0, 1, 2);
                     meshp.PushI(2, 1, 3);
                     break;
                 }
-                case Physics2D::MAX:
+                case Physics2D::Shape::QUAD:
+                case Physics2D::Shape::POLY:
                     break;
             }
             ++i;
@@ -197,9 +198,9 @@ namespace Test {
             world.CreateBody<Physics2D::CircleShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f }, 5.0f);
             goto addColor;
         }
-        if (ImGui::Button("+ New Edge")) {
-            world.CreateBody<Physics2D::EdgeShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f },
-                Math::fVector2 { 0, 5 }, Math::fVector2 { 0, 0 }, 5.0f);
+        if (ImGui::Button("+ New Capsule")) {
+            world.CreateBody<Physics2D::CapsuleShape>({ 0, Physics2D::BodyType::DYNAMIC, 1.0f },
+                Math::fVector2 { 0, 5 }, 5.0f);
             goto addColor;
         }
         if (ImGui::Button("+ New Triangle")) {
@@ -290,57 +291,59 @@ namespace Test {
 
     void TestPhysicsPlayground2D::SetControlPoints() {
         if (selectedIndex == ~0) return;
-        const auto shape = Selected()->body->shape;
-        switch (shape->TypeIndex()) {
-            case Physics2D::CIRCLE: {
+        const auto& shape = Selected()->body->shape;
+        switch (shape.TypeIndex()) {
+            case Physics2D::Shape::CIRCLE: {
                 controlPoints[0] = Math::fVector2::unit_x(shape.As<Physics2D::CircleShape>()->radius);
                 controlPointCount = 1;
                 break;
             }
-            case Physics2D::EDGE: {
-                const auto edge = shape.As<Physics2D::EdgeShape>();
-                const Math::fVector2 prepend = (edge->start - edge->end).norm(edge->radius);
-                controlPoints[0] = edge->start;
-                controlPoints[1] = edge->end;
-                controlPoints[2] = edge->start + Math::fVector2 { prepend.y, -prepend.x };
-                controlPointCount = 3;
+            case Physics2D::Shape::CAPSULE: {
+                const auto cap = shape.As<Physics2D::CapsuleShape>();
+                const Math::fVector2 perpend = cap->forward.norm(cap->radius).perpend();
+                controlPoints[0] = cap->forward;
+                controlPoints[1] = cap->forward + perpend;
+                controlPointCount = 2;
                 break;
             }
-            case Physics2D::TRIANGLE: {
+            case Physics2D::Shape::TRI: {
                 const auto tri = shape.As<Physics2D::TriangleShape>();
-                controlPoints[0] = tri->a;
-                controlPoints[1] = tri->b;
-                controlPoints[2] = tri->c;
+                controlPoints[0] = tri->points[0];
+                controlPoints[1] = tri->points[1];
+                controlPoints[2] = tri->points[2];
                 controlPointCount = 3;
                 break;
             }
-            case Physics2D::MAX:
+            case Physics2D::Shape::RECT:
+            case Physics2D::Shape::QUAD:
+            case Physics2D::Shape::POLY:
                 break;
         }
     }
 
     void TestPhysicsPlayground2D::UpdateBodyFromControl() {
-        auto shape = Selected()->body->shape;
-        switch (shape->TypeIndex()) {
-            case Physics2D::CIRCLE: {
+        auto& shape = Selected()->body->shape;
+        switch (shape.TypeIndex()) {
+            case Physics2D::Shape::CIRCLE: {
                 shape.As<Physics2D::CircleShape>()->radius = controlPoints[0].len();
                 break;
             }
-            case Physics2D::EDGE: {
-                auto edge = shape.As<Physics2D::EdgeShape>();
-                edge->start  = controlPoints[0];
-                edge->end    = controlPoints[1];
-                edge->radius = controlPoints[2].dist(controlPoints[0]);
+            case Physics2D::Shape::CAPSULE: {
+                auto cap = shape.As<Physics2D::CapsuleShape>();
+                cap->forward = controlPoints[0];
+                cap->radius  = controlPoints[1].dist(controlPoints[0]);
                 break;
             }
-            case Physics2D::TRIANGLE: {
+            case Physics2D::Shape::TRI: {
                 auto tri = shape.As<Physics2D::TriangleShape>();
-                tri->a = controlPoints[0];
-                tri->b = controlPoints[1];
-                tri->c = controlPoints[2];
+                tri->points[0] = controlPoints[0];
+                tri->points[1] = controlPoints[1];
+                tri->points[2] = controlPoints[2];
                 break;
             }
-            case Physics2D::MAX:
+            case Physics2D::Shape::RECT:
+            case Physics2D::Shape::QUAD:
+            case Physics2D::Shape::POLY:
                 break;
         }
     }

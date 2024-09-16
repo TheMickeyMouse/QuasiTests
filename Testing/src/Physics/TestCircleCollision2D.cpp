@@ -52,7 +52,7 @@ namespace Test {
 
         if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
         if (mouse.MiddlePressed()) {
-            for (auto circ : world.bodies) circ->position -= lastDragPosition - mousePos;
+            for (auto& circ : world.bodies) circ.position -= lastDragPosition - mousePos;
             lastDragPosition = mousePos;
         }
 
@@ -77,9 +77,9 @@ namespace Test {
         world.Update(deltaTime, 16);
 
         for (int i = 0; i < 4; ++i) {
-            Ref<const Physics2D::Body> e = edge[i];
-            totalLineMesh.vertices[2 * i + 0].Position = e->position + e->shape.As<Physics2D::EdgeShape>()->start;
-            totalLineMesh.vertices[2 * i + 1].Position = e->position + e->shape.As<Physics2D::EdgeShape>()->end;
+            auto r = edge[i]->shape.As<Physics2D::RectShape>();
+            totalLineMesh.vertices[2 * i + 0].Position = r->Corner(false, false) + edge[i]->position;
+            totalLineMesh.vertices[2 * i + 1].Position = r->Corner(i > 1, i < 2) + edge[i]->position;
         }
 
         lineShader.Bind();
@@ -91,21 +91,22 @@ namespace Test {
         float scales[TOTAL_BALL_COUNT];
         Math::fColor colors[TOTAL_BALL_COUNT];
 
-        const Math::fRange xRange = {
-            world.bodies.front()->ComputeBoundingBox().min.x,
-            world.bodies.back() ->ComputeBoundingBox().max.x
-        };
+        const Math::fRange xRange = Math::fRange::over(
+            world.bodies
+            | std::views::transform(&Physics2D::Body::position)
+            | std::views::transform(&Math::fVector2::x)
+        );
         usize i = 0;
         int selectedIndex = -1;
-        for (const auto body : world.bodies) {
-            if (body->shape.As<Physics2D::EdgeShape>()) continue;
-            if (selectedIndex == -1 && body.RefEquals(selected)) selectedIndex = (int)i;
-            offsets[i] = body->position;
-            scales[i]  = body->shape.As<Physics2D::CircleShape>()->radius;
-            colors[i]  = Math::fColor::from_hsv(
+        for (const auto& body : world.bodies) {
+            if (body.shape.Is<Physics2D::RectShape>()) continue;
+            if (selectedIndex == -1 && selected && &body == selected.Address()) selectedIndex = (int)i;
+            offsets[i] = body.position;
+            scales[i] = body.shape.As<Physics2D::CircleShape>()->radius;
+            colors[i] = Math::fColor::from_hsv(
                 Math::Unit { offsets[i].x }.map(xRange, { 0, 360.f }).value(),
-                body->IsStatic() ? 0.2f : 0.8f,
-                body->IsStatic() ? 0.5f : 0.8f);
+                body.IsStatic() ? 0.2f : 0.8f,
+                body.IsStatic() ? 0.5f : 0.8f);
             ++i;
         }
 
@@ -163,17 +164,15 @@ namespace Test {
             rand.Get(4.0f, 6.0f));
         }
 
-        Math::fRect2D viewExt = viewport.extrude(1.0f);
-
-        edge[0] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(0), viewExt.corner(1), 1.0f);
-        edge[1] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(1), viewExt.corner(3), 1.0f);
-        edge[2] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(2), viewExt.corner(0), 1.0f);
-        edge[3] = world.CreateBody<EdgeShape>({ .type = BodyType::STATIC, .density = 0.0f }, viewExt.corner(3), viewExt.corner(2), 1.0f);
+        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 0.1f, viewport.height() * 0.5f);
+        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.width(), +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 0.1f, viewport.height() * 0.5f);
+        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  0.1f);
+        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +viewport.height() }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  0.1f);
     }
 
-    Ref<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
-        for (auto circ : world.bodies) {
-            if (circ->OverlapsWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
+    Physics2D::BodyHandle TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
+        for (auto& circ : world.bodies) {
+            if (circ.OverlapsWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
                 return circ;
             }
         }

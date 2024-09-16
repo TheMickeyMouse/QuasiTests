@@ -16,11 +16,11 @@ namespace Test {
         Graphics::Mesh<Vertex> totalLineMesh;
 
         Physics2D::World world;
-        Ref<const Physics2D::Body> edge[4] = {};
+        Physics2D::BodyHandle edge[4] = {};
 
         Math::fRect2D viewport;
 
-        Ref<Physics2D::Body> selected = nullptr;
+        Physics2D::BodyHandle selected = nullptr;
         Math::fVector2 selectOffset = 0;
         Math::fVector2 lastDragPosition;
 
@@ -34,6 +34,6 @@ namespace Test {
 
         void AddRandomBall(Graphics::GraphicsDevice& gdevice);
         void ResetBalls(Graphics::GraphicsDevice& gdevice);
-        [[nodiscard]] Ref<Physics2D::Body> FindBallAt(const Math::fVector2& mousePos) const;
+        [[nodiscard]] Physics2D::BodyHandle FindBallAt(const Math::fVector2& mousePos) const;
     };
 } // Test
