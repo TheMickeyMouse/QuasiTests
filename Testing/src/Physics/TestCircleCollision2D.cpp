@@ -142,7 +142,7 @@ namespace Test {
     void TestCircleCollision2D::AddRandomBall(Graphics::GraphicsDevice& gdevice) {
         auto& rand = gdevice.GetRand();
 
-        const Math::fVector2 position = Math::fVector2::random(rand, viewport.inset(1.0f));
+        const Math::fVector2 position = Math::fVector2::random(rand, viewport.inset(3.0f));
         const float radius = rand.Get(1.0f, 3.0f);
         world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius);
     }
@@ -164,15 +164,16 @@ namespace Test {
             rand.Get(4.0f, 6.0f));
         }
 
-        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 0.1f, viewport.height() * 0.5f);
-        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.width(), +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 0.1f, viewport.height() * 0.5f);
-        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  0.1f);
-        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +viewport.height() }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  0.1f);
+        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.height() * 0.5f);
+        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.width(), +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.height() * 0.5f);
+        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  1.0f);
+        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +viewport.height() }, .type = BodyType::STATIC }, viewport.width() * 0.5f,  1.0f);
     }
 
     Physics2D::BodyHandle TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
+        const Physics2D::TransformedShape mouse = Physics2D::CircleShape { 0.0f }.Transform(mousePos);
         for (auto& circ : world.bodies) {
-            if (circ.OverlapsWith(Physics2D::CircleShape { 0.0f }, mousePos)) {
+            if (circ.OverlapsWith(mouse)) {
                 return circ;
             }
         }

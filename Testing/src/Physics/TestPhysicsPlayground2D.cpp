@@ -52,10 +52,11 @@ namespace Test {
 
             if (mouse.LeftOnPress()) {
                 selectedControl = ~0;
+                const Physics2D::TransformedShape mouseCollider = Physics2D::CircleShape { 0.0f }.Transform(mousePos);
                 for (u32 i = 0; i < controlPointCount; ++i) {
                     if (OverlapShapes(
-                        Physics2D::CircleShape { 0.0f }, mousePos,
-                        Physics2D::CircleShape { 2.0f }, Selected()->body->position + controlPoints[i])) {
+                        mouseCollider,
+                        Physics2D::CircleShape { 2.0f }.Transform(Selected()->body->position + controlPoints[i]))) {
                         selectedControl = i;
                     }
                 }
@@ -275,10 +276,10 @@ namespace Test {
     }
 
     u32 TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) const {
-        const Physics2D::CircleShape mouseCollider = { 0.0f };
+        const Physics2D::TransformedShape mouseCollider = Physics2D::CircleShape { 0.0f }.Transform(mousePos);
         for (u32 i = 0; i < bodyData.size(); ++i) {
             const auto& b = bodyData[i];
-            if (b.body->OverlapsWith(mouseCollider, mousePos)) {
+            if (b.body->OverlapsWith(mouseCollider)) {
                 return i;
             }
         }
