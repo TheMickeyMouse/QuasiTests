@@ -19,13 +19,12 @@ namespace Test {
 
         Math::fVector2 lastDragPosition;
         Math::fVector2 selectOffset;
-        Math::fVector2 controlPoints[3];
-        u32 controlPointCount = 0;
-        u32 selectedControl = ~0;
+        Math::fVector2 controlOffset;
+        u32 controlIndex = ~0;
         u32 selectedIndex = ~0;
         bool hasAddedForce = false;
         bool selectedIsStatic = false;
-        Math::fVector2 originalVelocity;
+        Math::fVector2 addedVelocity;
 
         float zoomFactor = 1.0f;
         Math::fVector2 cameraPosition;
@@ -48,9 +47,21 @@ namespace Test {
 
         Ref<Object> Selected();
         void AddNewPoint(const Math::fVector2& point, const Math::fColor& color);
-        u32 FindAt(const Math::fVector2& mousePos) const;
+        [[nodiscard]] u32 FindAt(const Math::fVector2& mousePos) const;
         void AddBodyTint(const Math::fColor& color);
-        void SetControlPoints();
-        void UpdateBodyFromControl();
+
+        void SelectControl(const Math::fVector2& mouse);
+        void SelectControlPoint(const Math::fVector2& mouse, const Math::fVector2& control, u32 i);
+        void EditControl(const Math::fVector2& mouse);
+        void EditControlPoint(const Math::fVector2& mouse, Math::fVector2& control, u32 i);
+        void DrawControlPoints();
+        void EditBody();
+
+        void AddRandomCircle (Math::RandomGenerator& rand);
+        void AddRandomCapsule(Math::RandomGenerator& rand);
+        void AddRandomTri    (Math::RandomGenerator& rand);
+        void AddRandomRect   (Math::RandomGenerator& rand);
+        void AddRandomQuad   (Math::RandomGenerator& rand);
+        void AddRandomPolygon(Math::RandomGenerator& rand);
     };
 }
