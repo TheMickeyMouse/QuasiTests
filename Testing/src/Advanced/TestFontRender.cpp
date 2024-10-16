@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 #include "RichString.h"
-#include "VertexConverter.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Textures/Texture.h"
 
@@ -69,9 +69,6 @@ namespace Test {
         vert[3].Position = textBox.corner(2);
 
         if (!showAtlas) {
-            using namespace Graphics::VertexBuilder;
-            using FontVertex = Graphics::Font::Vertex;
-
             Graphics::TextAlign alignment =
                 Graphics::TextAlign { textBox }
                 .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
@@ -80,12 +77,13 @@ namespace Test {
             meshStr = (useMarkdown ?
                 font.RenderRichText(Text::RichString::ParseMarkdown(string), fontSize, alignment) :
                 font.RenderText(string, fontSize, alignment)
-            ).GeometryMap<Vertex>(Vertex::Blueprint {
-                .Position = GetPosition {},
-                .Color = FromArg<&FontVertex::RenderType, &FontVertex::Color>([&] (int r, const Math::fColor& col) { return r ? color : col; }),
-                .TextureCoordinate = GetTextureCoord {},
-                .isText = Get<&FontVertex::RenderType> {}
-            });
+            ).GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
+                in (Position, Color, RenderType, TextureCoord),
+                out (Position) = Position;,
+                out (Color) = RenderType ? color : Color;,
+                out (TextureCoordinate) = TextureCoord;,
+                out (isText) = RenderType;
+            )));
         }
         render.Draw({ &meshBg, showAtlas ? &meshAtlas : &meshStr }, Graphics::UseArgs({
             { "u_font",           font.GetTexture() },

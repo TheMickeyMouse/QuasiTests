@@ -11,7 +11,6 @@ namespace Test {
         mloader.LoadFile(res("untitled.obj"));
         Graphics::OBJModel model = mloader.RetrieveModel();
 
-        using namespace Graphics::VertexBuilder;
         materials = std::move(model.materials);
         meshes.reserve(model.objects.size());
         for (const Graphics::OBJObject& obj : model.objects) {

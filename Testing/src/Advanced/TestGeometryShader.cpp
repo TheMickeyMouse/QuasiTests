@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Icosphere.h"
 #include "Meshes/Sphere.h"
@@ -10,18 +11,19 @@ namespace Test {
     void TestGeometryShader::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 1024);
 
-        using namespace Graphics::VertexBuilder;
-        sphere = Graphics::MeshUtils::Sphere({ 20 }, Vertex::Blueprint {
-            .Position = GetPosition {},
-            .Color = Constant { Math::fColor::BETTER_AQUA() },
-            .Normal = GetNormal {},
-        }, Math::Transform3D::Scaling(10.0f));
+        sphere = Graphics::MeshUtils::Sphere({ 20 }, QGLCreateBlueprint$(Vertex, (
+            in (Position, Normal),
+            out (Position) = Position;,
+            out (Color)    = Math::fColor::BETTER_AQUA();,
+            out (Normal)   = Normal;,
+        )), Math::Transform3D::Scaling(10.0f));
 
-        icosphere = Graphics::MeshUtils::Icosphere({ 2 }, Vertex::Blueprint {
-            .Position = GetPosition {},
-            .Color = Constant { Math::fColor::BETTER_RED() },
-            .Normal = GetNormal {},
-        }, Math::Transform3D::Scaling(10.0f));
+        icosphere = Graphics::MeshUtils::Icosphere({ 2 }, QGLCreateBlueprint$(Vertex, (
+            in (Position, Normal),
+            out (Position) = Position;,
+            out (Color)    = Math::fColor::BETTER_RED();,
+            out (Normal)   = Normal;,
+        )), Math::Transform3D::Scaling(10.0f));
 
         scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));

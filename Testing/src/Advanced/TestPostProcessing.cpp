@@ -1,6 +1,7 @@
 #include "TestPostProcessing.h"
 
 #include "Mesh.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Plane.h"
@@ -13,21 +14,22 @@ namespace Test {
 
         cubes.reserve(9);
 
-        using namespace Graphics::VertexBuilder;
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
-            cubes.push_back(Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
-                .Position = GetPosition {},
-                .Color = Constant { Math::fColor::color_id(i) }
-            }, Math::Transform3D::Scaling(s)));
+            cubes.push_back(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color) = Math::fColor::color_id(i);
+            )), Math::Transform3D::Scaling(s)));
 
             cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3::from_corner(i, 1)));
         }
         cubes.push_back(
-        Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
-            .Position = GetPosition {},
-            .Color = Constant { Math::fColor::BETTER_GRAY() }
-        }, Math::Transform3D::Scaling(s)));
+        Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color) = Math::fColor::BETTER_GRAY();
+        )), Math::Transform3D::Scaling(s)));
 
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
@@ -52,10 +54,11 @@ namespace Test {
         fbo.Complete();
         fbo.Unbind();
 
-        screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
-                        .Position = GetPosition {},
-                        .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& v) { return (v + 1) * 0.5f; })
-                    });
+        screenQuad = Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
+            in (Position),
+            out (Position) = Position;,
+            out (TextureCoordinate) = (Position + 1) * 0.5f;
+        )));
 
         const String vert = res("vertex.vert");
         postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));

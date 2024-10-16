@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "Keyboard.h"
 #include "Random.h"
+#include "VertexBlueprint.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Quad.h"
 #include "Textures/Texture.h"
@@ -20,21 +21,23 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate(0);
 
-        using namespace Graphics::VertexBuilder;
-        mPlayer = Graphics::MeshUtils::Circle({ 32 }, Vertex::Blueprint {
-            .Position = Get<PositionArg2D> {},
-            .Color = Constant { Math::fColor::BETTER_WHITE() }
-        }, Math::Transform2D::Scaling(30.0f));
+        mPlayer = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color)    = Math::fColor::BETTER_WHITE();
+            )), Math::Transform2D::Scaling(30.0f));
 
         mBg = Graphics::Mesh<Vertex>::Combine({
-            Graphics::MeshUtils::Quad(Vertex::Blueprint {
-                .Position = GetPosition {},
-                .Color = Constant { Math::fColor::BETTER_GREEN() }
-            }, Math::Transform2D { { 0, +240 }, { 320, 20 } }),
-            Graphics::MeshUtils::Quad(Vertex::Blueprint {
-                .Position = GetPosition {},
-                .Color = Constant { Math::fColor::BETTER_GREEN() }
-            }, Math::Transform2D { { 0, -240 }, { 320, 20 } })
+            Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Vertex, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color)    = Math::fColor::BETTER_GREEN();
+            )), Math::Transform2D { { 0, +240 }, { 320, 20 } }),
+            Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Vertex, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color)    = Math::fColor::BETTER_GREEN();
+            )), Math::Transform2D { { 0, -240 }, { 320, 20 } })
         });
 
         time = gdevice.GetIO().Time.currentTime;
@@ -105,7 +108,7 @@ namespace Test {
         }
 
         for (Spike& spike : spikes) {
-            spike.xOff -= 150 * gdevice.GetIO().Time.DeltaTimef();
+            spike.xOff -= 150 * gdevice.GetIO().Time.DeltaTime();
             spike.mesh.SetTransform(Math::Transform2D::Translation({ spike.xOff, 0 }));
         }
 

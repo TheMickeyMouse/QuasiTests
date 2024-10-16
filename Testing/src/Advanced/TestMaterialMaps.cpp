@@ -1,6 +1,7 @@
 #include "TestMaterialMaps.h"
 
 #include "imgui.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
@@ -27,11 +28,11 @@ namespace Test {
         scene->shader.SetUniformTex("specularMap", specularMap);
         scene->shader.Unbind();
 
-        using namespace Graphics::VertexBuilder;
-        lightSource = Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
-            .Position = GetPosition {},
-            .Color = Constant { Math::fColor { 1 } }
-        });
+        lightSource = Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+            in (Position),
+            out (Position) = Position;,
+            out (Color)    = Math::fColor::BETTER_AQUA();,
+        )));
         lightScene.UseShader(Graphics::Shader::StdColored);
 
         camera.position = { 6.3579054, 11.043502, 0.9266781 };

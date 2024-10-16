@@ -2,7 +2,7 @@
 
 #include <imgui.h>
 
-#include "VertexConverter.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/CubeNormless.h"
 #include "Meshes/Quad.h"
@@ -15,15 +15,16 @@ namespace Test {
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("untitled.obj"));
         const Graphics::OBJModel model = mloader.RetrieveModel();
-        using namespace Graphics::VertexBuilder;
+
         for (int i = 0; i < model.objects.size(); ++i) {
             meshes.emplace_back(
-                model.objects[i].mesh.GeometryMap<Vertex>(Vertex::Blueprint {
-                    .Position = GetPosition {},
-                    .Color = Constant { Math::fColor::color_id(1 + i) },
-                    .Normal = GetNormal {}
-                })
-            );
+                model.objects[i].mesh.GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
+                    in (Position, Normal),
+                    out (Position) = Position;,
+                    out (Color) = Math::fColor::color_id(1 + i);,
+                    out (Normal) = Normal;
+                ))
+            ));
         }
 
         depthShader = Graphics::Shader::FromFile(res("depth.vert"), res("depth.frag"));
@@ -51,11 +52,12 @@ namespace Test {
 
         shadowMapDisplay = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
         shadowMapDisplay.UseShaderFromFile(res("display.vert"), res("display.frag"));
-        using namespace Graphics::VertexBuilder;
-        screenQuad = Graphics::MeshUtils::Quad(Graphics::VertexTexture2D::Blueprint {
-            .Position = GetPosition {},
-            .TextureCoordinate = FromArg<PositionArg2D>([] (const Math::fVector2& p) { return (p + 1) / 2; })
-        });
+
+        screenQuad = Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
+            in (Position),
+            out (Position) = Position;,
+            out (TextureCoordinate) = (Position + 1) * 0.5f;
+        )));
         depthTex.Activate(0);
 
         Graphics::Render::EnableCullFace();

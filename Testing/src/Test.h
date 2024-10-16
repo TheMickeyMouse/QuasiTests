@@ -17,7 +17,7 @@ namespace Test {
     struct TestTypeData {
         Str name;
 
-        Q_DEFINE_ENUM(TestType,
+        QDefineEnum$(TestType,
             (BASIC,       ("Basic"))
             (ADVANCED,    ("Advanced"))
             (SIM_PHYSICS, ("Physics"))

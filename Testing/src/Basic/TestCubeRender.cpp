@@ -1,6 +1,6 @@
 ﻿#include "TestCubeRender.h"
 
-#include "imgui.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Cube.h"
 
@@ -10,12 +10,13 @@ namespace Test {
 
         using namespace Math;
 
-        using namespace Graphics::VertexBuilder;
-        u32 i = 0 - 1;
-        cube = Graphics::MeshUtils::Cube(Graphics::VertexColor3D::Blueprint {
-            .Position = GetPosition {},
-            .Color = FromArg<>([&] { ++i; return fColor::color_id((int)(i / 4) + 1); })
-        });
+        u32 i = 0;
+        cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+            in (Position),
+            out (Position) = Position;,
+            out (Color) = fColor::color_id((int)(i / 4) + 1);,
+            i++;
+        )));
 
         render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
         render.SetProjection(projection);

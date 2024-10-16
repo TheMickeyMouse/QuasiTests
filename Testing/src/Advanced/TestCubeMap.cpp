@@ -2,20 +2,21 @@
 
 #include <imgui.h>
 
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Cube.h"
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {
-        using namespace Graphics::VertexBuilder;
         using Math::fVector2;
 
         scene = gdevice.CreateNewRender<Vertex>();
-        skybox = Graphics::MeshUtils::Cube(Vertex::Blueprint {
-            .Position = GetPosition {},
-            .TextureCoordinate = GetPosition {},
-            .Normal = GetNormal {}
-        });
+        skybox = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+            in (Position, Normal),
+            out (Position)          = Position;,
+            out (TextureCoordinate) = Position;,
+            out (Normal)            = Normal;
+        )));
 
         cubemap = Graphics::Texture::LoadCubemapPNG(
             { res("right.jpg"), res("left.jpg"),
@@ -26,14 +27,14 @@ namespace Test {
         boxTex = Graphics::Texture::LoadPNG(res("box.png"));
         boxTex.Activate();
 
-        u32 i = 0 - 1;
-        box = Graphics::MeshUtils::Cube(
-            Vertex::Blueprint {
-                .Position = GetPosition {},
-                .TextureCoordinate = FromArg<>([&] { ++i; return 0.5f + fVector2::from_corner(i % 4, 1) * 0.5f; }),
-                .Normal = GetNormal {}
-            }
-        );
+        u32 i = 0;
+        box = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+            in (Position, Normal),
+            out (Position)          = Position;,
+            out (TextureCoordinate) = 0.5f + fVector2::from_corner(i % 4, 1) * 0.5f;,
+            out (Normal)            = Normal;,
+            i++;
+        )));
 
         cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert"), res("cubemap.frag"));
 

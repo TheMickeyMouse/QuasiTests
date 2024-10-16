@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Stadium.h"
@@ -98,28 +99,28 @@ namespace Test {
         worldMesh.Clear();
 
         u32 i = 0;
-        using namespace Graphics::VertexBuilder;
+
         for (const auto& [body, color] : bodyData) {
-            Qmatch(body->shape, (
+            Qmatch$(body->shape, (
                 instanceof (const Physics2D::CircleShape& circ) {
                     Graphics::MeshUtils::CircleCreator::Merge(
                         { 16 },
-                        Vertex::Blueprint {
-                            .Position = FromArg<PositionArg2D>([&] (const Math::fVector2 vec) {
-                                return vec * circ.radius + body->position;
-                            }),
-                            .Color = Constant { color }
-                        },
+                        QGLCreateBlueprint$(Vertex, (
+                            in (Position),
+                            out (Position) = Position * circ.radius + body->position;,
+                            out (Color)    = color;
+                        )),
                         worldMesh
                     );
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
                     Graphics::MeshUtils::StadiumCreator::Merge(
                         { .start = 0, .end = cap.forward, .radius = cap.radius, .subdivisions = 4 },
-                        Vertex::Blueprint {
-                            .Position = FromArg<PositionArg2D>([&] (const Math::fVector2 vec) { return vec + body->position; }),
-                            .Color = Constant { color }
-                        }, worldMesh
+                        QGLCreateBlueprint$(Vertex, (
+                            in (Position),
+                            out (Position) = Position + body->position;,
+                            out (Color)    = color;
+                        )), worldMesh
                     );
                 },
                 instanceof (const Physics2D::TriangleShape& tri) {
@@ -218,6 +219,13 @@ namespace Test {
             ImGui::EditScalar("Mass", Selected()->body->mass, 1, Math::fRange { 0, INFINITY });
             ImGui::EditColor ("Tint", Selected()->color);
 
+            if (ImGui::Button("Delete")) {
+                Selected()->body.Remove();
+                bodyData.erase(bodyData.begin() + selectedIndex);
+                selectedIndex = ~0;
+                controlIndex = ~0;
+            }
+
             ImGui::TreePop();
         }
 
@@ -285,7 +293,7 @@ namespace Test {
     void TestPhysicsPlayground2D::SelectControl(const Math::fVector2& mouse) {
         if (selectedIndex == ~0) return;
 
-        Qmatch (Selected()->body->shape, (
+        Qmatch$ (Selected()->body->shape, (
             instanceof (const Physics2D::CircleShape& circ) {
                 SelectControlPoint(mouse, { circ.radius, 0 }, 0);
             },
@@ -331,7 +339,7 @@ namespace Test {
     void TestPhysicsPlayground2D::EditControl(const Math::fVector2& mouse) {
         if (selectedIndex == ~0) return;
 
-        Qmatch (Selected()->body->shape, (
+        Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) ({
                 Math::fVector2 r = { circ.radius, 0 };
                 EditControlPoint(mouse, r, 0);
@@ -388,7 +396,7 @@ namespace Test {
         const Math::fColor controlColorGreen = Math::fColor::GREEN();
 
         const Math::fVector2& pos = Selected()->body->position;
-        Qmatch (Selected()->body->shape, (
+        Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) ({
                 AddNewPoint(pos + Math::fVector2::unit_x(circ.radius), controlColorGreen);
             });,
@@ -422,7 +430,7 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::EditBody() {
-        Qmatch (Selected()->body->shape, (
+        Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) {
                 ImGui::EditScalar("Radius", circ.radius, 0.2, Math::fRange { 0, 100 });
             },

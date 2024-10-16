@@ -108,7 +108,7 @@ namespace Test {
         {
             constexpr Str fontFile = Q_USER_FONTS "JetBrainsMono-Regular.ttf";
             if (!Text::ExistsFile(fontFile)) {
-                Debug::Warn("couldn't load font {}, some characters may not load properly", fontFile);
+                Debug::QWarn$("couldn't load font {}, some characters may not load properly", fontFile);
                 return;
             }
 
@@ -126,7 +126,7 @@ namespace Test {
     }
 
     void TestManager::OnUpdate(float deltaTime) {
-        deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTimef() : deltaTime;
+        deltaTime = std::isnan(deltaTime) ? gdevice.GetIO().Time.DeltaTime() : deltaTime;
         currentTest->OnUpdate(gdevice, deltaTime);
     }
 
@@ -154,11 +154,10 @@ namespace Test {
     void TestManager::OnDestroy() {}
 
     void TestManager::OnRun() {
+        gdevice.Begin();
         OnUpdate();
-
-        gdevice.BeginRender();
         OnRender();
         OnImGuiRender();
-        gdevice.EndRender();
+        gdevice.End();
     }
 }

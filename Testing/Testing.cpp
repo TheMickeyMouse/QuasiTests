@@ -1,8 +1,8 @@
 #include "src/TestManager.h"
 
 int main(int argc, char* argv[]) {
-    Quasi::Debug::Info("Execution Directory: {}", argv[0]);
-    Quasi::Debug::Info("Project Directory: {}", Test::PROJECT_DIRECTORY);
+    Quasi::Debug::QInfo$("Execution Directory: {}", argv[0]);
+    Quasi::Debug::QInfo$("Project Directory: {}", Test::PROJECT_DIRECTORY);
 
     Test::TestManager tManager;
     tManager.OnInit();

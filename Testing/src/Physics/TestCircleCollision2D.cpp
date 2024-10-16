@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 
@@ -10,10 +11,10 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>();
         viewport = { 0, 80, 0, 60 };
 
-        using namespace Graphics::VertexBuilder;
-        circleMesh = Graphics::MeshUtils::Circle({ 32 }, Vertex::Blueprint {
-            .Position = GetPosition {}
-        });
+        circleMesh = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
+            in (Position),
+            out (Position) = Position;
+        )));
 
         scene.UseShaderFromFile(res("circle.vert"), res("circle.frag"));
         lineShader = Graphics::Shader::FromFile(res("line.vert"), res("line.frag"), res("line.geom"));

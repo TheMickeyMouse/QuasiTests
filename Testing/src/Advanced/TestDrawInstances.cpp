@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Cube.h"
@@ -29,11 +30,11 @@ namespace Test {
             colors[i] = (colorTransformer * (pos * pos / 4).with_w(1)).xyz().to_color3();
         }
 
-        using namespace Graphics::VertexBuilder;
-        cube = Graphics::MeshUtils::Cube(Vertex::Blueprint {
-            .Position = GetPosition {},
-            .Normal = GetNormal {},
-        });
+        cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+            in (Position, Normal),
+            out (Position) = Position;,
+            out (Normal) = Normal;
+        )));
 
         scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
 

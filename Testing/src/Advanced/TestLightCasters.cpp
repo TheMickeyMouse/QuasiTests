@@ -1,6 +1,7 @@
 #include "TestLightCasters.h"
 
 #include "imgui.h"
+#include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
 #include "Meshes/CubeNormless.h"
@@ -164,12 +165,12 @@ namespace Test {
         lights.back() = { point };
         lights.back().color = color;
 
-        using namespace Graphics::VertexBuilder;
         lightMeshes.emplace_back(
-            Graphics::MeshUtils::CubeNormless(Graphics::VertexColor3D::Blueprint {
-                .Position = GetPosition {},
-                .Color = Constant { color }
-            })
+            Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+                in (Position),
+                out (Position) = Position;,
+                out (Color) = color;
+            )))
         );
         lightMeshes.back().SetTransform(Math::Transform3D::Translation(point.position));
     }
