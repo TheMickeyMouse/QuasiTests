@@ -162,7 +162,7 @@ namespace Test {
 
         for (u32 i = 0; i < STATIC_BALL_COUNT; ++i) {
             world.CreateBody<CircleShape>({
-                .position = Math::fVector2::random(rand, viewport),
+                .position = fVector2::random(rand, viewport),
                 .type = BodyType::STATIC,
                 .density = 0.0f },
             rand.Get(4.0f, 6.0f));
@@ -175,9 +175,9 @@ namespace Test {
     }
 
     Physics2D::BodyHandle TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) const {
-        const Physics2D::TransformedShape mouse = Physics2D::CircleShape { 0.0f }.Transform(mousePos);
+        const Physics2D::Shape mouse = Physics2D::CircleShape { 0.0f };
         for (auto& circ : world.bodies) {
-            if (circ.OverlapsWith(mouse)) {
+            if (circ.OverlapsWith(mouse, mousePos)) {
                 return circ;
             }
         }
