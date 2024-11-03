@@ -72,6 +72,7 @@ namespace Test {
                 const u32 target = FindAt(mousePos);
                 if (target != ~0 && bodyData[target].body->IsDynamic()) {
                     Select(target);
+                    forceAddedPosition = mousePos;
                 }
             }
 
@@ -81,7 +82,7 @@ namespace Test {
 
             if (mouse.RightOnRelease() && selectedIndex != ~0 && !selectedIsStatic) {
                 const bool scale = gdevice.GetIO().Keyboard.KeyPressed(IO::Key::LCONTROL);
-                addedVelocity -= (scale ? 10.0f : 1.0f) * (mousePos - Selected()->body->position);
+                addedVelocity -= (scale ? 10.0f : 1.0f) * (mousePos - forceAddedPosition);
                 Unselect();
                 hasAddedForce = false;
             }
@@ -113,6 +114,7 @@ namespace Test {
                         )),
                         worldMesh
                     );
+                    AddNewPoint(t.Transform({ circ.radius, 0 }), Math::fColor::WHITE());
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
                     Graphics::MeshUtils::StadiumCreator::Merge(
@@ -123,6 +125,7 @@ namespace Test {
                             out (Color)    = color;
                         )), worldMesh
                     );
+                    AddNewPoint(t.Transform(cap.forward.perpend() * (cap.invLength * cap.radius)), Math::fColor::WHITE());
                 },
                 instanceof (const Physics2D::TriangleShape& tri) {
                     worldMesh.NewBatch().PushTri(
@@ -162,10 +165,10 @@ namespace Test {
         if (hasAddedForce) {
             const Math::fColor blue = Math::fColor::BLUE();
             const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }) * zoomFactor + cameraPosition,
-                                 direction = (Selected()->body->position - mouse).norm(0.5f);
+                                 direction = (forceAddedPosition - mouse).norm(0.2f);
             auto meshp = worldMesh.NewBatch();
-            meshp.PushV({ Selected()->body->position + Math::fVector2 { direction.y, -direction.x }, blue });
-            meshp.PushV({ Selected()->body->position + Math::fVector2 { -direction.y, direction.x }, blue });
+            meshp.PushV({ forceAddedPosition + direction.perpend(), blue });
+            meshp.PushV({ forceAddedPosition - direction.perpend(), blue });
             meshp.PushV({ mouse, blue });
             meshp.PushI(0, 1, 2);
         }
@@ -239,6 +242,8 @@ namespace Test {
         if (onPause) {
             onPause += ImGui::Button("Step");
         }
+
+        ImGui::Text("Total Body Count: %d", bodyData.size());
     }
 
     void TestPhysicsPlayground2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -252,6 +257,7 @@ namespace Test {
             selectedIsStatic = Selected()->body->IsStatic();
             Selected()->body->type = Physics2D::BodyType::STATIC;
             Selected()->body->velocity = 0;
+            Selected()->body->angularVelocity = 0;
             addedVelocity = 0;
         }
     }
@@ -259,7 +265,7 @@ namespace Test {
     void TestPhysicsPlayground2D::Unselect() {
         if (selectedIndex != ~0 && !selectedIsStatic) {
             Selected()->body->type = Physics2D::BodyType::DYNAMIC;
-            Selected()->body->velocity = addedVelocity;
+            Selected()->body->AddVelocityAt(forceAddedPosition, addedVelocity * Selected()->body->mass);
         }
         selectedIndex = ~0;
         controlIndex = ~0;
@@ -349,12 +355,13 @@ namespace Test {
                 EditControlPoint(mouse, r, 0);
                 circ.radius = r.len();
             });,
-            instanceof (Physics2D::CapsuleShape& cap) {
-                Math::fVector2 rf = cap.forward + cap.forward.perpend().norm(cap.radius);
-                EditControlPoint(mouse, cap.forward, 0);
+            instanceof (Physics2D::CapsuleShape& cap) ({
+                Math::fVector2 f = cap.forward, rf = cap.forward + cap.forward.perpend().norm(cap.radius);
+                EditControlPoint(mouse, f, 0);
                 EditControlPoint(mouse, rf, 1);
+                cap.SetForward(f);
                 cap.radius = (rf - cap.forward).len();
-            },
+            });,
             instanceof (Physics2D::RectShape& rect) ({
                 Math::fVector2 corners[] = {
                     rect.Corner(false, false),
@@ -505,12 +512,12 @@ namespace Test {
                     r2 = r1 * rand.GetExponential(0.8f, 1.2f),
                     r3 = r1 * rand.GetExponential(0.8f, 1.2f);
 
-        world.CreateBody<Physics2D::TriangleShape>({ .position = 0, .density = 1 },
-            Array {
+        world.CreateBody({ .position = 0, .density = 1 },
+            Physics2D::MakePolygon(Array<Math::fVector2, 3> {
                 Math::fVector2::from_polar(r1, angle1),
                 Math::fVector2::from_polar(r2, angle2),
                 Math::fVector2::from_polar(r3, angle3)
-            });
+            }));
         AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
     }
 
@@ -535,13 +542,13 @@ namespace Test {
                     r3 = r1 * rand.GetExponential(0.8f, 1.2f),
                     r4 = r1 * rand.GetExponential(0.8f, 1.2f);
 
-        world.CreateBody<Physics2D::QuadShape>({ .position = 0, .density = 1 },
-            Array {
+        world.CreateBody({ .position = 0, .density = 1 },
+            Physics2D::MakePolygon(Array<Math::fVector2, 4> {
                 Math::fVector2::from_polar(r1, angle1),
                 Math::fVector2::from_polar(r2, angle2),
                 Math::fVector2::from_polar(r3, angle3),
                 Math::fVector2::from_polar(r4, angle4),
-            });
+        }));
 
         AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
     }
@@ -559,10 +566,10 @@ namespace Test {
         points[0] = Math::fVector2::from_polar(rand.Get(6.0f, 15.0f), rand.Get(0, Math::TAU));
         const float baseAngle = Math::TAU / (float)(pointCount - 1);
         for (u32 i = 1; i < points.size(); ++i) {
-            points[i] = Math::fComplex::expi(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f)).rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
+            points[i] = Math::fComplex::rotate(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f)).rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
         }
 
-        world.CreateBody<Physics2D::DynPolygonShape>({ .position = 0, .density = 1 }, points);
+        world.CreateBody({ .position = 0, .density = 1 }, Physics2D::MakePolygon(points));
 
         AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
     }

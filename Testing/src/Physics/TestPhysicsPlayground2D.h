@@ -20,6 +20,7 @@ namespace Test {
         Math::fVector2 lastDragPosition;
         Math::fVector2 selectOffset;
         Math::fVector2 controlOffset;
+        Math::fVector2 forceAddedPosition;
         u32 controlIndex = ~0;
         u32 selectedIndex = ~0;
         bool hasAddedForce = false;
