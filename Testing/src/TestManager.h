@@ -9,7 +9,7 @@ namespace Test {
 
         UniqueRef<Test> testInstance = nullptr;
         UniqueRef<TestMenu> menu;
-        Ref<Test> currentTest;
+        OptRef<Test> currentTest;
     public:
         TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
 

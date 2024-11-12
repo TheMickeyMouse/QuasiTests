@@ -271,8 +271,8 @@ namespace Test {
         controlIndex = ~0;
     }
 
-    Ref<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::Selected() {
-        return selectedIndex == ~0 ? nullptr : Refer(bodyData[selectedIndex]);
+    OptRef<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::Selected() {
+        return selectedIndex == ~0 ? nullptr : SomeRef(bodyData[selectedIndex]);
     }
 
     void TestPhysicsPlayground2D::AddNewPoint(const Math::fVector2& point, const Math::fColor& color) {

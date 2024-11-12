@@ -9,7 +9,7 @@ namespace Test {
     public:
         struct TestMenuItem {
             Str name, description;
-            FnPtr<Test*> testConstruct;
+            FuncPtr<Test*> testConstruct;
         };
 
         struct TestSection {
