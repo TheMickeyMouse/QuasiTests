@@ -5,7 +5,7 @@
 
 namespace Test {
     TestMenu::TestMenu(Ref<TestManager> manager) : manager(manager) {
-        testTypeSegments.resize(TestType::Num(), { TestType::OTHER, {}, "" });
+        testTypeSegments.Resize(TestType::Num(), { TestType::OTHER, {}, "" });
     }
 
     void TestMenu::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -32,15 +32,15 @@ namespace Test {
 
     void TestMenu::DeclareTestType(TestType type) {
         if (currentType)
-            testTypeSegments[currentType.Ord()].span.max = menuItems.size();
+            testTypeSegments[currentType.Ord()].span.max = menuItems.Length();
         TestSection& section = testTypeSegments[type.Ord()];
         section.type = type;
-        section.span.min = menuItems.size();
+        section.span.min = menuItems.Length();
         currentType = type;
     }
 
     void TestMenu::FinishDeclare() {
-        testTypeSegments[currentType.Ord()].span.max = menuItems.size();
+        testTypeSegments[currentType.Ord()].span.max = menuItems.Length();
     }
 
     void TestMenu::AddSectionDescription(const Str desc) {
@@ -48,6 +48,6 @@ namespace Test {
     }
 
     void TestMenu::AddDescription(const Str desc) {
-        menuItems.back().description = desc;
+        menuItems.Last().description = desc;
     }
 }

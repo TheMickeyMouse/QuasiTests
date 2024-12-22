@@ -20,7 +20,7 @@ namespace Test {
         void OnDestroy();
         void OnRun();
 
-        [[nodiscard]] bool WindowIsOpen() const { return gdevice.WindowIsOpen(); }
+        bool WindowIsOpen() const { return gdevice.WindowIsOpen(); }
 
         friend class TestMenu;
     };

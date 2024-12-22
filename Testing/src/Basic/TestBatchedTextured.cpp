@@ -14,7 +14,7 @@ namespace Test {
         textures[0].Activate();
         textures[1].Activate();
 
-        Vec<Vertex> vertices = {
+        Vec<Vertex> vertices = Vec<Vertex>::New({
             { { -240.0f, -80.0f }, 1, { 0.0f, 0.0f }, 0 },
             { { -80.00f, -80.0f }, 1, { 1.0f, 0.0f }, 0 },
             { { -80.00f, +80.0f }, 1, { 1.0f, 1.0f }, 0 },
@@ -24,12 +24,12 @@ namespace Test {
             { { +240.0f, -80.0f }, 1, { 1.0f, 0.0f }, 1 },
             { { +240.0f, +80.0f }, 1, { 1.0f, 1.0f }, 1 },
             { { +80.00f, +80.0f }, 1, { 0.0f, 1.0f }, 1 },
-        };
+        });
 
-        Vec<TriIndices> indices = {
+        Vec<TriIndices> indices = Vec<TriIndices>::New({
             { 0, 1, 2 }, { 2, 3, 0 },
             { 4, 5, 6 }, { 6, 7, 4 }
-        };
+        });
 
         mesh = Mesh(std::move(vertices), std::move(indices));
 

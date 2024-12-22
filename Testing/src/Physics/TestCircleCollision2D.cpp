@@ -6,6 +6,8 @@
 #include "Extension/ImGuiExt.h"
 #include "Meshes/Circle.h"
 
+#include "Iter/MapIter.h"
+
 namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
@@ -91,14 +93,12 @@ namespace Test {
 
     void TestCircleCollision2D::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene->shader.Bind();
-        Math::fVector2 offsets[TOTAL_BALL_COUNT];
-        float scales[TOTAL_BALL_COUNT];
-        Math::fColor colors[TOTAL_BALL_COUNT];
+        Array<Math::fVector2, TOTAL_BALL_COUNT> offsets;
+        Array<float, TOTAL_BALL_COUNT> scales;
+        Array<Math::fColor, TOTAL_BALL_COUNT> colors;
 
         const Math::fRange xRange = Math::fRange::over(
-            world.bodies
-            | std::views::transform(&Physics2D::Body::position)
-            | std::views::transform(&Math::fVector2::x)
+            world.bodies.Iter().Map([] (const Physics2D::Body& x) { return x.position.x; })
         );
         usize i = 0;
         int selectedIndex = -1;

@@ -29,33 +29,33 @@ namespace Test {
 
         const Math::fVector2 size = font.GetTexture().Size2D();
         const float x = size.x / size.y;
-        Vec<Vertex> atlVertices = {
+        Vec<Vertex> atlVertices = Vec<Vertex>::New({
             { { -100.0f * x, -100.0f }, 1, { 0.0f, 1.0f }, 1 },
             { { +100.0f * x, -100.0f }, 1, { 1.0f, 1.0f }, 1 },
             { { +100.0f * x, +100.0f }, 1, { 1.0f, 0.0f }, 1 },
             { { -100.0f * x, +100.0f }, 1, { 0.0f, 0.0f }, 1 },
-        };
+        });
         
-        Vec<Graphics::TriIndices> atlIndices = {
+        Vec<Graphics::TriIndices> atlIndices = Vec<Graphics::TriIndices>::New({
             { 0, 1, 2 },
             { 2, 3, 0 }
-        };
+        });
         
         meshAtlas = Graphics::Mesh(std::move(atlVertices), std::move(atlIndices));
 
         const Math::fColor bgColor = Math::fColor::BETTER_BLACK();
-        Vec<Vertex> bgVertices = {
+        Vec<Vertex> bgVertices = Vec<Vertex>::New({
             { { -200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, +200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
             { { -200.0f, +200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
-        };
+        });
         
-        Vec<Graphics::TriIndices> bgIndices = {
+        Vec<Graphics::TriIndices> bgIndices = Vec<Graphics::TriIndices>::New({
             { 0, 1, 2 },
             { 2, 3, 0 }
-        };
-        
+        });
+
         meshBg = Graphics::Mesh(std::move(bgVertices), std::move(bgIndices));
     }
 
@@ -69,7 +69,7 @@ namespace Test {
         vert[3].Position = textBox.corner(2);
 
         if (!showAtlas) {
-            Graphics::TextAlign alignment =
+            const Graphics::TextAlign alignment =
                 Graphics::TextAlign { textBox }
                 .Align({ alignX, alignY << 2, wrapMethod << 4, cropX << 6, cropY << 7 })
                 .SpaceOut(lineSpace, Graphics::PointPer64::inP64((int)(letterSpace * 64.0f)));

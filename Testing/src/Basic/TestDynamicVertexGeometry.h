@@ -4,9 +4,10 @@
 
 namespace Test {
     class TestDynamicVertexGeometry : public Test {
+        using Vertex = Graphics::VertexColor2D;
     private:
-        Graphics::RenderObject<Graphics::VertexColor2D> render;
-        Graphics::Mesh<Graphics::VertexColor2D> mesh;
+        Graphics::RenderObject<Vertex> render;
+        Graphics::Mesh<Vertex> mesh;
 
         Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
 

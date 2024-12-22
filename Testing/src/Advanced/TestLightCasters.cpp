@@ -16,9 +16,9 @@ namespace Test {
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         materials = std::move(model.materials);
-        meshes.reserve(model.objects.size());
+        meshes.Reserve(model.objects.Length());
         for (const Graphics::OBJObject& obj : model.objects) {
-            meshes.emplace_back(
+            meshes.Push(
                 obj.mesh.GeometryMap<Vertex>(
                     [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
             ));
@@ -36,7 +36,7 @@ namespace Test {
         camera.zoomRatio = 0.5;
         camera.smoothZoom = 120;
 
-        lights.reserve(MAX_LIGHTS);
+        lights.Reserve(MAX_LIGHTS);
         AddPointLight({
             .position = { -0, 7, 0 },
             .constant = 1,
@@ -78,11 +78,11 @@ namespace Test {
         lightScene.Draw(lightMeshes);
 
         scene->shader.Bind();
-        for (u32 i = 0; i < materials.size(); ++i) {
+        for (u32 i = 0; i < materials.Length(); ++i) {
             UniformMaterial(std::format("materials[{}]", i), materials[i]);
         }
 
-        for (u32 i = 0; i < lights.size(); ++i) {
+        for (u32 i = 0; i < lights.Length(); ++i) {
             UniformLight(std::format("lights[{}]", i), lights[i]);
         }
 
@@ -102,19 +102,19 @@ namespace Test {
         ImGui::EditCameraController("Camera", camera);
 
         if (ImGui::TreeNode("Lights")) {
-            if (ImGui::Button("+") && lights.size() < MAX_LIGHTS) {
+            if (ImGui::Button("+") && lights.Length() < MAX_LIGHTS) {
                 AddPointLight({
                     .position = 0,
                     .constant = 1, .linear = 0, .quadratic = 0
                 }, 1);
             }
             ImGui::SameLine();
-            if (ImGui::Button("-") && !lights.empty()) {
-                lights.pop_back();
+            if (ImGui::Button("-") && lights) {
+                lights.Pop();
             }
 
-            for (u32 i = 0; i < lights.size(); ++i) {
-                ImGui::EditLight(std::format("Light {}", i + 1).c_str(), lights[i]);
+            for (u32 i = 0; i < lights.Length(); ++i) {
+                ImGui::EditLight(std::format("Light {}", i + 1), lights[i]);
                 lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
                 lightMeshes[i].SetTransform(Math::Transform3D::Translation(lights[i].Position()));
             }
@@ -161,17 +161,17 @@ namespace Test {
     }
 
     void TestLightCasters::AddPointLight(const Graphics::PointLight& point, const Math::fColor& color) {
-        lights.emplace_back();
-        lights.back() = { point };
-        lights.back().color = color;
+        lights.Push({});
+        lights.Last() = { point };
+        lights.Last().color = color;
 
-        lightMeshes.emplace_back(
+        lightMeshes.Push(
             Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color) = color;
             )))
         );
-        lightMeshes.back().SetTransform(Math::Transform3D::Translation(point.position));
+        lightMeshes.Last().SetTransform(Math::Transform3D::Translation(point.position));
     }
 }

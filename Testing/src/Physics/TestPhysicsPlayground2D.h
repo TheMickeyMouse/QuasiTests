@@ -48,7 +48,7 @@ namespace Test {
 
         OptRef<Object> Selected();
         void AddNewPoint(const Math::fVector2& point, const Math::fColor& color);
-        [[nodiscard]] u32 FindAt(const Math::fVector2& mousePos) const;
+        u32 FindAt(const Math::fVector2& mousePos) const;
         void AddBodyTint(const Math::fColor& color);
 
         void SelectControl(const Math::fVector2& mouse);

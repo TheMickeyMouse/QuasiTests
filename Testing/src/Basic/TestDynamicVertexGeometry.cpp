@@ -5,13 +5,13 @@
 
 namespace Test {
     void TestDynamicVertexGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {
-        render = gdevice.CreateNewRender<Graphics::VertexColor2D>(8, 4);
+        render = gdevice.CreateNewRender<Vertex>(8, 4);
 
         render.UseShader(Graphics::Shader::StdColored);
         render.SetProjection(projection);
 
         using namespace Math;
-        Vec<Graphics::VertexColor2D> vertices = {
+        Vec<Vertex> vertices = Vec<Vertex>::New({
             { { -240.0f, -80.0f }, fColor::RED()   },
             { { -80.00f, -80.0f }, fColor::GREEN() },
             { { -80.00f, +80.0f }, fColor::BLUE()  },
@@ -21,12 +21,12 @@ namespace Test {
             { { +240.0f, -80.0f }, fColor::YELLOW()  },
             { { +240.0f, +80.0f }, fColor::CYAN()    },
             { { +80.00f, +80.0f }, fColor::WHITE()   },
-        };
+        });
 
-        Vec<Graphics::TriIndices> indices = {
+        Vec<Graphics::TriIndices> indices = Vec<Graphics::TriIndices>::New({
             { 0, 1, 2 },  { 2, 3, 0 },
             { 4, 5, 6 },  { 6, 7, 4 }
-        };
+        });
 
         mesh = Graphics::Mesh(std::move(vertices), std::move(indices));
     }
@@ -36,7 +36,7 @@ namespace Test {
     }
 
     void TestDynamicVertexGeometry::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        Graphics::VertexColor2D* vertices = mesh.vertices.data();
+        Vertex* vertices = mesh.vertices.Data();
         ImGui::EditVector("Red    Vertex [0]", vertices[0].Position);
         ImGui::EditVector("Green  Vertex [1]", vertices[1].Position);
         ImGui::EditVector("Blue   Vertex [2]", vertices[2].Position);

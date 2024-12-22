@@ -11,8 +11,8 @@ namespace Test {
     void TestDrawInstances::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
 
-        transforms.resize(INSTANCE_NUM);
-        colors.resize(INSTANCE_NUM);
+        transforms.Resize(INSTANCE_NUM);
+        colors.Resize(INSTANCE_NUM);
 
         using namespace Math;
         const fVector4 black = fColor3::BETTER_BLACK().as_rgbaf();
@@ -57,11 +57,11 @@ namespace Test {
         scene.SetCamera(camera.GetViewMat());
 
         Vec<Math::Matrix3D> modelMats, normMats;
-        modelMats.reserve(INSTANCE_NUM);
-        normMats.reserve(INSTANCE_NUM);
+        modelMats.Reserve(INSTANCE_NUM);
+        normMats.Reserve(INSTANCE_NUM);
         for (const auto& t : transforms) {
-            modelMats.push_back(t.TransformMatrix());
-            normMats.push_back(t.NormalTransform().TransformMatrix());
+            modelMats.Push(t.TransformMatrix());
+            normMats.Push(t.NormalTransform().TransformMatrix());
         }
 
         scene.DrawInstanced(cube, INSTANCE_NUM, Graphics::UseArgs({

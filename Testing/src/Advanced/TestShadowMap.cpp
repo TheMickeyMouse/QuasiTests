@@ -16,8 +16,8 @@ namespace Test {
         mloader.LoadFile(res("untitled.obj"));
         const Graphics::OBJModel model = mloader.RetrieveModel();
 
-        for (int i = 0; i < model.objects.size(); ++i) {
-            meshes.emplace_back(
+        for (int i = 0; i < model.objects.Length(); ++i) {
+            meshes.Push(
                 model.objects[i].mesh.GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
                     in (Position, Normal),
                     out (Position) = Position;,

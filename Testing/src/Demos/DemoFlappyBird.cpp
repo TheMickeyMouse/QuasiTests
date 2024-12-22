@@ -10,6 +10,8 @@
 #include "Meshes/Quad.h"
 #include "Textures/Texture.h"
 
+#include "Iter/MapIter.h"
+
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(128, 128);
@@ -27,18 +29,16 @@ namespace Test {
                 out (Color)    = Math::fColor::BETTER_WHITE();
             )), Math::Transform2D::Scaling(30.0f));
 
-        mBg = Graphics::Mesh<Vertex>::Combine({
-            Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Vertex, (
-                in (Position),
-                out (Position) = Position;,
-                out (Color)    = Math::fColor::BETTER_GREEN();
-            )), Math::Transform2D { { 0, +240 }, { 320, 20 } }),
-            Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Vertex, (
-                in (Position),
-                out (Position) = Position;,
-                out (Color)    = Math::fColor::BETTER_GREEN();
-            )), Math::Transform2D { { 0, -240 }, { 320, 20 } })
-        });
+        const auto blueprint = QGLCreateBlueprint$(Vertex, (
+            in (Position),
+            out (Position) = Position;,
+            out (Color)    = Math::fColor::BETTER_GREEN();
+        ));
+
+        mBg = Graphics::Mesh<Vertex>::Combine(Spans::Vals({
+            Graphics::MeshUtils::Quad(blueprint, Math::Transform2D { { 0, +240 }, { 320, 20 } }),
+            Graphics::MeshUtils::Quad(blueprint, Math::Transform2D { { 0, -240 }, { 320, 20 } })
+        }));
 
         time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;
@@ -74,13 +74,13 @@ namespace Test {
 
         render.BeginContext();
         render.AddMeshes({ &mPlayer, &mBg, &mText });
-        render.AddMeshes(spikes | std::ranges::views::transform(&Spike::mesh));
+        render.AddMeshes(spikes.Iter().Map(Operators::Member<&Spike::mesh> {}));
         render.EndContext();
         render.DrawContext();
     }
 
     void DemoFlappyBird::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::Text("Spike Count: %zu", spikes.size());
+        ImGui::Text("Spike Count: %zu", spikes.Length());
     }
 
     void DemoFlappyBird::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -97,14 +97,14 @@ namespace Test {
             Math::fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
             Math::fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
 
-            spikes.emplace_back(Graphics::Mesh<Vertex> {
+            spikes.Push({ {
                 { { top.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
                 { { 0, 1, 2 } }
-            }, top, 370.0f);
-            spikes.emplace_back(Graphics::Mesh<Vertex> {
+            }, top, 370.0f });
+            spikes.Push({ {
                 { { bot.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
                 { { 0, 1, 2 } }
-            }, bot, 370.0f);
+            }, bot, 370.0f });
         }
 
         for (Spike& spike : spikes) {
@@ -112,9 +112,8 @@ namespace Test {
             spike.mesh.SetTransform(Math::Transform2D::Translation({ spike.xOff, 0 }));
         }
 
-        if (!spikes.empty() && spikes.front().xOff <= -370.0f) {
-            spikes.pop_front();
-            spikes.pop_front();
+        if (spikes && spikes.First().xOff <= -370.0f) {
+            spikes.Erase(0, 2);
         }
     }
 

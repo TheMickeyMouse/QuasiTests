@@ -1,6 +1,5 @@
 #include "TestMaterialMaps.h"
 
-#include "imgui.h"
 #include "VertexBlueprint.h"
 #include "Extension/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"

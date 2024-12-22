@@ -34,6 +34,6 @@ namespace Test {
 
         void AddRandomBall(Graphics::GraphicsDevice& gdevice);
         void ResetBalls(Graphics::GraphicsDevice& gdevice);
-        [[nodiscard]] Physics2D::BodyHandle FindBallAt(const Math::fVector2& mousePos) const;
+        Physics2D::BodyHandle FindBallAt(const Math::fVector2& mousePos) const;
     };
 } // Test

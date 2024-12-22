@@ -7,6 +7,8 @@
 #include "Meshes/Circle.h"
 #include "Meshes/Stadium.h"
 
+#include "Iter/MapIter.h"
+
 namespace Test {
     void TestPhysicsPlayground2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 2048);
@@ -152,9 +154,10 @@ namespace Test {
                 },
                 instanceof (const Physics2D::DynPolygonShape& poly) {
                     worldMesh.NewBatch().PushPolygon(
-                        std::views::transform(poly.data, &Physics2D::DynPolygonShape::PointWithInvDist::coords) |
-                        std::views::transform([&] (const Math::fVector2& p) {
-                                return Vertex { body->rotation.rotate(p) + body->position, color };
+                        poly.data.Iter()
+                                 .Map(Operators::Member<&Physics2D::DynPolygonShape::PointWithInvDist::coords> {})
+                                 .Map([&] (const Math::fVector2& p) {
+                                        return Vertex { body->rotation.rotate(p) + body->position, color };
                         })
                     );
                 }
@@ -228,7 +231,7 @@ namespace Test {
 
             if (ImGui::Button("Delete")) {
                 Selected()->body.Remove();
-                bodyData.erase(bodyData.begin() + selectedIndex);
+                bodyData.Pop(selectedIndex);
                 selectedIndex = ~0;
                 controlIndex = ~0;
             }
@@ -243,7 +246,7 @@ namespace Test {
             onPause += ImGui::Button("Step");
         }
 
-        ImGui::Text("Total Body Count: %d", bodyData.size());
+        ImGui::Text("Total Body Count: %d", bodyData.Length());
     }
 
     void TestPhysicsPlayground2D::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -272,7 +275,7 @@ namespace Test {
     }
 
     OptRef<TestPhysicsPlayground2D::Object> TestPhysicsPlayground2D::Selected() {
-        return selectedIndex == ~0 ? nullptr : SomeRef(bodyData[selectedIndex]);
+        return selectedIndex == ~0 ? nullptr : OptRefs::SomeRef(bodyData[selectedIndex]);
     }
 
     void TestPhysicsPlayground2D::AddNewPoint(const Math::fVector2& point, const Math::fColor& color) {
@@ -287,7 +290,7 @@ namespace Test {
 
     u32 TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) const {
         const Physics2D::Shape mouseCollider = Physics2D::CircleShape { 0.0f };
-        for (u32 i = 0; i < bodyData.size(); ++i) {
+        for (u32 i = 0; i < bodyData.Length(); ++i) {
             const auto& b = bodyData[i];
             if (b.body->OverlapsWith(mouseCollider, mousePos)) {
                 return i;
@@ -297,7 +300,7 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::AddBodyTint(const Math::fColor& color) {
-        bodyData.emplace_back(world.bodies.back(), color);
+        bodyData.Push({ world.bodies.Last(), color });
     }
 
     void TestPhysicsPlayground2D::SelectControl(const Math::fVector2& mouse) {
@@ -561,11 +564,10 @@ namespace Test {
             prob *= 0.8f;
         }
 
-        Vec<Math::fVector2> points;
-        points.resize(pointCount);
+        Vec points = Vec<Math::fVector2>::WithSize(pointCount);
         points[0] = Math::fVector2::from_polar(rand.Get(6.0f, 15.0f), rand.Get(0, Math::TAU));
         const float baseAngle = Math::TAU / (float)(pointCount - 1);
-        for (u32 i = 1; i < points.size(); ++i) {
+        for (u32 i = 1; i < points.Length(); ++i) {
             points[i] = Math::fComplex::rotate(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f)).rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
         }
 

@@ -12,9 +12,9 @@ namespace Test {
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         materials = std::move(model.materials);
-        meshes.reserve(model.objects.size());
+        meshes.Reserve(model.objects.Length());
         for (const Graphics::OBJObject& obj : model.objects) {
-            meshes.emplace_back(
+            meshes.Push(
                 obj.mesh.GeometryMap<Vertex>([&] (const Graphics::OBJVertex& v) {
                     return Vertex { v.Position, v.Normal, obj.materialIndex };
                 }
@@ -46,8 +46,8 @@ namespace Test {
     void TestAdvancedLighting::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene->shader.Bind();
 
-        for (uint i = 0; i < materials.size(); ++i) {
-            UniformMaterial(std::format("materials[{}]", i), materials[i]);
+        for (uint i = 0; i < materials.Length(); ++i) {
+            UniformMaterial(Text::Format("materials[{}]", i), materials[i]);
         }
 
         scene.SetProjection(camera.GetProjMat());

@@ -12,11 +12,11 @@ namespace Test {
         scene = gdevice.CreateNewRender<Graphics::VertexColor3D>(72, 108);
         postProcessingQuad = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
 
-        cubes.reserve(9);
+        cubes.Reserve(9);
 
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
-            cubes.push_back(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+            cubes.Push(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color) = Math::fColor::color_id(i);
@@ -24,7 +24,7 @@ namespace Test {
 
             cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3::from_corner(i, 1)));
         }
-        cubes.push_back(
+        cubes.Push(
         Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
@@ -138,7 +138,7 @@ namespace Test {
 
         ImGui::Checkbox("Use Post Processing", &usePostProcessing);
 
-        Graphics::Shader* prev = currShader;
+        const Graphics::Shader* prev = currShader;
 #define TAB_ITEM(X, N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
         if (ImGui::BeginTabBar("Post Processing Shader")) {
             TAB_ITEM(NONE, "None", postProcessingQuad->shader, )

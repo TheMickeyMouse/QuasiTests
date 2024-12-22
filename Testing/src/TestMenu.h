@@ -34,7 +34,7 @@ namespace Test {
         template <typename T>
         void RegisterTest(Str name) {
             // LOG("Registered " << name << " Test");
-            menuItems.emplace_back(name, "", TestFactory<T>);
+            menuItems.Push({ name, "", TestFactory<T> });
         }
 
         void DeclareTestType(TestType type);
