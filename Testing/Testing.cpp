@@ -1,3 +1,4 @@
+#include "Debug/Logger.h"
 #include "src/TestManager.h"
 
 int main(int argc, char* argv[]) {

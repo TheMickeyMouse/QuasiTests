@@ -9,7 +9,7 @@ namespace Test {
         struct Vertex {
             Math::fVector3 Position, TextureCoordinate, Normal;
 
-            QGLDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(TextureCoordinate)(Normal, Graphics::NormTf));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(TextureCoordinate)(Normal, Graphics::NormTf));
         };
 
         static constexpr u32 DIFFUSE_SHADER_ID = 0;

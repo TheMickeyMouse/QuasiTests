@@ -17,7 +17,7 @@ namespace Test {
                     const TestMenuItem& testItem = menuItems[j];
                     if (ImGui::Button(testItem.name.data())) {
                         // LOG("clicked " << testItem.name);
-                        manager->testInstance.reset(testItem.testConstruct());
+                        manager->testInstance.Replace(testItem.testConstruct());
                         manager->currentTest = *manager->testInstance;
                         manager->currentTest->OnInit(gdevice);
                     }

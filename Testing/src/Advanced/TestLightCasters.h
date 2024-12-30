@@ -15,7 +15,7 @@ namespace Test {
             Math::fVector3 Position, Normal;
             int MaterialID;
 
-            QGLDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialID));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialID));
         };
     private:
         Graphics::RenderObject<Vertex> scene;

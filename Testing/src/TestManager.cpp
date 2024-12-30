@@ -1,5 +1,7 @@
 #include <imgui.h>
 
+#include "Debug/Logger.h"
+
 #include "TestManager.h"
 
 #include "Basic/TestClearColor.h"
@@ -25,7 +27,7 @@
 
 namespace Test {
     void TestManager::OnInit() {
-        menu = NewUnique<TestMenu>(*this);
+        menu = Box<TestMenu>::Build(*this);
         currentTest = *menu;
         {
             menu->DeclareTestType(TestType::BASIC);
@@ -138,7 +140,7 @@ namespace Test {
         ImGui::Begin("Test");
         if (currentTest.RefEquals(*testInstance) && ImGui::Button("<< Back")) {
             currentTest->OnDestroy(gdevice);
-            testInstance.reset();
+            testInstance.Close();
             currentTest = *menu;
             currentTest->OnInit(gdevice);
         }

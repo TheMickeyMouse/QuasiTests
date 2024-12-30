@@ -7,8 +7,8 @@ namespace Test {
     private:
         Graphics::GraphicsDevice gdevice;
 
-        UniqueRef<Test> testInstance = nullptr;
-        UniqueRef<TestMenu> menu;
+        Box<Test> testInstance = nullptr;
+        Box<TestMenu> menu;
         OptRef<Test> currentTest;
     public:
         TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}

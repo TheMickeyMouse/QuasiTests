@@ -14,7 +14,7 @@ namespace Test {
             Math::fVector2 TextureCoord;
             int RenderType;
 
-            QGLDefineVertex$(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoord)(RenderType));
+            QuasiDefineVertex$(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoord)(RenderType));
         };
 
         struct Spike {

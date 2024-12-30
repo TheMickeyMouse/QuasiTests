@@ -10,7 +10,7 @@ namespace Test {
             Math::fVector3 Position, Normal;
             int MaterialId;
 
-            QGLDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialId));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialId));
         };
 
     private:
