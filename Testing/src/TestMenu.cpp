@@ -11,18 +11,18 @@ namespace Test {
     void TestMenu::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         if (!ImGui::BeginTabBar("Testing Projects")) return;
         for (const auto& [type, span, desc] : testTypeSegments) {
-            if (ImGui::BeginTabItem(type->name.data())) {
-                ImGui::Text("%s", desc.data());
+            if (ImGui::BeginTabItem(type->name.Data())) {
+                ImGui::Text("%s", desc.Data());
                 for (usize j = span.min; j < span.max; ++j) {
                     const TestMenuItem& testItem = menuItems[j];
-                    if (ImGui::Button(testItem.name.data())) {
+                    if (ImGui::Button(testItem.name.Data())) {
                         // LOG("clicked " << testItem.name);
                         manager->testInstance.Replace(testItem.testConstruct());
                         manager->currentTest = *manager->testInstance;
                         manager->currentTest->OnInit(gdevice);
                     }
                     if (ImGui::IsItemHovered())
-                        ImGui::SetTooltip("%s", testItem.description.data());
+                        ImGui::SetTooltip("%s", testItem.description.Data());
                 }
                 ImGui::EndTabItem();
             }

@@ -1,7 +1,6 @@
 ﻿#include "TestDynamicVertexGeometry.h"
 
-#include "imgui.h"
-#include "Extension/ImGuiExt.h"
+#include "Utils/Extension/ImGuiExt.h"
 
 namespace Test {
     void TestDynamicVertexGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {

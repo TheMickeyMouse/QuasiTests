@@ -108,7 +108,7 @@ namespace Test {
         }
 
         {
-            constexpr Str fontFile = Q_USER_FONTS "JetBrainsMono-Regular.ttf";
+            const CStr fontFile = Q_USER_FONTS "JetBrainsMono-Regular.ttf";
             if (!Text::ExistsFile(fontFile)) {
                 Debug::QWarn$("couldn't load font {}, some characters may not load properly", fontFile);
                 return;
@@ -122,7 +122,7 @@ namespace Test {
             builder.AddText((const char*)u8"°αβγνξΔδεζπΠρΘΛθιητυκλμΨΣςσΦφΩψω"); // greek letters
             builder.BuildRanges(&glyphRange);
 
-            io.Fonts->AddFontFromFileTTF(fontFile.data(), 21, nullptr, glyphRange.Data);
+            io.Fonts->AddFontFromFileTTF(fontFile.Data(), 21, nullptr, glyphRange.Data);
             io.Fonts->Build();
         }
     }

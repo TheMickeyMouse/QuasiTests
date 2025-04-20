@@ -1,18 +1,18 @@
 ﻿#pragma once
 
-#include "GraphicsDevice.h"
+#include "Graphicals/GraphicsDevice.h"
 
 #define DEFINE_TEST_T(T, S) \
     using _Test_t = T; \
     inline static const TestType _Test_Category_t = TestType::S; \
     inline static String res(Str resource) { \
-        return std::format("{}res\\{}\\" #T "\\{}", PROJECT_DIRECTORY, _Test_Category_t->name, resource); \
+        return Text::Format("{}res\\{}\\" #T "\\{}", PROJECT_DIRECTORY, _Test_Category_t->name, resource); \
     }
 
 namespace Test {
     using namespace Quasi;
 
-    constexpr Str PROJECT_DIRECTORY = { __FILE__, sizeof(__FILE__) - sizeof("src\\Test.h") };
+    constexpr Str PROJECT_DIRECTORY = Str::Slice(__FILE__, sizeof(__FILE__) - sizeof("src\\Test.h"));
 
     struct TestTypeData {
         Str name;

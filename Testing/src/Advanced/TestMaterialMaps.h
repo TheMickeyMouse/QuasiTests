@@ -1,8 +1,8 @@
 #pragma once
-#include "CameraController.h"
-#include "Mesh.h"
+#include "Graphicals/CameraController.h"
+#include "Graphicals/Mesh.h"
 #include "Test.h"
-#include "Textures/Texture.h"
+#include "GLs/Texture.h"
 
 namespace Test {
     class TestMaterialMaps : public Test {

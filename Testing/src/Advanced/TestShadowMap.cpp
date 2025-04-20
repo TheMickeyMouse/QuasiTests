@@ -2,18 +2,18 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/CubeNormless.h"
-#include "Meshes/Quad.h"
-#include "ModelLoading/OBJModelLoader.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/CubeNormless.h"
+#include "Utils/Meshes/Quad.h"
+#include "Utils/ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestShadowMap::OnInit(Graphics::GraphicsDevice& gdevice) {
-        scene = gdevice.CreateNewRender<Vertex>(2560, 1280);
+        scene = gdevice.CreateNewRender<Vertex>(3200, 1280);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("untitled.obj"));
+        mloader.LoadFile(res("untitled.obj").IntoCStr());
         const Graphics::OBJModel model = mloader.RetrieveModel();
 
         for (int i = 0; i < model.objects.Length(); ++i) {
@@ -27,8 +27,8 @@ namespace Test {
             ));
         }
 
-        depthShader = Graphics::Shader::FromFile(res("depth.vert"), res("depth.frag"));
-        scene.UseShaderFromFile(res("shadow.vert"), res("shadow.frag"));
+        depthShader = Graphics::Shader::FromFile(res("depth.vert").IntoCStr(), res("depth.frag").IntoCStr());
+        scene.UseShaderFromFile(res("shadow.vert").IntoCStr(), res("shadow.frag").IntoCStr());
 
         depthMap = Graphics::FrameBuffer::New();
         depthTex = Graphics::Texture::New(
@@ -51,7 +51,7 @@ namespace Test {
         depthMap.Unbind();
 
         shadowMapDisplay = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
-        shadowMapDisplay.UseShaderFromFile(res("display.vert"), res("display.frag"));
+        shadowMapDisplay.UseShaderFromFile(res("display.vert").IntoCStr(), res("display.frag").IntoCStr());
 
         screenQuad = Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
             in (Position),

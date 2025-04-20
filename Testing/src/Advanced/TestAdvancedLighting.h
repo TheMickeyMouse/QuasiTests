@@ -1,7 +1,7 @@
 #pragma once
-#include "CameraController.h"
 #include "Test.h"
-#include "ModelLoading/OBJModel.h"
+#include "Graphicals/CameraController.h"
+#include "Utils/ModelLoading/OBJModel.h"
 
 namespace Test {
     class TestAdvancedLighting : public Test {
@@ -34,6 +34,6 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        void UniformMaterial(Str name, const Graphics::MTLMaterial& material);
+        void UniformMaterial(u32 index, const Graphics::MTLMaterial& material);
     };
 }

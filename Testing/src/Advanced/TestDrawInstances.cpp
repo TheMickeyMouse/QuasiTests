@@ -2,10 +2,10 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Circle.h"
-#include "Meshes/Cube.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Circle.h"
+#include "Utils/Meshes/Cube.h"
 
 namespace Test {
     void TestDrawInstances::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -17,9 +17,9 @@ namespace Test {
         using namespace Math;
         const fVector4 black = fColor3::BETTER_BLACK().as_rgbaf();
         const Matrix4x4 colorTransformer = {
-            fColor3::BETTER_RED().as_rgbaf()  - black,
-            fColor3::BETTER_LIME().as_rgbaf() - black,
-            fColor3::BETTER_BLUE().as_rgbaf() - black,
+            fColor3::BETTER_RED()  .as_rgbaf() - black,
+            fColor3::BETTER_LIME() .as_rgbaf() - black,
+            fColor3::BETTER_BLUE() .as_rgbaf() - black,
             fColor3::BETTER_BLACK().as_rgbaf()
         };
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
@@ -36,7 +36,7 @@ namespace Test {
             out (Normal) = Normal;
         )));
 
-        scene.UseShaderFromFile(res("instanced.vert"), res("instanced.frag"));
+        scene.UseShaderFromFile(res("instanced.vert").IntoCStr(), res("instanced.frag").IntoCStr());
 
         camera.position = { -6.8653593, -7.7674685, -6.846223 };
         camera.yaw = -2.2986794; camera.pitch = -0.55294377;

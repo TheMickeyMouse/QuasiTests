@@ -2,9 +2,9 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Cube.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Cube.h"
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -19,12 +19,12 @@ namespace Test {
         )));
 
         cubemap = Graphics::Texture::LoadCubemapPNG(
-            { res("right.jpg"), res("left.jpg"),
-              res("top.jpg"),   res("bottom.jpg"),
-              res("front.jpg"), res("back.jpg") });
+            { res("right.jpg").IntoCStr(), res("left.jpg").IntoCStr(),
+              res("top.jpg").IntoCStr(),   res("bottom.jpg").IntoCStr(),
+              res("front.jpg").IntoCStr(), res("back.jpg").IntoCStr() });
         cubemap.Activate();
 
-        boxTex = Graphics::Texture::LoadPNG(res("box.png"));
+        boxTex = Graphics::Texture::LoadPNG(res("box.png").IntoCStr());
         boxTex.Activate();
 
         u32 i = 0;
@@ -36,11 +36,10 @@ namespace Test {
             i++;
         )));
 
-        cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert"), res("cubemap.frag"));
-
-        boxShader     = Graphics::Shader::FromFile(res("box.vert"),     res("box.frag"));
-        reflectShader = Graphics::Shader::FromFile(res("reflect.vert"), res("reflect.frag"));
-        refractShader = Graphics::Shader::FromFile(res("refract.vert"), res("refract.frag"));
+        cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert").IntoCStr(), res("cubemap.frag").IntoCStr());
+        boxShader     = Graphics::Shader::FromFile(res("box.vert").IntoCStr(),     res("box.frag").IntoCStr());
+        reflectShader = Graphics::Shader::FromFile(res("reflect.vert").IntoCStr(), res("reflect.frag").IntoCStr());
+        refractShader = Graphics::Shader::FromFile(res("refract.vert").IntoCStr(), res("refract.frag").IntoCStr());
 
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 

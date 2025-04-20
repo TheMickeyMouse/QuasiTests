@@ -14,7 +14,7 @@ namespace Test {
         TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
 
         void OnInit();
-        void OnUpdate(float deltaTime = NAN);
+        void OnUpdate(float deltaTime = f32s::NAN);
         void OnRender();
         void OnImGuiRender();
         void OnDestroy();

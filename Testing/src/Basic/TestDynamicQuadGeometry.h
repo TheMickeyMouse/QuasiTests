@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Test.h"
-#include "Mesh.h"
+#include "Graphicals/Mesh.h"
 
 namespace Test {
     class TestDynamicQuadGeometry : public Test {

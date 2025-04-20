@@ -1,24 +1,18 @@
 #include "DemoFlappyBird.h"
 
-#include <ranges>
-
-#include "imgui.h"
-#include "Keyboard.h"
-#include "Random.h"
-#include "VertexBlueprint.h"
-#include "Meshes/Circle.h"
-#include "Meshes/Quad.h"
-#include "Textures/Texture.h"
-
-#include "Iter/MapIter.h"
+#include <imgui.h>
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Meshes/Circle.h"
+#include "Utils/Meshes/Quad.h"
+#include "Utils/Iter/MapIter.h"
 
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(128, 128);
-        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         render.SetProjection(Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f }));
 
-        font = Graphics::Font::LoadFile(res("consola.ttf"));
+        font = Graphics::Font::LoadFile(res("consola.ttf").IntoCStr());
         font.SetSize(48);
         font.RenderBitmap();
         font.GetTexture().Activate(0);
@@ -66,7 +60,7 @@ namespace Test {
 
         using namespace Graphics;
         mPlayer.SetTransform(Math::Transform2D::Translation({ -150, yPos }));
-        mText = font.RenderText(std::to_string(score), 80,
+        mText = font.RenderText(Text::Format("{}", score), 80,
             TextAlign { { -20, 20, 100, 140 } }.SpaceOut(1, -16))
             .GeometryMap<Vertex>([](const Font::Vertex& v) -> Vertex {
                 return { v.Position, v.Color, v.TextureCoord, 1 };

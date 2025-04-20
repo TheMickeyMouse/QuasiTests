@@ -2,17 +2,16 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Circle.h"
-#include "Meshes/Stadium.h"
-
-#include "Iter/MapIter.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Iter/MapIter.h"
+#include "Utils/Meshes/Circle.h"
+#include "Utils/Meshes/Stadium.h"
 
 namespace Test {
     void TestPhysicsPlayground2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 2048);
-        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
 
         world = { { 0, -80.0f } };
         scene.SetProjection(Math::Matrix3D::ortho_projection({ -40, 40, -30, 30, -1, 1 }));
@@ -220,12 +219,12 @@ namespace Test {
             constexpr const char* SHAPE_NAMES[] = {
                 "Circle", "Capsule", "Rect", "Triangle", "Quad", "Polygon"
             };
-            ImGui::Text("Type: %s", SHAPE_NAMES[Selected()->body->shape.ID()]);
+            ImGui::Text("Type: %s", SHAPE_NAMES[Selected()->body->shape.GetTag()]);
 
             EditBody();
             ImGui::EditComplexRotation("Rotation", Selected()->body->rotation);
             float m = Selected()->body->mass;
-            ImGui::EditScalar("Mass", m, 1, Math::fRange { 0, INFINITY });
+            ImGui::EditScalar("Mass", m, 1, Math::fRange { 0, f32s::INFINITY });
             Selected()->body->SetMass(m);
             ImGui::EditColor ("Tint", Selected()->color);
 
@@ -486,7 +485,7 @@ namespace Test {
                 for (u32 i = 0; i < poly.Size(); ++i) {
                     title[7] = ((i + 1) / 10) + '0';
                     title[8] = ((i + 1) % 10) + '0';
-                    ImGui::EditVector(Str { title, sizeof(title) - 1 }, poly.PointAt(i));
+                    ImGui::EditVector(Str::Slice(title, sizeof(title) - 1), poly.PointAt(i));
                 }
                 poly.FixPolygon();
             }

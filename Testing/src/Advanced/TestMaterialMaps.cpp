@@ -1,9 +1,9 @@
 #include "TestMaterialMaps.h"
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "ModelLoading/OBJModelLoader.h"
-#include "Meshes/CubeNormless.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/ModelLoading/OBJModelLoader.h"
+#include "Utils/Meshes/CubeNormless.h"
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -11,16 +11,16 @@ namespace Test {
         lightScene = gdevice.CreateNewRender<Graphics::VertexColor3D>(8, 12);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("boxes.obj"));
+        mloader.LoadFile(res("boxes.obj").IntoCStr());
 
         meshes = mloader.GetModel().RetrieveMeshes();
 
-        diffuseMap = Graphics::Texture::LoadPNG(res("diffuse.png"));
-        specularMap = Graphics::Texture::LoadPNG(res("specular.png"));
+        diffuseMap = Graphics::Texture::LoadPNG(res("diffuse.png").IntoCStr());
+        specularMap = Graphics::Texture::LoadPNG(res("specular.png").IntoCStr());
         diffuseMap.Activate(0);
         specularMap.Activate(1);
 
-        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
 
         scene->shader.Bind();
         scene->shader.SetUniformTex("diffuseMap", diffuseMap);

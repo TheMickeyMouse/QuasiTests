@@ -1,8 +1,8 @@
 ﻿#include "TestCubeRender.h"
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Cube.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Cube.h"
 
 namespace Test {
     void TestCubeRender::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -18,7 +18,7 @@ namespace Test {
             i++;
         )));
 
-        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         render.SetProjection(projection);
     }
 

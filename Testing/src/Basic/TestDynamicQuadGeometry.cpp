@@ -1,8 +1,7 @@
 ﻿#include "TestDynamicQuadGeometry.h"
 
-#include "imgui.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Quad.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Quad.h"
 
 namespace Test {
     void TestDynamicQuadGeometry::OnInit(Graphics::GraphicsDevice& gdevice) {

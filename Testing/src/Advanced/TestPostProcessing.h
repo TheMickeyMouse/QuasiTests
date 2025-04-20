@@ -1,9 +1,9 @@
 #pragma once
-#include "FrameBuffer.h"
-#include "Mesh.h"
-#include "RenderBuffer.h"
+#include "GLs/FrameBuffer.h"
+#include "Graphicals/Mesh.h"
+#include "GLs/RenderBuffer.h"
 #include "Test.h"
-#include "Textures/Texture.h"
+#include "GLs/Texture.h"
 
 namespace Test {
     // all from https://learnopengl.com/Advanced-OpenGL/Framebuffers & https://learnopengl.com/Guest-Articles/2022/Phys.-Based-Bloom

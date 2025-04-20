@@ -2,10 +2,10 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Icosphere.h"
-#include "Meshes/Sphere.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Icosphere.h"
+#include "Utils/Meshes/Sphere.h"
 
 namespace Test {
     void TestGeometryShader::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -25,11 +25,11 @@ namespace Test {
             out (Normal)   = Normal;,
         )), Math::Transform3D::Scaling(10.0f));
 
-        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
-        flatShader = Graphics::Shader::FromFile(res("flat.vert"), res("flat.frag"), res("flat.geom"));
-        normalShader = Graphics::Shader::FromFile(res("norm.vert"), res("norm.frag"), res("norm.geom"));
+        flatShader = Graphics::Shader::FromFile(res("flat.vert").IntoCStr(), res("flat.frag").IntoCStr(), res("flat.geom").IntoCStr());
+        normalShader = Graphics::Shader::FromFile(res("norm.vert").IntoCStr(), res("norm.frag").IntoCStr(), res("norm.geom").IntoCStr());
 
         camera.position = { 10.222575, 13.1479025, 10.771797 };
         camera.yaw = 2.1558828f; camera.pitch = -0.891116f;

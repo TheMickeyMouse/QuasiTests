@@ -1,9 +1,9 @@
 #pragma once
-#include "CameraController.h"
-#include "FrameBuffer.h"
-#include "Mesh.h"
 #include "Test.h"
-#include "Textures/Texture.h"
+#include "GLs/FrameBuffer.h"
+#include "GLs/Texture.h"
+#include "Graphicals/CameraController.h"
+#include "Graphicals/Mesh.h"
 
 namespace Test {
     class TestShadowMap : public Test {

@@ -1,11 +1,11 @@
 #include "TestPostProcessing.h"
 
-#include "Mesh.h"
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/CubeNormless.h"
-#include "Meshes/Plane.h"
-#include "Meshes/Quad.h"
+#include "Graphicals/Mesh.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/CubeNormless.h"
+#include "Utils/Meshes/Plane.h"
+#include "Utils/Meshes/Quad.h"
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -60,14 +60,15 @@ namespace Test {
             out (TextureCoordinate) = (Position + 1) * 0.5f;
         )));
 
-        const String vert = res("vertex.vert");
-        postProcessingQuad.UseShaderFromFile(vert, res("none.frag"));
+        String vert = res("vertex.vert");
+        const CStr vertloc = vert.IntoCStr();
+        postProcessingQuad.UseShaderFromFile(vertloc, res("none.frag").IntoCStr());
 
-        shaderInv = Graphics::Shader::FromFile(vert, res("invert.frag"));
-        shaderHsv = Graphics::Shader::FromFile(vert, res("hsv.frag"));
-        shaderBlur = Graphics::Shader::FromFile(vert, res("simple_blur.frag"));
-        shaderEdgeDetect = Graphics::Shader::FromFile(vert, res("simple_ed.frag"));
-        shaderOutline = Graphics::Shader::FromFile(res("outline.vert"), res("outline.frag"));
+        shaderInv        = Graphics::Shader::FromFile(vertloc, res("invert.frag").IntoCStr());
+        shaderHsv        = Graphics::Shader::FromFile(vertloc, res("hsv.frag").IntoCStr());
+        shaderBlur       = Graphics::Shader::FromFile(vertloc, res("simple_blur.frag").IntoCStr());
+        shaderEdgeDetect = Graphics::Shader::FromFile(vertloc, res("simple_ed.frag").IntoCStr());
+        shaderOutline    = Graphics::Shader::FromFile(res("outline.vert").IntoCStr(), res("outline.frag").IntoCStr());
 
         currShader = &postProcessingQuad->shader;
         renderResult.Activate(0);
@@ -115,9 +116,9 @@ namespace Test {
             currShader->Bind();
             currShader->SetUniformTex("screenTexture", renderResult);
             if (currShader == &shaderBlur) {
-                currShader->SetUniformFvec2("blurOff", effectOff);
+                currShader->SetUniformFv2("blurOff", effectOff);
             } else if (currShader == &shaderEdgeDetect) {
-                currShader->SetUniformFvec2("detectOff", effectOff);
+                currShader->SetUniformFv2("detectOff", effectOff);
             } else if (currShader == &shaderHsv) {
                 currShader->SetUniformFloat("dh", hueShift);
                 currShader->SetUniformFloat("ds", satMul);

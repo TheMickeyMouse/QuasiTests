@@ -2,11 +2,11 @@
 
 #include <imgui.h>
 
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Meshes/Circle.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/Meshes/Circle.h"
 
-#include "Iter/MapIter.h"
+#include "Utils/Iter/MapIter.h"
 
 namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -18,8 +18,8 @@ namespace Test {
             out (Position) = Position;
         )));
 
-        scene.UseShaderFromFile(res("circle.vert"), res("circle.frag"));
-        lineShader = Graphics::Shader::FromFile(res("line.vert"), res("line.frag"), res("line.geom"));
+        scene.UseShaderFromFile(res("circle.vert").IntoCStr(), res("circle.frag").IntoCStr());
+        lineShader = Graphics::Shader::FromFile(res("line.vert").IntoCStr(), res("line.frag").IntoCStr(), res("line.geom").IntoCStr());
 
         scene.SetProjection(Math::Matrix3D::ortho_projection({ 0, 80, 0, 60, -1, 1 }));
 

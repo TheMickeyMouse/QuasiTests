@@ -1,7 +1,7 @@
 #pragma once
-#include "Mesh.h"
 #include "Test.h"
-#include "Fonts/Font.h"
+#include "Graphicals/Mesh.h"
+#include "Utils/Fonts/Font.h"
 
 namespace Test {
     class TestFontRender : public Test {

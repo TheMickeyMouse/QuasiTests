@@ -1,27 +1,24 @@
 #include "TestFontRender.h"
-
-#include "imgui.h"
-#include "imgui_stdlib.h"
-#include "RichString.h"
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "Textures/Texture.h"
+#include "Utils/RichString.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "GLs/Texture.h"
 
 namespace Test {
     void TestFontRender::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(1024, 1024);
 
-        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         render.SetProjection(projection);
 
-        font = Graphics::Font::LoadFile(res("arial.ttf"));
-        font.AddDefaultFontStyle(res("arialbd.ttf"), Graphics::FontStyle::BOLD);
-        font.AddDefaultFontStyle(res("ariali.ttf"),  Graphics::FontStyle::ITALIC);
-        font.AddDefaultFontStyle(res("arialbi.ttf"), Graphics::FontStyle::BOLD_ITALIC);
-        font.AddMonoFontStyle(res("JetBrainsMono-Regular.ttf"));
-        font.AddMonoFontStyle(res("JetBrainsMono-Bold.ttf"),       Graphics::FontStyle::BOLD);
-        font.AddMonoFontStyle(res("JetBrainsMono-Italic.ttf"),     Graphics::FontStyle::ITALIC);
-        font.AddMonoFontStyle(res("JetBrainsMono-BoldItalic.ttf"), Graphics::FontStyle::BOLD_ITALIC);
+        font = Graphics::Font::LoadFile(res("arial.ttf").IntoCStr());
+        font.AddDefaultFontStyle(res("arialbd.ttf").IntoCStr(), Graphics::FontStyle::BOLD);
+        font.AddDefaultFontStyle(res("ariali.ttf").IntoCStr(),  Graphics::FontStyle::ITALIC);
+        font.AddDefaultFontStyle(res("arialbi.ttf").IntoCStr(), Graphics::FontStyle::BOLD_ITALIC);
+        font.AddMonoFontStyle(res("JetBrainsMono-Regular.ttf").IntoCStr());
+        font.AddMonoFontStyle(res("JetBrainsMono-Bold.ttf").IntoCStr(),       Graphics::FontStyle::BOLD);
+        font.AddMonoFontStyle(res("JetBrainsMono-Italic.ttf").IntoCStr(),     Graphics::FontStyle::ITALIC);
+        font.AddMonoFontStyle(res("JetBrainsMono-BoldItalic.ttf").IntoCStr(), Graphics::FontStyle::BOLD_ITALIC);
 
         font.SetSize(48);
         font.RenderBitmap();
@@ -98,7 +95,7 @@ namespace Test {
     void TestFontRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         ImGui::EditTransform("Transform", transform);
 
-        ImGui::InputTextMultiline("String", &string);
+        ImGui::EditString("String", string);
         ImGui::Checkbox("Parse as Markdown", &useMarkdown);
         
         ImGui::EditColor ("Color",       color);
@@ -128,7 +125,7 @@ namespace Test {
 
         if (showAtlas) {
             const float x = meshAtlas.vertices[1].Position.x;
-            const auto& glyph = font.GetGlyphRect(string.back());
+            const auto& glyph = font.GetGlyphRect(string.Last());
             meshAtlas.SetTransform(Math::Transform2D::Translation({ x * (1 - 2 * glyph.rect.center().x), 0 }));
         }
     }

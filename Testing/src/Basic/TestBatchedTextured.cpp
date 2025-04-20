@@ -1,15 +1,15 @@
 ﻿#include "TestBatchedTextured.h"
-#include "TriIndices.h"
+#include "Graphicals/TriIndices.h"
 
-#include "Extension/ImGuiExt.h"
+#include "Utils/Extension/ImGuiExt.h"
 
 namespace Test {
     void TestBatchedTextured::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(8, 4);
 
         using namespace Graphics;
-        textures[0] = Texture::LoadPNG(res("image.png"));
-        textures[1] = Texture::LoadPNG(res("img1.png"), { .params = { TextureParamPair::NearestSample() } });
+        textures[0] = Texture::LoadPNG(res("image.png").IntoCStr());
+        textures[1] = Texture::LoadPNG(res("img1.png").IntoCStr(), { .params = { TextureParamPair::NearestSample() } });
 
         textures[0].Activate();
         textures[1].Activate();
@@ -35,7 +35,7 @@ namespace Test {
 
         render.SetProjection(projection);
 
-        render.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
 
         const int slots[] = { textures[0].Slot(), textures[1].Slot(), };
         render->shader.Bind();

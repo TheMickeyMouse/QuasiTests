@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Mesh.h"
+#include "Graphicals/Mesh.h"
 #include "Test.h"
 
 namespace Test {

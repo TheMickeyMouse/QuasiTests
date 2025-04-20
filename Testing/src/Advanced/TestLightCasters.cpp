@@ -1,10 +1,10 @@
 #include "TestLightCasters.h"
 
 #include "imgui.h"
-#include "VertexBlueprint.h"
-#include "Extension/ImGuiExt.h"
-#include "ModelLoading/OBJModelLoader.h"
-#include "Meshes/CubeNormless.h"
+#include "GLs/VertexBlueprint.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/ModelLoading/OBJModelLoader.h"
+#include "Utils/Meshes/CubeNormless.h"
 
 namespace Test {
     void TestLightCasters::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -12,7 +12,7 @@ namespace Test {
         lightScene = gdevice.CreateNewRender<Graphics::VertexColor3D>();
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("lights.obj"));
+        mloader.LoadFile(res("lights.obj").IntoCStr());
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         materials = std::move(model.materials);
@@ -24,7 +24,7 @@ namespace Test {
             ));
         }
 
-        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 8.746245, 16.436476, 7.217131 };
@@ -79,11 +79,11 @@ namespace Test {
 
         scene->shader.Bind();
         for (u32 i = 0; i < materials.Length(); ++i) {
-            UniformMaterial(std::format("materials[{}]", i), materials[i]);
+            UniformMaterial(Text::Format("materials[{}]", i), materials[i]);
         }
 
         for (u32 i = 0; i < lights.Length(); ++i) {
-            UniformLight(std::format("lights[{}]", i), lights[i]);
+            UniformLight(Text::Format("lights[{}]", i), lights[i]);
         }
 
         scene.SetProjection(camera.GetProjMat());
@@ -114,7 +114,7 @@ namespace Test {
             }
 
             for (u32 i = 0; i < lights.Length(); ++i) {
-                ImGui::EditLight(std::format("Light {}", i + 1), lights[i]);
+                ImGui::EditLight(Text::Format("Light {}", i + 1), lights[i]);
                 lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
                 lightMeshes[i].SetTransform(Math::Transform3D::Translation(lights[i].Position()));
             }
@@ -127,7 +127,7 @@ namespace Test {
         lightScene.Destroy();
     }
 
-    void TestLightCasters::UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material) {
+    void TestLightCasters::UniformMaterial(const String& name, const Graphics::MTLMaterial& material) {
         Graphics::Shader& shader = scene->shader;
         shader.SetUniformArgs({
             { name + ".ambient",   material.Ka },
@@ -137,7 +137,7 @@ namespace Test {
         });
     }
 
-    void TestLightCasters::UniformLight(const std::string& name, const Graphics::Light& light) {
+    void TestLightCasters::UniformLight(const String& name, const Graphics::Light& light) {
         Graphics::Shader& shader = scene->shader;
         Math::fVector3 top, bottom;
         light.Visit(
@@ -152,7 +152,7 @@ namespace Test {
             }
         );
         shader.SetUniformArgs({
-            { name + ".lightId", (int)light.ID() + 1 },
+            { name + ".lightId", (int)light.GetTag() + 1 },
             { name + ".d1", top },
             { name + ".d2", bottom },
             { name + ".d3", light.Is<Graphics::FlashLight>() ? light.As<Graphics::FlashLight>()->outerCut : 0 },
@@ -161,8 +161,7 @@ namespace Test {
     }
 
     void TestLightCasters::AddPointLight(const Graphics::PointLight& point, const Math::fColor& color) {
-        lights.Push({});
-        lights.Last() = { point };
+        lights.Push({ Graphics::PointLight { point } });
         lights.Last().color = color;
 
         lightMeshes.Push(

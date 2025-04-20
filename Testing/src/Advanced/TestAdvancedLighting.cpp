@@ -1,14 +1,14 @@
 #include "TestAdvancedLighting.h"
 
-#include "Extension/ImGuiExt.h"
-#include "ModelLoading/OBJModelLoader.h"
+#include "Utils/Extension/ImGuiExt.h"
+#include "Utils/ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestAdvancedLighting::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(1024, 512);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("untitled.obj"));
+        mloader.LoadFile(res("untitled.obj").IntoCStr());
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         materials = std::move(model.materials);
@@ -21,7 +21,7 @@ namespace Test {
             ));
         }
 
-        scene.UseShaderFromFile(res("shader.vert"), res("shader.frag"));
+        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 4.7875953, 9.015127, 0.9847422 };
@@ -46,8 +46,8 @@ namespace Test {
     void TestAdvancedLighting::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene->shader.Bind();
 
-        for (uint i = 0; i < materials.Length(); ++i) {
-            UniformMaterial(Text::Format("materials[{}]", i), materials[i]);
+        for (u32 i = 0; i < materials.Length(); ++i) {
+            UniformMaterial(i, materials[i]);
         }
 
         scene.SetProjection(camera.GetProjMat());
@@ -74,12 +74,18 @@ namespace Test {
         scene.Destroy();
     }
 
-    void TestAdvancedLighting::UniformMaterial(Str name, const Graphics::MTLMaterial& material) {
-        scene->shader.SetUniformArgs({
-            { std::format("{}.ambient",   name), material.Ka },
-            { std::format("{}.diffuse",   name), material.Kd },
-            { std::format("{}.specular",  name), material.Ks },
-            { std::format("{}.shininess", name), material.Ns },
-        });
+    void TestAdvancedLighting::UniformMaterial(u32 index, const Graphics::MTLMaterial& material) {
+        char strbuf[] = "materials[_].ambient\0\0";
+        strbuf[10] = (char)('0' + index);
+        char* const afterPeriod = strbuf + Q_STRLIT_LEN("materials[_].");
+
+        scene->shader.SetUniformColor(strbuf, material.Ka);
+        Memory::WriteU64Big("diffuse\0"_u64, afterPeriod);
+        scene->shader.SetUniformColor(strbuf, material.Kd);
+        Memory::WriteU64Big("specular"_u64, afterPeriod);
+        scene->shader.SetUniformColor(strbuf, material.Ks);
+        Memory::WriteU64Big("shinines"_u64, afterPeriod);
+        afterPeriod[8] = 's';
+        scene->shader.SetUniformFloat(strbuf, material.Ns);
     }
 }

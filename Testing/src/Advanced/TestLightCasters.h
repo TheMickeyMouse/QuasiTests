@@ -1,8 +1,8 @@
 #pragma once
-#include "CameraController.h"
-#include "Light.h"
+#include "Graphicals/CameraController.h"
+#include "Graphicals/Light.h"
 #include "Test.h"
-#include "ModelLoading/OBJModel.h"
+#include "Utils/ModelLoading/OBJModel.h"
 
 namespace Quasi::Graphics {
     struct MTLMaterial;
@@ -40,8 +40,8 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
-        void UniformMaterial(const std::string& name, const Graphics::MTLMaterial& material);
-        void UniformLight(const std::string& name, const Graphics::Light& light);
+        void UniformMaterial(const String& name, const Graphics::MTLMaterial& material);
+        void UniformLight(const String& name, const Graphics::Light& light);
 
         void AddPointLight(const Graphics::PointLight& point, const Math::fColor& color);
     };

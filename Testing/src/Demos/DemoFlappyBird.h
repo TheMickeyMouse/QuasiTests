@@ -1,10 +1,10 @@
 #pragma once
 #include <queue>
 
-#include "Geometry.h"
-#include "Mesh.h"
 #include "Test.h"
-#include "Fonts/Font.h"
+#include "Graphicals/Mesh.h"
+#include "Math/Geometry.h"
+#include "Utils/Fonts/Font.h"
 
 namespace Test {
     class DemoFlappyBird : public Test {
