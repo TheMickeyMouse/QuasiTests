@@ -229,7 +229,7 @@ namespace Test {
             ImGui::EditColor ("Tint", Selected()->color);
 
             if (ImGui::Button("Delete")) {
-                Selected()->body.Remove();
+                world.DeleteBody(Selected()->body);
                 bodyData.Pop(selectedIndex);
                 selectedIndex = ~0;
                 controlIndex = ~0;
@@ -299,7 +299,7 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::AddBodyTint(const Math::fColor& color) {
-        bodyData.Push({ world.bodies.Last(), color });
+        bodyData.Push({ *world.bodies.Last(), color });
     }
 
     void TestPhysicsPlayground2D::SelectControl(const Math::fVector2& mouse) {
