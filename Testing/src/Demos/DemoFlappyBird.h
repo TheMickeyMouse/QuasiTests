@@ -9,9 +9,9 @@
 namespace Test {
     class DemoFlappyBird : public Test {
         struct Vertex {
-            Math::fVector2 Position;
+            Math::fv2 Position;
             Math::fColor Color;
-            Math::fVector2 TextureCoord;
+            Math::fv2 TextureCoord;
             int RenderType;
 
             QuasiDefineVertex$(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoord)(RenderType));

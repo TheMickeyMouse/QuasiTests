@@ -14,7 +14,7 @@ namespace Test {
         cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
-            out (Color) = fColor::color_id((int)(i / 4) + 1);,
+            out (Color) = fColor::FromColorID((Colors::ColorID)(i / 4 + (u32)Colors::ColorID::BETTER_RED));,
             i++;
         )));
 
@@ -28,7 +28,7 @@ namespace Test {
 
     void TestCubeRender::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         ImGui::EditTransform("Transform", cube.modelTransform, 0.01f);
-        ImGui::EditScalar("Transparency", alpha, 0.01f, Math::fRange { 0, 1 });
+        ImGui::EditScalar("Transparency", alpha, 0.01f, fRange { 0, 1 });
     }
 
     void TestCubeRender::OnDestroy(Graphics::GraphicsDevice& gdevice) {

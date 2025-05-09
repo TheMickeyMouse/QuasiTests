@@ -9,7 +9,7 @@ namespace Test {
         Graphics::RenderObject<Vertex> render;
         Graphics::Mesh<Vertex> mesh;
 
-        Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f });
+        Math::Matrix3D projection = Math::Matrix3D::OrthoProjection({ { -320, -240, -1 }, { 320, 240, 1 } });
 
         DEFINE_TEST_T(TestDynamicVertexGeometry, BASIC)
     public:

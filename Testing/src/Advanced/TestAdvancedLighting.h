@@ -7,7 +7,7 @@ namespace Test {
     class TestAdvancedLighting : public Test {
     public:
         struct Vertex {
-            Math::fVector3 Position, Normal;
+            Math::fv3 Position, Normal;
             int MaterialId;
 
             QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialId));
@@ -20,7 +20,7 @@ namespace Test {
         Vec<Graphics::MTLMaterial> materials;
         Graphics::CameraController camera;
 
-        Math::fVector3 lightPos = { 10, 27, 10 };
+        Math::fv3 lightPos = { 10, 27, 10 };
         Math::fColor3 lightColor = 1;
         float ambientStrength = 0.25f, specularStrength = 0.6f;
 

@@ -21,7 +21,7 @@ namespace Test {
                 model.objects[i].mesh.GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
                     in (Position, Normal),
                     out (Position) = Position;,
-                    out (Color) = Math::fColor::color_id(1 + i);,
+                    out (Color) = Math::fColor::FromColorID((Math::Colors::ColorID)((int)Math::Colors::BETTER_RED + i));,
                     out (Normal) = Normal;
                 ))
             ));
@@ -32,7 +32,7 @@ namespace Test {
 
         depthMap = Graphics::FrameBuffer::New();
         depthTex = Graphics::Texture::New(
-            nullptr, gdevice.GetWindowSize().as<u32>(), {
+            nullptr, (Math::uv2)gdevice.GetWindowSize(), {
                 .load = {
                     .format = Graphics::TextureFormat::DEPTH,
                     .internalformat = Graphics::TextureIFormat::DEPTH_16,
@@ -40,7 +40,7 @@ namespace Test {
                 },
                 .params = {
                     { Graphics::TextureParamName::XT_WRAPPING, Graphics::TextureBorder::CLAMP_TO_BORDER },
-                    { Graphics::TextureParamName::BORDER_COLOR, Math::fVector4::ONE().cbegin() }
+                    { Graphics::TextureParamName::BORDER_COLOR, AsConst(Math::fv4::One()).Data() }
                 }
             }
         );
@@ -78,8 +78,8 @@ namespace Test {
     }
 
     void TestShadowMap::OnRender(Graphics::GraphicsDevice& gdevice) {
-        const Math::Matrix3D lightProj = Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), clipDistance.min, clipDistance.max),
-                           lightView = Math::Matrix3D::look_at(lightPosition, 0, Math::fVector3::UP());
+        const Math::Matrix3D lightProj = Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), clipDistance.min, clipDistance.max),
+                           lightView = Math::Matrix3D::LookAt(lightPosition, -lightPosition.Norm(), Math::fv3::Up());
 
         {
             Graphics::Render::SetCullFace(Graphics::FacingMode::FRONT);
@@ -97,8 +97,8 @@ namespace Test {
         if (showDepthMap) {
             shadowMapDisplay.Draw(screenQuad, Graphics::UseArgs({
                 { "displayTex", depthTex },
-                { "near", clipDistance.min.value() },
-                { "far", clipDistance.max.value() }
+                { "near", clipDistance.min },
+                { "far", clipDistance.max }
             }, false));
         } else {
             scene.SetProjection(camera.GetProjMat());

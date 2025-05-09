@@ -17,9 +17,9 @@ namespace Test {
         Graphics::RenderObject<Graphics::VertexTexture2D> shadowMapDisplay;
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
-        Math::fVector3 lightPosition { -8.2f, 11.2f, 6.6f };
+        Math::fv3 lightPosition { -8.2f, 11.2f, 6.6f };
         float ambStrength = 0.2f;
-        Math::fRange clipDistance = { 1.0f, 100.0f };
+        fRange clipDistance = { 1.0f, 100.0f };
         bool showDepthMap = false, useSmoothShadows = true;
 
         Graphics::CameraController camera;

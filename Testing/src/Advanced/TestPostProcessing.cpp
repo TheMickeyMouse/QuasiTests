@@ -14,32 +14,33 @@ namespace Test {
 
         cubes.Reserve(9);
 
+        using namespace Math;
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
             cubes.Push(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color) = Math::fColor::color_id(i);
-            )), Math::Transform3D::Scaling(s)));
+                out (Color) = fColor::FromColorID((Colors::ColorID)((int)Colors::BETTER_RED + i));
+            )), Transform3D::Scale(s)));
 
-            cubes[i].SetTransform(Math::Transform3D::Translation(Math::fVector3::from_corner(i, 1)));
+            cubes[i].SetTransform(Transform3D::Translate(fv3::FromCorner({ (bool)(i & 1), (bool)(i & 2), (bool)(i & 4) }, 1)));
         }
         cubes.Push(
         Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color) = Math::fColor::BETTER_GRAY();
-        )), Math::Transform3D::Scaling(s)));
+                out (Color) = "gray+"_fColor;
+        )), Transform3D::Scale(s)));
 
         scene.UseShader(Graphics::Shader::StdColored);
-        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         const auto [winX, winY] = gdevice.GetWindowSize();
         fbo = Graphics::FrameBuffer::New();
         fbo.Bind();
 
         renderResult = Graphics::Texture::New(
-            nullptr, { winX, winY },
+            nullptr, { (u32)winX, (u32)winY },
             { .load = { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 } }
         );
 
@@ -75,7 +76,7 @@ namespace Test {
     }
 
     void TestPostProcessing::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-        transform.rotation.rotate_by(turnSpeed.pow(deltaTime));
+        transform.rotation += turnSpeed * deltaTime;
     }
 
     void TestPostProcessing::OnRender(Graphics::GraphicsDevice& gdevice) {
@@ -133,7 +134,7 @@ namespace Test {
     void TestPostProcessing::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         ImGui::EditTransform("Transform", transform, 0.01);
 
-        ImGui::EditQuatRotation("Spin Speed", turnSpeed);
+        ImGui::EditRotation3D("Spin Speed", turnSpeed);
 
         ImGui::Separator();
 
@@ -145,13 +146,13 @@ namespace Test {
             TAB_ITEM(NONE, "None", postProcessingQuad->shader, )
             TAB_ITEM(COLOR_INVERT, "Color Invert", shaderInv, )
             TAB_ITEM(COLOR_HSL, "Color Hue", shaderHsv,
-                ImGui::EditScalar("Hue Shift", hueShift, 0.01f, Math::fRange { 0, 1 });
-                ImGui::EditScalar("Saturation Multiplier", satMul, 0.01f, Math::fRange { 0, 10 });
-                ImGui::EditScalar("Value Shift", valShift, 0.01f, Math::fRange { -1, 1 });)
+                ImGui::EditScalar("Hue Shift", hueShift, 0.01f, fRange { 0, 1 });
+                ImGui::EditScalar("Saturation Multiplier", satMul, 0.01f, fRange { 0, 10 });
+                ImGui::EditScalar("Value Shift", valShift, 0.01f, fRange { -1, 1 });)
             TAB_ITEM(BLUR, "Blur", shaderBlur, ImGui::EditVector("Blur Offset", effectOff, 0.1f); )
             TAB_ITEM(EDGE_DETECT, "Edge Detection", shaderEdgeDetect, ImGui::EditVector("Detect Offset", effectOff, 0.1f); )
             TAB_ITEM(OUTLINE, "Outline (Stencil)", shaderOutline,
-                ImGui::EditScalar("Outline Size", outlineSize, 0.01f, Math::fRange { 1, 2 });
+                ImGui::EditScalar("Outline Size", outlineSize, 0.01f, fRange { 1, 2 });
             )
             ImGui::EndTabBar();
         }

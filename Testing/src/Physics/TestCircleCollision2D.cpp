@@ -11,7 +11,7 @@
 namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
-        viewport = { 0, 80, 0, 60 };
+        viewport = { 0, { 80, 60 } };
 
         circleMesh = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
             in (Position),
@@ -21,7 +21,7 @@ namespace Test {
         scene.UseShaderFromFile(res("circle.vert").IntoCStr(), res("circle.frag").IntoCStr());
         lineShader = Graphics::Shader::FromFile(res("line.vert").IntoCStr(), res("line.frag").IntoCStr(), res("line.geom").IntoCStr());
 
-        scene.SetProjection(Math::Matrix3D::ortho_projection({ 0, 80, 0, 60, -1, 1 }));
+        scene.SetProjection(Math::Matrix3D::OrthoProjection({ { 0, 0, -1 }, { 80, 60, 1 } }));
 
         world = { { 0, -40.0f } };
         ResetBalls(gdevice);
@@ -38,7 +38,7 @@ namespace Test {
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         const auto& mouse = gdevice.GetIO().Mouse;
-        const Math::fVector2 mousePos = mouse.GetMousePos().as<float>().map({ -1, 1, 1, -1 }, viewport);
+        const Math::fv2 mousePos = mouse.GetMousePos().As<float>().MapCoords({ -1, 1 }, viewport);
         if (mouse.LeftOnPress() && !selected) {
             selected = FindBallAt(mousePos);
             if (selected)
@@ -46,7 +46,7 @@ namespace Test {
         }
 
         if (mouse.LeftPressed() && selected) {
-            const Math::fVector2 newPos = mousePos - selectOffset;
+            const Math::fv2 newPos = mousePos - selectOffset;
             selected->position = newPos;
             selected->velocity = 0;
         }
@@ -93,11 +93,11 @@ namespace Test {
 
     void TestCircleCollision2D::OnRender(Graphics::GraphicsDevice& gdevice) {
         scene->shader.Bind();
-        Array<Math::fVector2, TOTAL_BALL_COUNT> offsets;
+        Array<Math::fv2, TOTAL_BALL_COUNT> offsets;
         Array<float, TOTAL_BALL_COUNT> scales;
         Array<Math::fColor, TOTAL_BALL_COUNT> colors;
 
-        const Math::fRange xRange = Math::fRange::over(
+        const fRange xRange = fRange::Over(
             world.bodies.Iter().Map([] (const Box<Physics2D::Body>& x) { return x->position.x; })
         );
         usize i = 0;
@@ -107,8 +107,8 @@ namespace Test {
             if (selectedIndex == -1 && selected && selected.RefEquals(body.AsRef())) selectedIndex = (int)i;
             offsets[i] = body->position;
             scales[i] = body->shape.As<Physics2D::CircleShape>()->radius;
-            colors[i] = Math::fColor::from_hsv(
-                Math::Unit { offsets[i].x }.map(xRange, { 0, 360.f }).value(),
+            colors[i] = Math::fColor::FromHSV(
+                xRange.MapTo(offsets[i].x, { 0, 360 }),
                 body->IsStatic() ? 0.2f : 0.8f,
                 body->IsStatic() ? 0.5f : 0.8f);
             ++i;
@@ -146,7 +146,7 @@ namespace Test {
     void TestCircleCollision2D::AddRandomBall(Graphics::GraphicsDevice& gdevice) {
         auto& rand = gdevice.GetRand();
 
-        const Math::fVector2 position = Math::fVector2::random(rand, viewport.inset(3.0f));
+        const Math::fv2 position = Math::fv2::Random(rand, viewport.Inset(3.0f));
         const float radius = rand.Get(1.0f, 3.0f);
         world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius);
     }
@@ -162,19 +162,19 @@ namespace Test {
 
         for (u32 i = 0; i < STATIC_BALL_COUNT; ++i) {
             world.CreateBody<CircleShape>({
-                .position = fVector2::random(rand, viewport),
+                .position = fv2::Random(rand, viewport),
                 .type = BodyType::STATIC,
                 .density = 0.0f },
             rand.Get(4.0f, 6.0f));
         }
 
-        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.height() * 0.5f - 1.0f);
-        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.width(), +viewport.height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.height() * 0.5f - 1.0f);
-        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.width() * 0.5f - 1.0f,  1.0f);
-        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.width() * 0.5f, +viewport.height() }, .type = BodyType::STATIC }, viewport.width() * 0.5f - 1.0f,  1.0f);
+        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.Height() * 0.5f - 1.0f);
+        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.Width(), +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.Height() * 0.5f - 1.0f);
+        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.Width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.Width() * 0.5f - 1.0f,  1.0f);
+        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.Width() * 0.5f, +viewport.Height() }, .type = BodyType::STATIC }, viewport.Width() * 0.5f - 1.0f,  1.0f);
     }
 
-    OptRef<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fVector2& mousePos) {
+    OptRef<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fv2& mousePos) {
         const Physics2D::Shape mouse = Physics2D::CircleShape { 0.0f };
         for (auto& circ : world.bodies) {
             if (circ->OverlapsWith(mouse, mousePos)) {

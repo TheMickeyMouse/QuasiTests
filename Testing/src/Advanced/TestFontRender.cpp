@@ -24,13 +24,12 @@ namespace Test {
         font.RenderBitmap();
         font.GetTexture().Activate();
 
-        const Math::fVector2 size = font.GetTexture().Size2D();
-        const float x = size.x / size.y;
+        const float aspect = font.GetTexture().Size2D().AspectRatio();
         Vec<Vertex> atlVertices = Vec<Vertex>::New({
-            { { -100.0f * x, -100.0f }, 1, { 0.0f, 1.0f }, 1 },
-            { { +100.0f * x, -100.0f }, 1, { 1.0f, 1.0f }, 1 },
-            { { +100.0f * x, +100.0f }, 1, { 1.0f, 0.0f }, 1 },
-            { { -100.0f * x, +100.0f }, 1, { 0.0f, 0.0f }, 1 },
+            { { -100.0f * aspect, -100.0f }, 1, { 0.0f, 1.0f }, 1 },
+            { { +100.0f * aspect, -100.0f }, 1, { 1.0f, 1.0f }, 1 },
+            { { +100.0f * aspect, +100.0f }, 1, { 1.0f, 0.0f }, 1 },
+            { { -100.0f * aspect, +100.0f }, 1, { 0.0f, 0.0f }, 1 },
         });
         
         Vec<Graphics::TriIndices> atlIndices = Vec<Graphics::TriIndices>::New({
@@ -40,7 +39,7 @@ namespace Test {
         
         meshAtlas = Graphics::Mesh(std::move(atlVertices), std::move(atlIndices));
 
-        const Math::fColor bgColor = Math::fColor::BETTER_BLACK();
+        const Math::fColor bgColor = Math::fColor::FromColorID(Math::Colors::BETTER_BLACK);
         Vec<Vertex> bgVertices = Vec<Vertex>::New({
             { { -200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
@@ -60,10 +59,10 @@ namespace Test {
         render.SetCamera(transform.As3D().TransformMatrix());
 
         auto& vert = meshBg.vertices;
-        vert[0].Position = textBox.corner(0);
-        vert[1].Position = textBox.corner(1);
-        vert[2].Position = textBox.corner(3); // yes this is correct
-        vert[3].Position = textBox.corner(2);
+        vert[0].Position = textBox.Corner({ false, false });
+        vert[1].Position = textBox.Corner({ true,  false });
+        vert[2].Position = textBox.Corner({ true,  true  }); // yes this is correct
+        vert[3].Position = textBox.Corner({ false, true  });
 
         if (!showAtlas) {
             const Graphics::TextAlign alignment =
@@ -99,9 +98,9 @@ namespace Test {
         ImGui::Checkbox("Parse as Markdown", &useMarkdown);
         
         ImGui::EditColor ("Color",       color);
-        ImGui::EditScalar("Font Size",   fontSize,  1,    Math::fRange { 4, 48 });
-        ImGui::EditScalar("Thickness",   thickness, 0.01, Math::fRange { 0, 1 });
-        ImGui::EditScalar("Softness",    softness,  0.01, Math::fRange { 0, 1 });
+        ImGui::EditScalar("Font Size",   fontSize,  1,    fRange { 4, 48 });
+        ImGui::EditScalar("Thickness",   thickness, 0.01, fRange { 1 });
+        ImGui::EditScalar("Softness",    softness,  0.01, fRange { 1 });
 
         ImGui::EditVector("Text Bottom Left", textBox.min, 1, Math::fRect2D { -300, 300 });
         ImGui::EditVector("Text Top Right",   textBox.max, 1, Math::fRect2D { -300, 300 });
@@ -110,12 +109,12 @@ namespace Test {
         ImGui::Combo("Alignment Y", &alignY, "Center\0Top\0Bottom\0Justified\0\0");
         ImGui::Combo("Wrap Mode", &wrapMethod, "None\0Break Sentence\0Break Words\0\0");
         ImGui::Checkbox("Crop X", &cropX); ImGui::SameLine(); ImGui::Checkbox("Crop Y", &cropY);
-        ImGui::EditScalar("Letter Spacing", letterSpace, 0.01, Math::fRange { -10, 10 });
-        ImGui::EditScalar("Line   Spacing", lineSpace,   0.01, Math::fRange { -1, 2 });
+        ImGui::EditScalar("Letter Spacing", letterSpace, 0.01, fRange { -10, 10 });
+        ImGui::EditScalar("Line   Spacing", lineSpace,   0.01, fRange { -1, 2 });
 
         if (ImGui::CollapsingHeader("Shadow Properties")) {
             ImGui::EditColor ("Shadow Color",    shadowColor);
-            ImGui::EditScalar("Shadow Softness", shadowSoftness, 0.01, Math::fRange { 0, 1 });
+            ImGui::EditScalar("Shadow Softness", shadowSoftness, 0.01, fRange { 1 });
             ImGui::EditVector("Shadow Offset",   shadowOffset, 0.1, Math::fRect2D { -10, 10 });
         }
 
@@ -126,7 +125,7 @@ namespace Test {
         if (showAtlas) {
             const float x = meshAtlas.vertices[1].Position.x;
             const auto& glyph = font.GetGlyphRect(string.Last());
-            meshAtlas.SetTransform(Math::Transform2D::Translation({ x * (1 - 2 * glyph.rect.center().x), 0 }));
+            meshAtlas.SetTransform(Math::Transform2D::Translate({ x * (1 - 2 * glyph.rect.Center().x), 0 }));
         }
     }
 

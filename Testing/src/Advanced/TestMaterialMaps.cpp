@@ -27,10 +27,11 @@ namespace Test {
         scene->shader.SetUniformTex("specularMap", specularMap);
         scene->shader.Unbind();
 
+        using namespace Math;
         lightSource = Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
-            out (Color)    = Math::fColor::BETTER_AQUA();,
+            out (Color)    = "aqua+"_fColor;,
         )));
         lightScene.UseShader(Graphics::Shader::StdColored);
 
@@ -52,8 +53,8 @@ namespace Test {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
 
-        lightSource.GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lightColor.with_alpha(1); });
-        lightSource.SetTransform(Math::Transform3D::Translation(lightPos));
+        lightSource.GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = (Math::fColor)lightColor; });
+        lightSource.SetTransform(Math::Transform3D::Translate(lightPos));
         lightScene.Draw(lightSource);
 
         scene.SetProjection(camera.GetProjMat());

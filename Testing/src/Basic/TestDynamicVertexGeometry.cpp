@@ -11,15 +11,14 @@ namespace Test {
 
         using namespace Math;
         Vec<Vertex> vertices = Vec<Vertex>::New({
-            { { -240.0f, -80.0f }, fColor::RED()   },
-            { { -80.00f, -80.0f }, fColor::GREEN() },
-            { { -80.00f, +80.0f }, fColor::BLUE()  },
-            { { -240.0f, +80.0f }, fColor::GRAY()  },
-            
-            { { +80.00f, -80.0f }, fColor::MAGENTA() },
-            { { +240.0f, -80.0f }, fColor::YELLOW()  },
-            { { +240.0f, +80.0f }, fColor::CYAN()    },
-            { { +80.00f, +80.0f }, fColor::WHITE()   },
+            { { -240.0f, -80.0f }, "red"_fColor     },
+            { { -80.00f, -80.0f }, "green"_fColor   },
+            { { -80.00f, +80.0f }, "blue"_fColor    },
+            { { -240.0f, +80.0f }, "gray"_fColor    },
+            { { +80.00f, -80.0f }, "magenta"_fColor },
+            { { +240.0f, -80.0f }, "yellow"_fColor  },
+            { { +240.0f, +80.0f }, "cyan"_fColor    },
+            { { +80.00f, +80.0f }, "white"_fColor   },
         });
 
         Vec<Graphics::TriIndices> indices = Vec<Graphics::TriIndices>::New({

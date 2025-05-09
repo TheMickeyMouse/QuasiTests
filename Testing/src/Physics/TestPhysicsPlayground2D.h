@@ -17,18 +17,18 @@ namespace Test {
         Vec<Object> bodyData;
         Physics2D::World world;
 
-        Math::fVector2 lastDragPosition;
-        Math::fVector2 selectOffset;
-        Math::fVector2 controlOffset;
-        Math::fVector2 forceAddedPosition;
+        Math::fv2 lastDragPosition;
+        Math::fv2 selectOffset;
+        Math::fv2 controlOffset;
+        Math::fv2 forceAddedPosition;
         u32 controlIndex = ~0;
         u32 selectedIndex = ~0;
         bool hasAddedForce = false;
         bool selectedIsStatic = false;
-        Math::fVector2 addedVelocity;
+        Math::fv2 addedVelocity;
 
         float zoomFactor = 1.0f;
-        Math::fVector2 cameraPosition;
+        Math::fv2 cameraPosition;
 
         u32 onPause = 0;
 
@@ -47,14 +47,14 @@ namespace Test {
         void Unselect();
 
         OptRef<Object> Selected();
-        void AddNewPoint(const Math::fVector2& point, const Math::fColor& color);
-        u32 FindAt(const Math::fVector2& mousePos) const;
+        void AddNewPoint(const Math::fv2& point, const Math::fColor& color);
+        u32 FindAt(const Math::fv2& mousePos) const;
         void AddBodyTint(const Math::fColor& color);
 
-        void SelectControl(const Math::fVector2& mouse);
-        void SelectControlPoint(const Math::fVector2& mouse, const Math::fVector2& control, u32 i);
-        void EditControl(const Math::fVector2& mouse);
-        void EditControlPoint(const Math::fVector2& mouse, Math::fVector2& control, u32 i);
+        void SelectControl(const Math::fv2& mouse);
+        void SelectControlPoint(const Math::fv2& mouse, const Math::fv2& control, u32 i);
+        void EditControl(const Math::fv2& mouse);
+        void EditControlPoint(const Math::fv2& mouse, Math::fv2& control, u32 i);
         void DrawControlPoints();
         void EditBody();
 

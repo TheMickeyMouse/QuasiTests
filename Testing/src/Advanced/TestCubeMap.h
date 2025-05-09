@@ -7,7 +7,7 @@
 namespace Test {
     class TestCubeMap : public Test {
         struct Vertex {
-            Math::fVector3 Position, TextureCoordinate, Normal;
+            Math::fv3 Position, TextureCoordinate, Normal;
 
             QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(TextureCoordinate)(Normal, Graphics::NormTf));
         };
@@ -23,7 +23,7 @@ namespace Test {
         Graphics::Texture cubemap, boxTex;
         Graphics::Shader cubemapShader, boxShader, reflectShader, refractShader;
 
-        float lightYaw = 0.61f, lightPitch = -0.979f;
+        Math::Radians lightYaw = 0.61_rad, lightPitch = -0.979_rad;
         float ambStrength = 0.2f, refractiveIndex = 1.52f;
         int shaderID = 0;
 

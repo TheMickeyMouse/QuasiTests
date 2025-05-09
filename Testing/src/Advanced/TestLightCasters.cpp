@@ -25,7 +25,7 @@ namespace Test {
         }
 
         scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
-        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 8.746245, 16.436476, 7.217131 };
         camera.yaw = -5.5221653; camera.pitch = 1.1316143;
@@ -116,7 +116,7 @@ namespace Test {
             for (u32 i = 0; i < lights.Length(); ++i) {
                 ImGui::EditLight(Text::Format("Light {}", i + 1), lights[i]);
                 lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
-                lightMeshes[i].SetTransform(Math::Transform3D::Translation(lights[i].Position()));
+                lightMeshes[i].SetTransform(Math::Transform3D::Translate(lights[i].Position()));
             }
             ImGui::TreePop();
         }
@@ -139,7 +139,7 @@ namespace Test {
 
     void TestLightCasters::UniformLight(const String& name, const Graphics::Light& light) {
         Graphics::Shader& shader = scene->shader;
-        Math::fVector3 top, bottom;
+        Math::fv3 top, bottom;
         light.Visit(
             [&] (const Graphics::SunLight& sun) { top = sun.direction; },
             [&] (const Graphics::PointLight& point) {
@@ -148,14 +148,14 @@ namespace Test {
             },
             [&] (const Graphics::FlashLight& flash) {
                 top = flash.position;
-                bottom = { flash.yaw, flash.pitch, flash.innerCut };
+                bottom = { *flash.yaw, *flash.pitch, *flash.innerCut };
             }
         );
         shader.SetUniformArgs({
             { name + ".lightId", (int)light.GetTag() + 1 },
             { name + ".d1", top },
             { name + ".d2", bottom },
-            { name + ".d3", light.Is<Graphics::FlashLight>() ? light.As<Graphics::FlashLight>()->outerCut : 0 },
+            { name + ".d3", light.Is<Graphics::FlashLight>() ? *light.As<Graphics::FlashLight>()->outerCut : 0 },
             { name + ".color", light.color },
         });
     }
@@ -171,6 +171,6 @@ namespace Test {
                 out (Color) = color;
             )))
         );
-        lightMeshes.Last().SetTransform(Math::Transform3D::Translation(point.position));
+        lightMeshes.Last().SetTransform(Math::Transform3D::Translate(point.position));
     }
 }

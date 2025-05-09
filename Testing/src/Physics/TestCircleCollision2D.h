@@ -21,8 +21,8 @@ namespace Test {
         Math::fRect2D viewport;
 
         OptRef<Physics2D::Body> selected = nullptr;
-        Math::fVector2 selectOffset = 0;
-        Math::fVector2 lastDragPosition;
+        Math::fv2 selectOffset = 0;
+        Math::fv2 lastDragPosition;
 
         DEFINE_TEST_T(TestCircleCollision2D, SIM_PHYSICS);
     public:
@@ -34,6 +34,6 @@ namespace Test {
 
         void AddRandomBall(Graphics::GraphicsDevice& gdevice);
         void ResetBalls(Graphics::GraphicsDevice& gdevice);
-        OptRef<Physics2D::Body> FindBallAt(const Math::fVector2& mousePos);
+        OptRef<Physics2D::Body> FindBallAt(const Math::fv2& mousePos);
     };
 } // Test

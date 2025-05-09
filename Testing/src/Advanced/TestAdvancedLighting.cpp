@@ -22,7 +22,7 @@ namespace Test {
         }
 
         scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
-        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 4.7875953, 9.015127, 0.9847422 };
         camera.yaw = -11.068636; camera.pitch = 1.0935568;
@@ -39,7 +39,7 @@ namespace Test {
     void TestAdvancedLighting::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         camera.Update(gdevice, deltaTime);
 
-        // lightPos = Math::fVector2::from_polar(5, (float)gdevice.GetIO().Time.currentTime).with_z(0);
+        // lightPos = Math::fv2::from_polar(5, (float)gdevice.GetIO().Time.currentTime).with_z(0);
         // light.SetTransform(Math::Matrix3D::translate_mat(lightPos));
     }
 

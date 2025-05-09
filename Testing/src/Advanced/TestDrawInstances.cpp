@@ -15,19 +15,19 @@ namespace Test {
         colors.Resize(INSTANCE_NUM);
 
         using namespace Math;
-        const fVector4 black = fColor3::BETTER_BLACK().as_rgbaf();
-        const Matrix4x4 colorTransformer = {
-            fColor3::BETTER_RED()  .as_rgbaf() - black,
-            fColor3::BETTER_LIME() .as_rgbaf() - black,
-            fColor3::BETTER_BLUE() .as_rgbaf() - black,
-            fColor3::BETTER_BLACK().as_rgbaf()
-        };
+        const fv4 black = fColor3::FromColorID(Colors::BETTER_BLACK).AsRGBAfVec();
+        const Matrix4x4 colorTransformer = Matrix4x4::FromColumns({
+            fColor3::FromColorID(Colors::RED) .AsRGBAfVec() - black,
+            fColor3::FromColorID(Colors::LIME).AsRGBAfVec() - black,
+            fColor3::FromColorID(Colors::BLUE).AsRGBAfVec() - black,
+            black
+        });
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
             const u32 x = i % 3, y = i / 3 % 3, z = i / 9;
-            const fVector3 pos = { x, y, z };
+            const fv3 pos = { (f32)x, (f32)y, (f32)z };
             transforms[i].position = (pos - 1) * 3;
             transforms[i].scale = 0.75f;
-            colors[i] = (colorTransformer * (pos * pos / 4).with_w(1)).xyz().to_color3();
+            colors[i] = fColor3 { (fv3)(colorTransformer * (pos * pos / 4)) };
         }
 
         cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
@@ -68,13 +68,13 @@ namespace Test {
             { "models",         modelMats },
             { "normMat",        normMats },
             { "colors",         colors },
-            { "lightDirection", Math::fVector3::from_spheric(1, lightYaw, lightPitch) },
+            { "lightDirection", Math::fv3::FromSpheric(1, lightYaw, lightPitch) },
             { "ambientStrength", ambStrength },
         }));
     }
 
     void TestDrawInstances::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::EditRotation("Light Rotation", lightYaw, lightPitch);
+        ImGui::EditYawPitch("Light Rotation", *lightYaw, *lightPitch);
         ImGui::EditScalar("Ambient", ambStrength, 0.05f);
         if (ImGui::TreeNode("Cube Instances")) {
             for (u32 i = 0; i < INSTANCE_NUM; ++i) {
@@ -97,7 +97,7 @@ namespace Test {
 
     void TestDrawInstances::RandomizeRotations(Graphics::GraphicsDevice& gdevice) {
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
-            transforms[i].rotation = Math::Quaternion::random_rot(gdevice.GetRand());
+            transforms[i].rotation = Math::Rotation3D::Random(gdevice.GetRand());
         }
     }
 } // Test

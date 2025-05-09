@@ -14,7 +14,7 @@ namespace Test {
         Graphics::Mesh<Graphics::VertexColor3D> lightSource;
         Graphics::CameraController camera;
 
-        Math::fVector3 lightPos = { 0, 8, 2 };
+        Math::fv3 lightPos = { 0, 8, 2 };
         Math::fColor3 lightColor = 1;
         float ambientStrength = 0.03f, specularStrength = 1.2f;
         Graphics::Texture diffuseMap, specularMap;

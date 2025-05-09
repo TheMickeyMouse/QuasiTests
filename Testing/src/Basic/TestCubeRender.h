@@ -9,7 +9,7 @@ namespace Test {
         Graphics::RenderObject<Graphics::VertexColor3D> render;
         Graphics::Mesh<Graphics::VertexColor3D> cube;
 
-        Math::Matrix3D projection = Math::Matrix3D::ortho_projection({ -5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f });
+        Math::Matrix3D projection = Math::Matrix3D::OrthoProjection({ -5, 5 });
         float alpha = 1.0f;
 
         DEFINE_TEST_T(TestCubeRender, BASIC)

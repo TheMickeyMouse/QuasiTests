@@ -20,9 +20,9 @@ namespace Test {
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
         Math::Transform3D transform { { 0, 0, -5 } };
-        Math::Quaternion turnSpeed = 1;
+        Math::Rotation3D turnSpeed {};
 
-        Math::fVector2 effectOff = 3;
+        Math::fv2 effectOff = 3;
         float hueShift = 0, satMul = 0, valShift = 0;
         float outlineSize = 1.1f;
 

@@ -14,7 +14,7 @@ namespace Test {
 
         struct TestSection {
             TestType type;
-            Math::zRange span;
+            zRange span;
             Str description;
         };
 

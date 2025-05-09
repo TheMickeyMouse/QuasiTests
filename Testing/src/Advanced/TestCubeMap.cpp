@@ -8,7 +8,7 @@
 
 namespace Test {
     void TestCubeMap::OnInit(Graphics::GraphicsDevice& gdevice) {
-        using Math::fVector2;
+        using Math::fv2;
 
         scene = gdevice.CreateNewRender<Vertex>();
         skybox = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
@@ -31,17 +31,17 @@ namespace Test {
         box = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position)          = Position;,
-            out (TextureCoordinate) = 0.5f + fVector2::from_corner(i % 4, 1) * 0.5f;,
+            out (TextureCoordinate) = (0.5f + fv2::FromCorner({ (bool)(i & 1), (bool)(i & 2) }) * 0.5f).AddZ(0);,
             out (Normal)            = Normal;,
             i++;
         )));
 
         cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert").IntoCStr(), res("cubemap.frag").IntoCStr());
-        boxShader     = Graphics::Shader::FromFile(res("box.vert").IntoCStr(),     res("box.frag").IntoCStr());
+        boxShader     = Graphics::Shader::FromFile(res("box.vert")    .IntoCStr(), res("box.frag")    .IntoCStr());
         reflectShader = Graphics::Shader::FromFile(res("reflect.vert").IntoCStr(), res("reflect.frag").IntoCStr());
         refractShader = Graphics::Shader::FromFile(res("refract.vert").IntoCStr(), res("refract.frag").IntoCStr());
 
-        scene.SetProjection(Math::Matrix3D::perspective_fov(90.0f, gdevice.GetAspectRatio(), 0.01f, 100.0f));
+        scene.SetProjection(Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 0.5531298, 0.82467157, -1.2348987 };
         camera.yaw = 2.2044506f; camera.pitch = 0.20220234f;
@@ -67,7 +67,7 @@ namespace Test {
             case DIFFUSE_SHADER_ID:
                 scene.Draw(box, UseShaderWithArgs(boxShader, {
                     { "boxTex", boxTex },
-                    { "lightPosition", Math::fVector3::from_spheric(10.0f, lightYaw, lightPitch) },
+                    { "lightPosition", Math::fv3::FromSpheric(10.0f, lightYaw, lightPitch) },
                     { "ambientStrength", ambStrength }
                 }));
             break;
@@ -93,7 +93,7 @@ namespace Test {
     void TestCubeMap::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
         ImGui::EditCameraController("Camera", camera);
 
-        ImGui::EditRotation("Light Rotation", lightYaw, lightPitch);
+        ImGui::EditYawPitch("Light Rotation", *lightYaw, *lightPitch);
         ImGui::EditScalar("Ambient Strength", ambStrength, 0.05f);
 
         ImGui::BeginTabBar("Shader Type");

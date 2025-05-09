@@ -13,7 +13,8 @@ namespace Test {
         Vec<Math::Transform3D> transforms;
         Vec<Math::fColor3> colors;
 
-        float lightYaw = -0.346f, lightPitch = 0.088f, ambStrength = 0.2f;
+        Math::Radians lightYaw = -0.346_rad, lightPitch = 0.088_rad;
+        float ambStrength = 0.2f;
 
         Graphics::CameraController camera;
 

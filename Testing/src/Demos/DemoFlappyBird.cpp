@@ -10,33 +10,34 @@ namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(128, 128);
         render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
-        render.SetProjection(Math::Matrix3D::ortho_projection({ -320.0f, 320.0f, -240.0f, 240.0f, -1.0f, 1.0f }));
+        render.SetProjection(Math::Matrix3D::OrthoProjection({ { -320, -240, -1 }, { 320, 240, 1 } }));
 
         font = Graphics::Font::LoadFile(res("consola.ttf").IntoCStr());
         font.SetSize(48);
         font.RenderBitmap();
         font.GetTexture().Activate(0);
 
+        using namespace Math;
         mPlayer = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color)    = Math::fColor::BETTER_WHITE();
-            )), Math::Transform2D::Scaling(30.0f));
+                out (Color)    = "white+"_fColor;
+            )), Transform2D::Scale(30.0f));
 
         const auto blueprint = QGLCreateBlueprint$(Vertex, (
             in (Position),
             out (Position) = Position;,
-            out (Color)    = Math::fColor::BETTER_GREEN();
+            out (Color)    = "green+"_fColor;
         ));
 
         mBg = Graphics::Mesh<Vertex>::Combine(Spans::Vals({
-            Graphics::MeshUtils::Quad(blueprint, Math::Transform2D { { 0, +240 }, { 320, 20 } }),
-            Graphics::MeshUtils::Quad(blueprint, Math::Transform2D { { 0, -240 }, { 320, 20 } })
+            Graphics::MeshUtils::Quad(blueprint, Transform2D { { 0, +240 }, { 320, 20 } }),
+            Graphics::MeshUtils::Quad(blueprint, Transform2D { { 0, -240 }, { 320, 20 } })
         }));
 
         time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;
-        Graphics::Render::SetClearColor(Math::fColor::BETTER_BLACK());
+        Graphics::Render::SetClearColor("black+"_fColor);
     }
 
     void DemoFlappyBird::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -59,9 +60,9 @@ namespace Test {
         render->shader.SetUniformTex("u_font", font.GetTexture());
 
         using namespace Graphics;
-        mPlayer.SetTransform(Math::Transform2D::Translation({ -150, yPos }));
+        mPlayer.SetTransform(Math::Transform2D::Translate({ -150, yPos }));
         mText = font.RenderText(Text::Format("{}", score), 80,
-            TextAlign { { -20, 20, 100, 140 } }.SpaceOut(1, -16))
+            TextAlign { {{ -20, 100 }, { 20, 140 }} }.SpaceOut(1, -16))
             .GeometryMap<Vertex>([](const Font::Vertex& v) -> Vertex {
                 return { v.Position, v.Color, v.TextureCoord, 1 };
         });
@@ -83,27 +84,30 @@ namespace Test {
     }
 
     void DemoFlappyBird::ManageSpikes(Graphics::GraphicsDevice& gdevice) {
+        using namespace Math;
+
         if (isEnd) return;
         nextSpawnTime += gdevice.GetIO().Time.DeltaTime();
         if (nextSpawnTime > 2) {
             nextSpawnTime -= 2;
             const float midY = gdevice.GetRand().Get(-100.0f, 100.0f);
-            Math::fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
-            Math::fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
+            const fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
+            const fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
+            const fColor LIME = "lime+"_fColor;
 
             spikes.Push({ {
-                { { top.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { top.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
+                { { top.p1, LIME, 0, 0 }, { top.p2, LIME, 0, 0 }, { top.p3, LIME, 0, 0 } },
                 { { 0, 1, 2 } }
             }, top, 370.0f });
             spikes.Push({ {
-                { { bot.p1, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p2, Math::fColor::BETTER_LIME(), 0, 0 }, { bot.p3, Math::fColor::BETTER_LIME(), 0, 0 } },
+                { { bot.p1, LIME, 0, 0 }, { bot.p2, LIME, 0, 0 }, { bot.p3, LIME, 0, 0 } },
                 { { 0, 1, 2 } }
             }, bot, 370.0f });
         }
 
         for (Spike& spike : spikes) {
             spike.xOff -= 150 * gdevice.GetIO().Time.DeltaTime();
-            spike.mesh.SetTransform(Math::Transform2D::Translation({ spike.xOff, 0 }));
+            spike.mesh.SetTransform(Transform2D::Translate({ spike.xOff, 0 }));
         }
 
         if (spikes && spikes.First().xOff <= -370.0f) {
@@ -112,16 +116,16 @@ namespace Test {
     }
 
     void DemoFlappyBird::CheckPlayerCollisions() {
+        using namespace Math;
         if (yPos <= -190.0f || 190.0f <= yPos) goto die; // NOLINT(cppcoreguidelines-avoid-goto, hicpp-avoid-goto)
         for (const Spike& spike : spikes) {
             for (int i = 1; i < 3; ++i) {
-                const Math::fLine2D  line = spike.collider.line(i) + Math::fVector2::unit_x(spike.xOff);
-                const Math::fVector2 center   = Math::fVector2 { -150, yPos },
-                                     toCenter = center - line.start,
-                                     dist     = line.forward(),
-                                     proj     = toCenter.projected(dist);
-                const float          factor   = std::abs(dist.x) > std::abs(dist.y) ? proj.x / dist.x : proj.y / dist.y;
-                if (center.distsq(factor <= 0 ? line.start : (factor >= 1 ? line.end : proj + line.start)) <= 30.0f * 30.0f)
+                const fLine2D line = spike.collider.LineAt(i) + fv2(spike.xOff, 0);
+                const fv2 center   = fv2 { -150, yPos },
+                                toCenter = center - line.start,
+                                proj     = toCenter.Project(line.forward);
+                const float     factor   = std::abs(line.forward.x) > std::abs(line.forward.y) ? proj.x / line.forward.x : proj.y / line.forward.y;
+                if (center.InRange(factor <= 0 ? line.start : (factor >= 1 ? line.End() : proj + line.start), 30.0f))
                     goto die;
             }
         }
@@ -129,6 +133,6 @@ namespace Test {
 
         die:
         isEnd = true;
-        mPlayer.GeometryPass([] (Vertex& v) { v.Color = Math::fColor::BETTER_RED(); });
+        mPlayer.GeometryPass([] (Vertex& v) { v.Color = 0xFF0000_fColor; });
     }
 }

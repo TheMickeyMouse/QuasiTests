@@ -14,32 +14,33 @@ namespace Test {
         scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
 
         world = { { 0, -80.0f } };
-        scene.SetProjection(Math::Matrix3D::ortho_projection({ -40, 40, -30, 30, -1, 1 }));
+        scene.SetProjection(Math::Matrix3D::OrthoProjection({ { -40, -30, -1 }, { 40, 30, 1 } }));
 
+        using namespace Math;
         world.CreateBody<Physics2D::RectShape>(
             { .position = {    0, -30 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             100, 2); // floor
-        AddBodyTint(Math::fColor::BETTER_GRAY());
+        AddBodyTint(0x808080_fColor);
         world.CreateBody<Physics2D::RectShape>(
             { .position = { -102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             2, 82); // left side
-        AddBodyTint(Math::fColor::BETTER_GRAY());
+        AddBodyTint(0x808080_fColor);
         world.CreateBody<Physics2D::RectShape>(
             { .position = { +102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             2, 82); // right side
-        AddBodyTint(Math::fColor::BETTER_GRAY());
+        AddBodyTint(0x808080_fColor);
         world.CreateBody<Physics2D::RectShape>(
             { .position = {    0, 130 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             100, 2); // ceiling
-        AddBodyTint(Math::fColor::BETTER_GRAY());
+        AddBodyTint(0x808080_fColor);
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         const auto& imguiio = ImGui::GetIO();
         if (!imguiio.WantCaptureMouse && !imguiio.WantCaptureKeyboard) {
             const auto& mouse = gdevice.GetIO().Mouse;
-            const Math::fVector2
-                rawMouse = mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }),
+            const Math::fv2
+                rawMouse = ((Math::fv2)mouse.GetMousePos()).MapFromUnit({ { 0, 0 }, { 40, 30 } }),
                 mousePos = rawMouse * zoomFactor + cameraPosition;
 
             if (mouse.LeftOnPress()) {
@@ -102,6 +103,7 @@ namespace Test {
 
         u32 i = 0;
 
+        using namespace Math;
         for (const auto& [body, color] : bodyData) {
             const auto& t = body->GetTransform();
             Qmatch$(body->shape, (
@@ -115,7 +117,7 @@ namespace Test {
                         )),
                         worldMesh
                     );
-                    AddNewPoint(t.Transform({ circ.radius, 0 }), Math::fColor::WHITE());
+                    AddNewPoint(t.Transform({ circ.radius, 0 }), 0xFFFFFF_fColor);
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
                     Graphics::MeshUtils::StadiumCreator::Merge(
@@ -126,7 +128,7 @@ namespace Test {
                             out (Color)    = color;
                         )), worldMesh
                     );
-                    AddNewPoint(t.Transform(cap.forward.perpend() * (cap.invLength * cap.radius)), Math::fColor::WHITE());
+                    AddNewPoint(t.Transform(cap.forward.Perpend() * (cap.invLength * cap.radius)), 0xFFFFFF_fColor);
                 },
                 instanceof (const Physics2D::TriangleShape& tri) {
                     worldMesh.NewBatch().PushTri(
@@ -155,8 +157,8 @@ namespace Test {
                     worldMesh.NewBatch().PushPolygon(
                         poly.data.Iter()
                                  .Map(Operators::Member<&Physics2D::DynPolygonShape::PointWithInvDist::coords> {})
-                                 .Map([&] (const Math::fVector2& p) {
-                                        return Vertex { body->rotation.rotate(p) + body->position, color };
+                                 .Map([&] (const Math::fv2& p) {
+                                        return Vertex { body->rotation.Rotate(p) + body->position, color };
                         })
                     );
                 }
@@ -165,26 +167,26 @@ namespace Test {
         }
 
         if (hasAddedForce) {
-            const Math::fColor blue = Math::fColor::BLUE();
-            const Math::fVector2 mouse = gdevice.GetIO().Mouse.GetMousePos().map({ -1, 1, 1, -1 }, { -40, 40, -30, 30 }) * zoomFactor + cameraPosition,
-                                 direction = (forceAddedPosition - mouse).norm(0.2f);
+            const fColor blue = 0x0000FF_fColor;
+            const fv2 mouse = ((fv2)gdevice.GetIO().Mouse.GetMousePos()).MapFromUnit({ 0, { 40, 30 } }) * zoomFactor + cameraPosition,
+                      direction = (forceAddedPosition - mouse).Norm(0.2f);
             auto meshp = worldMesh.NewBatch();
-            meshp.PushV({ forceAddedPosition + direction.perpend(), blue });
-            meshp.PushV({ forceAddedPosition - direction.perpend(), blue });
+            meshp.PushV({ forceAddedPosition + direction.Perpend(), blue });
+            meshp.PushV({ forceAddedPosition - direction.Perpend(), blue });
             meshp.PushV({ mouse, blue });
             meshp.PushI(0, 1, 2);
         }
 
         if (selectedIndex != ~0) {
-            AddNewPoint(Selected()->body->position, Math::fColor::RED());
+            AddNewPoint(Selected()->body->position, 0xFF0000_fColor);
         }
 
         DrawControlPoints();
 
-        Math::fRect3D viewport = Math::fRect3D { -40, 40, -30, 30, -1, 1 } * zoomFactor + cameraPosition;
+        fRect3D viewport = fRect3D { { -40, -30, -1 }, { 40, 30, 1 } } * zoomFactor + cameraPosition.AddZ(0);
         viewport.min.z = -1;
         viewport.max.z = +1;
-        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", Math::Matrix3D::ortho_projection(viewport) }}, false));
+        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", Matrix3D::OrthoProjection(viewport) }}, false));
     }
 
     void TestPhysicsPlayground2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -222,9 +224,9 @@ namespace Test {
             ImGui::Text("Type: %s", SHAPE_NAMES[Selected()->body->shape.GetTag()]);
 
             EditBody();
-            ImGui::EditComplexRotation("Rotation", Selected()->body->rotation);
+            ImGui::EditRotation2D("Rotation", Selected()->body->rotation);
             float m = Selected()->body->mass;
-            ImGui::EditScalar("Mass", m, 1, Math::fRange { 0, f32s::INFINITY });
+            ImGui::EditScalar("Mass", m, 1, fRange { 0, f32s::INFINITY });
             Selected()->body->SetMass(m);
             ImGui::EditColor ("Tint", Selected()->color);
 
@@ -277,17 +279,17 @@ namespace Test {
         return selectedIndex == ~0 ? nullptr : OptRefs::SomeRef(bodyData[selectedIndex]);
     }
 
-    void TestPhysicsPlayground2D::AddNewPoint(const Math::fVector2& point, const Math::fColor& color) {
+    void TestPhysicsPlayground2D::AddNewPoint(const Math::fv2& point, const Math::fColor& color) {
         auto meshp = worldMesh.NewBatch();
-        meshp.PushV({ point + Math::fVector2 { -0.5f, -0.5f }, color });
-        meshp.PushV({ point + Math::fVector2 { -0.5f, +0.5f }, color });
-        meshp.PushV({ point + Math::fVector2 { +0.5f, -0.5f }, color });
-        meshp.PushV({ point + Math::fVector2 { +0.5f, +0.5f }, color });
+        meshp.PushV({ point + Math::fv2 { -0.5f, -0.5f }, color });
+        meshp.PushV({ point + Math::fv2 { -0.5f, +0.5f }, color });
+        meshp.PushV({ point + Math::fv2 { +0.5f, -0.5f }, color });
+        meshp.PushV({ point + Math::fv2 { +0.5f, +0.5f }, color });
         meshp.PushI(0, 1, 2);
         meshp.PushI(1, 2, 3);
     }
 
-    u32 TestPhysicsPlayground2D::FindAt(const Math::fVector2& mousePos) const {
+    u32 TestPhysicsPlayground2D::FindAt(const Math::fv2& mousePos) const {
         const Physics2D::Shape mouseCollider = Physics2D::CircleShape { 0.0f };
         for (u32 i = 0; i < bodyData.Length(); ++i) {
             const auto& b = bodyData[i];
@@ -302,16 +304,16 @@ namespace Test {
         bodyData.Push({ *world.bodies.Last(), color });
     }
 
-    void TestPhysicsPlayground2D::SelectControl(const Math::fVector2& mouse) {
+    void TestPhysicsPlayground2D::SelectControl(const Math::fv2& mouse) {
         if (selectedIndex == ~0) return;
 
         const auto& t = Selected()->body->GetTransform();
         Qmatch$ (Selected()->body->shape, (
             instanceof (const Physics2D::CircleShape& circ) {
-                SelectControlPoint(mouse, t * Math::fVector2 { circ.radius, 0 }, 0);
+                SelectControlPoint(mouse, t * Math::fv2 { circ.radius, 0 }, 0);
             },
             instanceof (const Physics2D::CapsuleShape& cap) {
-                const Math::fVector2 rf = cap.forward + cap.forward.perpend() * (cap.radius * cap.invLength);
+                const Math::fv2 rf = cap.forward + cap.forward.Perpend() * (cap.radius * cap.invLength);
                 SelectControlPoint(mouse, t * cap.forward, 0);
                 SelectControlPoint(mouse, t * rf, 1);
             },
@@ -340,7 +342,7 @@ namespace Test {
         ))
     }
 
-    void TestPhysicsPlayground2D::SelectControlPoint(const Math::fVector2& mouse, const Math::fVector2& control, u32 i) {
+    void TestPhysicsPlayground2D::SelectControlPoint(const Math::fv2& mouse, const Math::fv2& control, u32 i) {
         if (OverlapShapes(Physics2D::CircleShape { 0.0f }, mouse,
                           Physics2D::CircleShape { 2.0f }, control)) {
             controlIndex = i;
@@ -348,24 +350,24 @@ namespace Test {
         }
     }
 
-    void TestPhysicsPlayground2D::EditControl(const Math::fVector2& mouse) {
+    void TestPhysicsPlayground2D::EditControl(const Math::fv2& mouse) {
         if (selectedIndex == ~0) return;
 
         Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) ({
-                Math::fVector2 r = { circ.radius, 0 };
+                Math::fv2 r = { circ.radius, 0 };
                 EditControlPoint(mouse, r, 0);
-                circ.radius = r.len();
+                circ.radius = r.Len();
             });,
             instanceof (Physics2D::CapsuleShape& cap) ({
-                Math::fVector2 f = cap.forward, rf = cap.forward + cap.forward.perpend().norm(cap.radius);
+                Math::fv2 f = cap.forward, rf = cap.forward + cap.forward.Perpend().Norm(cap.radius);
                 EditControlPoint(mouse, f, 0);
                 EditControlPoint(mouse, rf, 1);
                 cap.SetForward(f);
-                cap.radius = (rf - cap.forward).len();
+                cap.radius = rf.Dist(cap.forward);
             });,
             instanceof (Physics2D::RectShape& rect) ({
-                Math::fVector2 corners[] = {
+                Math::fv2 corners[] = {
                     rect.Corner(false, false),
                     rect.Corner(false, true),
                     rect.Corner(true,  false),
@@ -404,25 +406,25 @@ namespace Test {
         Selected()->body->SetShapeHasChanged();
     }
 
-    void TestPhysicsPlayground2D::EditControlPoint(const Math::fVector2& mouse, Math::fVector2& control, u32 i) {
+    void TestPhysicsPlayground2D::EditControlPoint(const Math::fv2& mouse, Math::fv2& control, u32 i) {
         if (controlIndex != i) return;
-        const Math::fVector2& origin   = Selected()->body->position;
-        const Math::fComplex& rotation = Selected()->body->rotation;
-        control = rotation.invrotate(mouse + controlOffset - origin);
+        const Math::fv2& origin = Selected()->body->position;
+        const Math::Rotation2D& rotation = Selected()->body->rotation;
+        control = rotation.InvRotate(mouse + controlOffset - origin);
     }
 
     void TestPhysicsPlayground2D::DrawControlPoints() {
         if (selectedIndex == ~0) return;
-        const Math::fColor CONTROL_GREEN = Math::fColor::GREEN();
+        const Math::fColor CONTROL_GREEN = Math::fColor::FromColorID(Math::Colors::GREEN);
 
         const auto& t = Selected()->body->GetTransform();
         Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) ({
-                AddNewPoint(t * Math::fVector2::unit_x(circ.radius), CONTROL_GREEN);
+                AddNewPoint(t * Math::fv2(circ.radius, 0), CONTROL_GREEN);
             });,
             instanceof (Physics2D::CapsuleShape& cap) {
                 AddNewPoint(t * cap.forward, CONTROL_GREEN);
-                AddNewPoint(t * (cap.forward + cap.forward.perpend() * (cap.invLength * cap.radius)), CONTROL_GREEN);
+                AddNewPoint(t * (cap.forward + cap.forward.Perpend() * (cap.invLength * cap.radius)), CONTROL_GREEN);
             },
             instanceof (Physics2D::RectShape& rect) ({
                 AddNewPoint(t * rect.Corner(false, false), CONTROL_GREEN);
@@ -452,17 +454,18 @@ namespace Test {
     void TestPhysicsPlayground2D::EditBody() {
         Qmatch$ (Selected()->body->shape, (
             instanceof (Physics2D::CircleShape& circ) {
-                ImGui::EditScalar("Radius", circ.radius, 0.2, Math::fRange { 0, 100 });
+                ImGui::EditScalar("Radius", circ.radius, 0.2, fRange { 0, 100 });
             },
             instanceof (Physics2D::CapsuleShape& cap) ({
-                float len = cap.forward.len(), angle = cap.forward.angle();
-                ImGui::EditScalar("Length", len,        0.2,  Math::fRange { 0, 100 });
-                ImGui::EditScalar("Angle",  angle,      0.01, Math::fRange { 0, 100 });
-                ImGui::EditScalar("Radius", cap.radius, 0.2,  Math::fRange { 0, 100 });
-                cap.SetForward(Math::fVector2::from_polar(len, angle));
+                float len = cap.forward.Len();
+                Math::Radians angle = cap.forward.PolarAngle();
+                ImGui::EditScalar("Length", len,        0.2,  fRange { 0, 100 });
+                ImGui::EditScalar("Angle",  *angle,     0.01, fRange { 0, Math::TAU });
+                ImGui::EditScalar("Radius", cap.radius, 0.2,  fRange { 0, 100 });
+                cap.SetForward(Math::fv2::FromPolar(len, angle));
             });,
             instanceof (Physics2D::RectShape& rect) ({
-                Math::fVector2 half = { rect.hx, rect.hy };
+                Math::fv2 half = { rect.hx, rect.hy };
                 ImGui::EditVector("Size", half);
                 rect.hx = half.x;
                 rect.hy = half.y;
@@ -495,18 +498,18 @@ namespace Test {
     void TestPhysicsPlayground2D::AddRandomCircle(Math::RandomGenerator& rand) {
         world.CreateBody<Physics2D::CircleShape>({ .position = 0, .density = 1 },
             rand.GetExponential(2.0f, 15.0f));
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+        AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomCapsule(Math::RandomGenerator& rand) {
         const float r = rand.GetExponential(2.0f, 15.0f);
         world.CreateBody<Physics2D::CapsuleShape>({ .position = 0, .density = 1 },
-            Math::fVector2::random_on_unit(rand) * r * rand.GetExponential(0.8f, 2.0f), r);
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+            Math::fv2::RandomOnUnit(rand) * r * rand.GetExponential(0.8f, 2.0f), r);
+        AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomTri(Math::RandomGenerator& rand) {
-        const float angle1 = rand.Get(0, Math::TAU),
+        const float angle1 = rand.Get<float>(0, Math::TAU),
                     angle2 = std::fmod(angle1 + rand.Get(Math::PI * 0.2f, Math::PI * 0.8f), Math::TAU),
                     angle3 = std::fmod(angle2 + rand.Get(Math::PI * 0.2f, Math::PI * 0.8f), Math::TAU);
 
@@ -515,12 +518,12 @@ namespace Test {
                     r3 = r1 * rand.GetExponential(0.8f, 1.2f);
 
         world.CreateBody({ .position = 0, .density = 1 },
-            Physics2D::MakePolygon(Array<Math::fVector2, 3> {
-                Math::fVector2::from_polar(r1, angle1),
-                Math::fVector2::from_polar(r2, angle2),
-                Math::fVector2::from_polar(r3, angle3)
+            Physics2D::MakePolygon(Array {
+                Math::fv2::FromPolar(r1, Math::Radians(angle1)),
+                Math::fv2::FromPolar(r2, Math::Radians(angle2)),
+                Math::fv2::FromPolar(r3, Math::Radians(angle3))
             }));
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+        AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomRect(Math::RandomGenerator& rand) {
@@ -530,11 +533,11 @@ namespace Test {
         world.CreateBody<Physics2D::RectShape>({ .position = 0, .density = 1 },
             width, height);
 
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+        AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomQuad(Math::RandomGenerator& rand) {
-        const float angle1 = rand.Get(0, Math::TAU),
+        const float angle1 = rand.Get<float>(0, Math::TAU),
                     angle2 = std::fmod(angle1 + rand.Get(Math::PI * 0.3f, Math::PI * 0.5f), Math::TAU),
                     angle3 = std::fmod(angle2 + rand.Get(Math::PI * 0.3f, Math::PI * 0.5f), Math::TAU),
                     angle4 = std::fmod(angle3 + rand.Get(Math::PI * 0.3f, Math::PI * 0.5f), Math::TAU);
@@ -545,14 +548,14 @@ namespace Test {
                     r4 = r1 * rand.GetExponential(0.8f, 1.2f);
 
         world.CreateBody({ .position = 0, .density = 1 },
-            Physics2D::MakePolygon(Array<Math::fVector2, 4> {
-                Math::fVector2::from_polar(r1, angle1),
-                Math::fVector2::from_polar(r2, angle2),
-                Math::fVector2::from_polar(r3, angle3),
-                Math::fVector2::from_polar(r4, angle4),
+            Physics2D::MakePolygon(Array {
+                Math::fv2::FromPolar(r1, Math::Radians(angle1)),
+                Math::fv2::FromPolar(r2, Math::Radians(angle2)),
+                Math::fv2::FromPolar(r3, Math::Radians(angle3)),
+                Math::fv2::FromPolar(r4, Math::Radians(angle4)),
         }));
 
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+        AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomPolygon(Math::RandomGenerator& rand) {
@@ -563,15 +566,15 @@ namespace Test {
             prob *= 0.8f;
         }
 
-        Vec points = Vec<Math::fVector2>::WithSize(pointCount);
-        points[0] = Math::fVector2::from_polar(rand.Get(6.0f, 15.0f), rand.Get(0, Math::TAU));
+        Vec points = Vec<Math::fv2>::WithSize(pointCount);
+        points[0] = Math::fv2::FromPolar(rand.Get(6.0f, 15.0f), Math::Radians(rand.Get<float>(0, Math::TAU)));
         const float baseAngle = Math::TAU / (float)(pointCount - 1);
         for (u32 i = 1; i < points.Length(); ++i) {
-            points[i] = Math::fComplex::rotate(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f)).rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
+            points[i] = Math::Rotation2D(Math::Radians(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f))).Rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
         }
 
         world.CreateBody({ .position = 0, .density = 1 }, Physics2D::MakePolygon(points));
 
-        AddBodyTint(Math::fColor::random(rand, 0.8, 0.8));
+        AddBodyTint(Math::fColor::Random(rand));
     }
 }

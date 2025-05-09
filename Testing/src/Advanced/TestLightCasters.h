@@ -12,7 +12,7 @@ namespace Test {
     class TestLightCasters : public Test {
     public:
         struct Vertex {
-            Math::fVector3 Position, Normal;
+            Math::fv3 Position, Normal;
             int MaterialID;
 
             QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialID));
