@@ -20,7 +20,7 @@ namespace Test {
             cubes.Push(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color) = fColor::FromColorID((Colors::ColorID)((int)Colors::BETTER_RED + i));
+                out (Color) = fColor::Better::Colors[i];
             )), Transform3D::Scale(s)));
 
             cubes[i].SetTransform(Transform3D::Translate(fv3::FromCorner({ (bool)(i & 1), (bool)(i & 2), (bool)(i & 4) }, 1)));
@@ -29,7 +29,7 @@ namespace Test {
         Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color) = "gray+"_fColor;
+                out (Color) = fColor::Better::Gray();
         )), Transform3D::Scale(s)));
 
         scene.UseShader(Graphics::Shader::StdColored);
@@ -141,17 +141,17 @@ namespace Test {
         ImGui::Checkbox("Use Post Processing", &usePostProcessing);
 
         const Graphics::Shader* prev = currShader;
-#define TAB_ITEM(X, N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
+#define TAB_ITEM(N, P, C) if (ImGui::BeginTabItem(N)) { currShader = &(P); ImGui::EndTabItem(); C }
         if (ImGui::BeginTabBar("Post Processing Shader")) {
-            TAB_ITEM(NONE, "None", postProcessingQuad->shader, )
-            TAB_ITEM(COLOR_INVERT, "Color Invert", shaderInv, )
-            TAB_ITEM(COLOR_HSL, "Color Hue", shaderHsv,
+            TAB_ITEM("None", postProcessingQuad->shader, )
+            TAB_ITEM("Color Invert", shaderInv, )
+            TAB_ITEM("Color Hue", shaderHsv,
                 ImGui::EditScalar("Hue Shift", hueShift, 0.01f, fRange { 0, 1 });
                 ImGui::EditScalar("Saturation Multiplier", satMul, 0.01f, fRange { 0, 10 });
                 ImGui::EditScalar("Value Shift", valShift, 0.01f, fRange { -1, 1 });)
-            TAB_ITEM(BLUR, "Blur", shaderBlur, ImGui::EditVector("Blur Offset", effectOff, 0.1f); )
-            TAB_ITEM(EDGE_DETECT, "Edge Detection", shaderEdgeDetect, ImGui::EditVector("Detect Offset", effectOff, 0.1f); )
-            TAB_ITEM(OUTLINE, "Outline (Stencil)", shaderOutline,
+            TAB_ITEM("Blur", shaderBlur, ImGui::EditVector("Blur Offset", effectOff, 0.1f); )
+            TAB_ITEM("Edge Detection", shaderEdgeDetect, ImGui::EditVector("Detect Offset", effectOff, 0.1f); )
+            TAB_ITEM("Outline (Stencil)", shaderOutline,
                 ImGui::EditScalar("Outline Size", outlineSize, 0.01f, fRange { 1, 2 });
             )
             ImGui::EndTabBar();

@@ -15,14 +15,14 @@ namespace Test {
         sphere = Graphics::MeshUtils::Sphere({ 20 }, QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position) = Position;,
-            out (Color)    = fColor::FromColorID(Colors::BETTER_AQUA);,
+            out (Color)    = fColor::Better::Aqua();,
             out (Normal)   = Normal;,
         )), Transform3D::Scale(10.0f));
 
         icosphere = Graphics::MeshUtils::Icosphere({ 2 }, QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position) = Position;,
-            out (Color)    = fColor::FromColorID(Colors::BETTER_RED);,
+            out (Color)    = fColor::Better::Red();,
             out (Normal)   = Normal;,
         )), Transform3D::Scale(10.0f));
 

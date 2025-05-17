@@ -20,19 +20,19 @@ namespace Test {
         world.CreateBody<Physics2D::RectShape>(
             { .position = {    0, -30 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             100, 2); // floor
-        AddBodyTint(0x808080_fColor);
+        AddBodyTint(fColor::Gray());
         world.CreateBody<Physics2D::RectShape>(
             { .position = { -102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             2, 82); // left side
-        AddBodyTint(0x808080_fColor);
+        AddBodyTint(fColor::Gray());
         world.CreateBody<Physics2D::RectShape>(
             { .position = { +102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             2, 82); // right side
-        AddBodyTint(0x808080_fColor);
+        AddBodyTint(fColor::Gray());
         world.CreateBody<Physics2D::RectShape>(
             { .position = {    0, 130 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             100, 2); // ceiling
-        AddBodyTint(0x808080_fColor);
+        AddBodyTint(fColor::Gray());
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -40,7 +40,7 @@ namespace Test {
         if (!imguiio.WantCaptureMouse && !imguiio.WantCaptureKeyboard) {
             const auto& mouse = gdevice.GetIO().Mouse;
             const Math::fv2
-                rawMouse = ((Math::fv2)mouse.GetMousePos()).MapFromUnit({ { 0, 0 }, { 40, 30 } }),
+                rawMouse = ((Math::fv2)mouse.GetMousePos()).MapFromUnit({ 0, { 40, -30 } }),
                 mousePos = rawMouse * zoomFactor + cameraPosition;
 
             if (mouse.LeftOnPress()) {
@@ -117,7 +117,7 @@ namespace Test {
                         )),
                         worldMesh
                     );
-                    AddNewPoint(t.Transform({ circ.radius, 0 }), 0xFFFFFF_fColor);
+                    AddNewPoint(t.Transform({ circ.radius, 0 }), fColor::White());
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
                     Graphics::MeshUtils::StadiumCreator::Merge(
@@ -128,7 +128,7 @@ namespace Test {
                             out (Color)    = color;
                         )), worldMesh
                     );
-                    AddNewPoint(t.Transform(cap.forward.Perpend() * (cap.invLength * cap.radius)), 0xFFFFFF_fColor);
+                    AddNewPoint(t.Transform(cap.forward.Perpend() * (cap.invLength * cap.radius)), fColor::White());
                 },
                 instanceof (const Physics2D::TriangleShape& tri) {
                     worldMesh.NewBatch().PushTri(
@@ -167,8 +167,8 @@ namespace Test {
         }
 
         if (hasAddedForce) {
-            const fColor blue = 0x0000FF_fColor;
-            const fv2 mouse = ((fv2)gdevice.GetIO().Mouse.GetMousePos()).MapFromUnit({ 0, { 40, 30 } }) * zoomFactor + cameraPosition,
+            const fColor blue = fColor::Blue();
+            const fv2 mouse = ((fv2)gdevice.GetIO().Mouse.GetMousePos()).MapFromUnit({ 0, { 40, -30 } }) * zoomFactor + cameraPosition,
                       direction = (forceAddedPosition - mouse).Norm(0.2f);
             auto meshp = worldMesh.NewBatch();
             meshp.PushV({ forceAddedPosition + direction.Perpend(), blue });
@@ -178,7 +178,7 @@ namespace Test {
         }
 
         if (selectedIndex != ~0) {
-            AddNewPoint(Selected()->body->position, 0xFF0000_fColor);
+            AddNewPoint(Selected()->body->position, fColor::Red());
         }
 
         DrawControlPoints();
@@ -409,13 +409,13 @@ namespace Test {
     void TestPhysicsPlayground2D::EditControlPoint(const Math::fv2& mouse, Math::fv2& control, u32 i) {
         if (controlIndex != i) return;
         const Math::fv2& origin = Selected()->body->position;
-        const Math::Rotation2D& rotation = Selected()->body->rotation;
+        const Math::Rotor2D& rotation = Selected()->body->rotation;
         control = rotation.InvRotate(mouse + controlOffset - origin);
     }
 
     void TestPhysicsPlayground2D::DrawControlPoints() {
         if (selectedIndex == ~0) return;
-        const Math::fColor CONTROL_GREEN = Math::fColor::FromColorID(Math::Colors::GREEN);
+        const Math::fColor CONTROL_GREEN = Math::fColor::Green();
 
         const auto& t = Selected()->body->GetTransform();
         Qmatch$ (Selected()->body->shape, (
@@ -570,7 +570,7 @@ namespace Test {
         points[0] = Math::fv2::FromPolar(rand.Get(6.0f, 15.0f), Math::Radians(rand.Get<float>(0, Math::TAU)));
         const float baseAngle = Math::TAU / (float)(pointCount - 1);
         for (u32 i = 1; i < points.Length(); ++i) {
-            points[i] = Math::Rotation2D(Math::Radians(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f))).Rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
+            points[i] = Math::Rotor2D(Math::Radians(rand.Get(baseAngle * 0.2f, baseAngle * 0.8f))).Rotate(points[i - 1]) * rand.Get(0.8f, 1.2f);
         }
 
         world.CreateBody({ .position = 0, .density = 1 }, Physics2D::MakePolygon(points));

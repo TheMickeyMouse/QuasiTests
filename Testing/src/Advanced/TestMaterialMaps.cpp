@@ -31,7 +31,7 @@ namespace Test {
         lightSource = Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
-            out (Color)    = "aqua+"_fColor;,
+            out (Color)    = fColor::Better::Aqua();,
         )));
         lightScene.UseShader(Graphics::Shader::StdColored);
 

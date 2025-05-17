@@ -21,13 +21,13 @@ namespace Test {
         mPlayer = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color)    = "white+"_fColor;
+                out (Color)    = fColor::Better::White();
             )), Transform2D::Scale(30.0f));
 
         const auto blueprint = QGLCreateBlueprint$(Vertex, (
             in (Position),
             out (Position) = Position;,
-            out (Color)    = "green+"_fColor;
+            out (Color)    = fColor::Better::White();
         ));
 
         mBg = Graphics::Mesh<Vertex>::Combine(Spans::Vals({
@@ -37,7 +37,7 @@ namespace Test {
 
         time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;
-        Graphics::Render::SetClearColor("black+"_fColor);
+        Graphics::Render::SetClearColor(fColor::Better::Black());
     }
 
     void DemoFlappyBird::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -93,7 +93,7 @@ namespace Test {
             const float midY = gdevice.GetRand().Get(-100.0f, 100.0f);
             const fTriangle2D top = { { -50,  220 }, { 50,  220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY + 90 } };
             const fTriangle2D bot = { { -50, -220 }, { 50, -220 }, { gdevice.GetRand().Get(-15.0f, 15.0f), midY - 90 } };
-            const fColor LIME = "lime+"_fColor;
+            const fColor LIME = fColor::Better::Lime();
 
             spikes.Push({ {
                 { { top.p1, LIME, 0, 0 }, { top.p2, LIME, 0, 0 }, { top.p3, LIME, 0, 0 } },
@@ -133,6 +133,6 @@ namespace Test {
 
         die:
         isEnd = true;
-        mPlayer.GeometryPass([] (Vertex& v) { v.Color = 0xFF0000_fColor; });
+        mPlayer.GeometryPass([] (Vertex& v) { v.Color = (fColor)0xFF0000_rgb; });
     }
 }

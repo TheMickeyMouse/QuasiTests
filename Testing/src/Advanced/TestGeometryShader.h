@@ -15,7 +15,7 @@ namespace Test {
 
         Math::Radians lightYaw { 0 }, lightPitch { 0 };
         float ambStrength = 0.2f, normMag = 1.0f;
-        Math::fColor normColor = Math::fColor::FromColorID(Math::Colors::BETTER_WHITE);
+        Math::fColor normColor = Math::fColor::Better::White();
         bool useGeomShader = true, useFlatShading = false;
         int displayFace = -1;
 

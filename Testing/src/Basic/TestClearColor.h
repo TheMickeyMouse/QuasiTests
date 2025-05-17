@@ -4,7 +4,7 @@
 namespace Test {
     class TestClearColor : public Test {
     private:
-        Math::fColor clearColor = Math::fColor::FromColorID(Math::Colors::BETTER_BLUE);
+        Math::fColor clearColor = Math::fColor::Better::Blue();
 
         DEFINE_TEST_T(TestClearColor, BASIC)
     public:

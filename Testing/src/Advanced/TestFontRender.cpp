@@ -39,7 +39,7 @@ namespace Test {
         
         meshAtlas = Graphics::Mesh(std::move(atlVertices), std::move(atlIndices));
 
-        const Math::fColor bgColor = Math::fColor::FromColorID(Math::Colors::BETTER_BLACK);
+        const Math::fColor bgColor = Math::fColor::Better::Black();
         Vec<Vertex> bgVertices = Vec<Vertex>::New({
             { { -200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },
             { { +200.0f, -200.0f }, bgColor, { 0.0f, 0.0f }, 0 },

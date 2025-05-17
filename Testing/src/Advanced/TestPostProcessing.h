@@ -20,7 +20,7 @@ namespace Test {
         Graphics::Mesh<Graphics::VertexTexture2D> screenQuad;
 
         Math::Transform3D transform { { 0, 0, -5 } };
-        Math::Rotation3D turnSpeed {};
+        Math::Rotor3D turnSpeed {};
 
         Math::fv2 effectOff = 3;
         float hueShift = 0, satMul = 0, valShift = 0;

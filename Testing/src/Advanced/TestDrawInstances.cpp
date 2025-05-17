@@ -15,11 +15,11 @@ namespace Test {
         colors.Resize(INSTANCE_NUM);
 
         using namespace Math;
-        const fv4 black = fColor3::FromColorID(Colors::BETTER_BLACK).AsRGBAfVec();
+        const fv4 black = fColor3::Better::Black().AsRGBAfVec();
         const Matrix4x4 colorTransformer = Matrix4x4::FromColumns({
-            fColor3::FromColorID(Colors::RED) .AsRGBAfVec() - black,
-            fColor3::FromColorID(Colors::LIME).AsRGBAfVec() - black,
-            fColor3::FromColorID(Colors::BLUE).AsRGBAfVec() - black,
+            fColor3::Better::Red() .AsRGBAfVec() - black,
+            fColor3::Better::Lime().AsRGBAfVec() - black,
+            fColor3::Better::Blue().AsRGBAfVec() - black,
             black
         });
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
@@ -97,7 +97,7 @@ namespace Test {
 
     void TestDrawInstances::RandomizeRotations(Graphics::GraphicsDevice& gdevice) {
         for (u32 i = 0; i < INSTANCE_NUM; ++i) {
-            transforms[i].rotation = Math::Rotation3D::Random(gdevice.GetRand());
+            transforms[i].rotation = Math::Rotor3D::Random(gdevice.GetRand());
         }
     }
 } // Test

@@ -38,7 +38,7 @@ namespace Test {
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
         const auto& mouse = gdevice.GetIO().Mouse;
-        const Math::fv2 mousePos = mouse.GetMousePos().As<float>().MapCoords({ -1, 1 }, viewport);
+        const Math::fv2 mousePos = mouse.GetMousePos().As<float>().MapCoords({ { -1, 1 }, { 1, -1 } }, viewport);
         if (mouse.LeftOnPress() && !selected) {
             selected = FindBallAt(mousePos);
             if (selected)
@@ -108,7 +108,7 @@ namespace Test {
             offsets[i] = body->position;
             scales[i] = body->shape.As<Physics2D::CircleShape>()->radius;
             colors[i] = Math::fColor::FromHSV(
-                xRange.MapTo(offsets[i].x, { 0, 360 }),
+                xRange.MapTo(offsets[i].x, { 0, 1 }),
                 body->IsStatic() ? 0.2f : 0.8f,
                 body->IsStatic() ? 0.5f : 0.8f);
             ++i;

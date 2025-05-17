@@ -21,7 +21,7 @@ namespace Test {
                 model.objects[i].mesh.GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
                     in (Position, Normal),
                     out (Position) = Position;,
-                    out (Color) = Math::fColor::FromColorID((Math::Colors::ColorID)((int)Math::Colors::BETTER_RED + i));,
+                    out (Color) = Math::fColor::Better::Colors[i];,
                     out (Normal) = Normal;
                 ))
             ));
@@ -79,7 +79,7 @@ namespace Test {
 
     void TestShadowMap::OnRender(Graphics::GraphicsDevice& gdevice) {
         const Math::Matrix3D lightProj = Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), clipDistance.min, clipDistance.max),
-                           lightView = Math::Matrix3D::LookAt(lightPosition, -lightPosition.Norm(), Math::fv3::Up());
+                             lightView = Math::Matrix3D::LookAt(lightPosition, -lightPosition.Norm(), Math::fv3::Up());
 
         {
             Graphics::Render::SetCullFace(Graphics::FacingMode::FRONT);

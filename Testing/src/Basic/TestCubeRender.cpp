@@ -14,7 +14,7 @@ namespace Test {
         cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
-            out (Color) = fColor::FromColorID((Colors::ColorID)(i / 4 + (u32)Colors::ColorID::BETTER_RED));,
+            out (Color) = fColor::Better::Colors[i / 4];,
             i++;
         )));
 
