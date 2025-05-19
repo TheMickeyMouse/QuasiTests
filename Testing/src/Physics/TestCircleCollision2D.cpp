@@ -3,8 +3,8 @@
 #include <imgui.h>
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/Circle.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/Circle.h"
 
 #include "Utils/Iter/MapIter.h"
 

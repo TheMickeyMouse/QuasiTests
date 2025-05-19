@@ -2,8 +2,8 @@
 #include "Test.h"
 #include "GLs/FrameBuffer.h"
 #include "GLs/Texture.h"
-#include "Graphicals/CameraController.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/CameraController.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 
 namespace Test {
     class TestShadowMap : public Test {

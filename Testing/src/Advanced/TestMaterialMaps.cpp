@@ -1,9 +1,9 @@
 #include "TestMaterialMaps.h"
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/ModelLoading/OBJModelLoader.h"
-#include "Utils/Meshes/CubeNormless.h"
+#include "GUI/ImGuiExt.h"
+#include "ModelLoading/OBJModelLoader.h"
+#include "Meshes/CubeNormless.h"
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {

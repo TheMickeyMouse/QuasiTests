@@ -1,11 +1,11 @@
 #include "TestPostProcessing.h"
 
-#include "Graphicals/Mesh.h"
+#include "Mesh.h"
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/CubeNormless.h"
-#include "Utils/Meshes/Plane.h"
-#include "Utils/Meshes/Quad.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/CubeNormless.h"
+#include "Meshes/Plane.h"
+#include "Meshes/Quad.h"
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {

@@ -3,9 +3,9 @@
 #include <imgui.h>
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/Icosphere.h"
-#include "Utils/Meshes/Sphere.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/Icosphere.h"
+#include "Meshes/Sphere.h"
 
 namespace Test {
     void TestGeometryShader::OnInit(Graphics::GraphicsDevice& gdevice) {

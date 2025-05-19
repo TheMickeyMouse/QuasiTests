@@ -1,7 +1,7 @@
 #include "TestAdvancedLighting.h"
 
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/ModelLoading/OBJModelLoader.h"
+#include "GUI/ImGuiExt.h"
+#include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestAdvancedLighting::OnInit(Graphics::GraphicsDevice& gdevice) {

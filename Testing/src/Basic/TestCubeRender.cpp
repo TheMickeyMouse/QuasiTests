@@ -1,8 +1,8 @@
 ﻿#include "TestCubeRender.h"
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/Cube.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/Cube.h"
 
 namespace Test {
     void TestCubeRender::OnInit(Graphics::GraphicsDevice& gdevice) {

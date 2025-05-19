@@ -3,9 +3,9 @@
 #include <imgui.h>
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/Circle.h"
-#include "Utils/Meshes/Cube.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/Circle.h"
+#include "Meshes/Cube.h"
 
 namespace Test {
     void TestDrawInstances::OnInit(Graphics::GraphicsDevice& gdevice) {

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Test.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 
 namespace Test {
     class TestDynamicQuadGeometry : public Test {

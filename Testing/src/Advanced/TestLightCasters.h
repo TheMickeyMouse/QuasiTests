@@ -1,8 +1,8 @@
 #pragma once
-#include "Graphicals/CameraController.h"
-#include "Graphicals/Light.h"
+#include "CameraController.h"
+#include "Light.h"
 #include "Test.h"
-#include "Utils/ModelLoading/OBJModel.h"
+#include "ModelLoading/OBJModel.h"
 
 namespace Quasi::Graphics {
     struct MTLMaterial;

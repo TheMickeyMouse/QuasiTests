@@ -2,9 +2,9 @@
 #include <queue>
 
 #include "Test.h"
-#include "Graphicals/Mesh.h"
+#include "Mesh.h"
 #include "Math/Geometry.h"
-#include "Utils/Fonts/Font.h"
+#include "Fonts/Font.h"
 
 namespace Test {
     class DemoFlappyBird : public Test {

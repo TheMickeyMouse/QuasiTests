@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Graphicals/GraphicsDevice.h"
+#include "../../Quasi/src/Graphics/GraphicsDevice.h"
 
 #define DEFINE_TEST_T(T, S) \
     using _Test_t = T; \

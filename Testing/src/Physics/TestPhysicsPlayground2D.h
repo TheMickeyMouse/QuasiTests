@@ -1,6 +1,6 @@
 #pragma once
 #include "Test.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 #include "Physics/World2D.h"
 
 namespace Test {

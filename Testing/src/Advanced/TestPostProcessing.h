@@ -1,6 +1,6 @@
 #pragma once
 #include "GLs/FrameBuffer.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 #include "GLs/RenderBuffer.h"
 #include "Test.h"
 #include "GLs/Texture.h"

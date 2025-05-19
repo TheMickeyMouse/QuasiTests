@@ -1,6 +1,6 @@
 #pragma once
-#include "Graphicals/CameraController.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/CameraController.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 #include "Test.h"
 
 namespace Test {

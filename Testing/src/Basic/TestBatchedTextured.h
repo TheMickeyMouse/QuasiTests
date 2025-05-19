@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Test.h"
 #include "GLs/Texture.h"
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 
 namespace Test {
     class TestBatchedTextured : public Test {

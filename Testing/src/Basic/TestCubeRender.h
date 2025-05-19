@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Graphicals/Mesh.h"
+#include "../../../Quasi/src/Graphics/Mesh.h"
 #include "Test.h"
 
 namespace Test {

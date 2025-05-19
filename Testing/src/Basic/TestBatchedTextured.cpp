@@ -1,7 +1,7 @@
 ﻿#include "TestBatchedTextured.h"
-#include "Graphicals/TriIndices.h"
+#include "TriIndices.h"
 
-#include "Utils/Extension/ImGuiExt.h"
+#include "GUI/ImGuiExt.h"
 
 namespace Test {
     void TestBatchedTextured::OnInit(Graphics::GraphicsDevice& gdevice) {

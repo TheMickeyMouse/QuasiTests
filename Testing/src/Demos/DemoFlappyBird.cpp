@@ -2,8 +2,8 @@
 
 #include <imgui.h>
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Meshes/Circle.h"
-#include "Utils/Meshes/Quad.h"
+#include "Meshes/Circle.h"
+#include "Meshes/Quad.h"
 #include "Utils/Iter/MapIter.h"
 
 namespace Test {

@@ -3,10 +3,10 @@
 #include <imgui.h>
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
-#include "Utils/Meshes/CubeNormless.h"
-#include "Utils/Meshes/Quad.h"
-#include "Utils/ModelLoading/OBJModelLoader.h"
+#include "GUI/ImGuiExt.h"
+#include "Meshes/CubeNormless.h"
+#include "Meshes/Quad.h"
+#include "ModelLoading/OBJModelLoader.h"
 
 namespace Test {
     void TestShadowMap::OnInit(Graphics::GraphicsDevice& gdevice) {

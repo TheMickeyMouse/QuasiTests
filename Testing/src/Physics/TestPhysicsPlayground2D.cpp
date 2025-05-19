@@ -3,10 +3,10 @@
 #include <imgui.h>
 
 #include "GLs/VertexBlueprint.h"
-#include "Utils/Extension/ImGuiExt.h"
+#include "GUI/ImGuiExt.h"
 #include "Utils/Iter/MapIter.h"
-#include "Utils/Meshes/Circle.h"
-#include "Utils/Meshes/Stadium.h"
+#include "Meshes/Circle.h"
+#include "Meshes/Stadium.h"
 
 namespace Test {
     void TestPhysicsPlayground2D::OnInit(Graphics::GraphicsDevice& gdevice) {
