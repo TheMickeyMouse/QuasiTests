@@ -1,6 +1,6 @@
 #pragma once
 #include "Test.h"
-#include "CameraController.h"
+#include "CameraController3D.h"
 #include "ModelLoading/OBJModel.h"
 
 namespace Test {
@@ -10,7 +10,7 @@ namespace Test {
             Math::fv3 Position, Normal;
             int MaterialId;
 
-            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialId));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Position)(Normal, Normal)(MaterialId));
         };
 
     private:
@@ -18,7 +18,7 @@ namespace Test {
 
         Vec<Graphics::Mesh<Vertex>> meshes;
         Vec<Graphics::MTLMaterial> materials;
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         Math::fv3 lightPos = { 10, 27, 10 };
         Math::fColor3 lightColor = 1;

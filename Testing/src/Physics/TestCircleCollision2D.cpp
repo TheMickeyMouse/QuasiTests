@@ -11,17 +11,14 @@
 namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
-        viewport = { 0, { 80, 60 } };
 
-        circleMesh = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
+        circleMesh = Graphics::Meshes::Circle(4).Create(QGLCreateBlueprint$(Vertex, (
             in (Position),
             out (Position) = Position;
         )));
 
         scene.UseShaderFromFile(res("circle.vert").IntoCStr(), res("circle.frag").IntoCStr());
         lineShader = Graphics::Shader::FromFile(res("line.vert").IntoCStr(), res("line.frag").IntoCStr(), res("line.geom").IntoCStr());
-
-        scene.SetProjection(Math::Matrix3D::OrthoProjection({ { 0, 0, -1 }, { 80, 60, 1 } }));
 
         world = { { 0, -40.0f } };
         ResetBalls(gdevice);
@@ -34,11 +31,18 @@ namespace Test {
         meshp.PushI(4, 5, 5);
         meshp.PushI(6, 7, 7);
         meshp.PushI(8, 9, 9);
+
+        camera.position = { 40.0f, 30.0f };
+        camera.speed = 7.0f;
+        camera.scale = 15.0f;
     }
 
     void TestCircleCollision2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
+        camera.Update(gdevice, deltaTime);
+
+        const Math::fRect2D viewport = camera.GetViewport();
         const auto& mouse = gdevice.GetIO().Mouse;
-        const Math::fv2 mousePos = mouse.GetMousePos().As<float>().MapCoords({ { -1, 1 }, { 1, -1 } }, viewport);
+        const Math::fv2 mousePos = ((mouse.FlipMouseY(mouse.GetMousePos()).As<float>() + 1) * 0.5f).MapFromUnit(viewport);
         if (mouse.LeftOnPress() && !selected) {
             selected = FindBallAt(mousePos);
             if (selected)
@@ -52,12 +56,6 @@ namespace Test {
         }
 
         if (mouse.LeftOnRelease()) selected = nullptr;
-
-        if (mouse.MiddleOnPress()) lastDragPosition = mousePos;
-        if (mouse.MiddlePressed()) {
-            for (auto& circ : world.bodies) circ->position -= lastDragPosition - mousePos;
-            lastDragPosition = mousePos;
-        }
 
         if (mouse.RightOnPress() && !selected) {
             selected = FindBallAt(mousePos);
@@ -97,9 +95,6 @@ namespace Test {
         Array<float, TOTAL_BALL_COUNT> scales;
         Array<Math::fColor, TOTAL_BALL_COUNT> colors;
 
-        const fRange xRange = fRange::Over(
-            world.bodies.Iter().Map([] (const Box<Physics2D::Body>& x) { return x->position.x; })
-        );
         usize i = 0;
         int selectedIndex = -1;
         for (auto& body : world.bodies) {
@@ -108,12 +103,13 @@ namespace Test {
             offsets[i] = body->position;
             scales[i] = body->shape.As<Physics2D::CircleShape>()->radius;
             colors[i] = Math::fColor::FromHSV(
-                xRange.MapTo(offsets[i].x, { 0, 1 }),
+                Math::Clamp(fRange { 0, 80.0f }.MapTo(offsets[i].x, { 0, 1 }), 0.0f, 1.0f),
                 body->IsStatic() ? 0.2f : 0.8f,
                 body->IsStatic() ? 0.5f : 0.8f);
             ++i;
         }
 
+        scene.SetProjection(Math::Matrix3D::OrthoProjection(camera.GetViewport().AddZ({ -1, 1 })));
         scene.DrawInstanced(circleMesh, TOTAL_BALL_COUNT, Graphics::UseArgs({
             { "u_projection", scene->projection },
             { "selected",     selectedIndex },
@@ -146,7 +142,7 @@ namespace Test {
     void TestCircleCollision2D::AddRandomBall(Graphics::GraphicsDevice& gdevice) {
         auto& rand = gdevice.GetRand();
 
-        const Math::fv2 position = Math::fv2::Random(rand, viewport.Inset(3.0f));
+        const Math::fv2 position = Math::fv2::Random(rand, { 3.0f, { 77.0f, 57.0f } });
         const float radius = rand.Get(1.0f, 3.0f);
         world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius);
     }
@@ -160,6 +156,7 @@ namespace Test {
         using namespace Physics2D;
         auto& rand = gdevice.GetRand();
 
+        const fRect2D viewport = { 0, { 80.0f, 60.0f } };
         for (u32 i = 0; i < STATIC_BALL_COUNT; ++i) {
             world.CreateBody<CircleShape>({
                 .position = fv2::Random(rand, viewport),

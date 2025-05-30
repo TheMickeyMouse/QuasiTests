@@ -18,11 +18,11 @@ namespace Test {
         font.GetTexture().Activate(0);
 
         using namespace Math;
-        mPlayer = Graphics::MeshUtils::Circle({ 32 }, QGLCreateBlueprint$(Vertex, (
+        mPlayer = Graphics::Meshes::Circle(30.0f).Create(QGLCreateBlueprint$(Vertex, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color)    = fColor::Better::White();
-            )), Transform2D::Scale(30.0f));
+            )));
 
         const auto blueprint = QGLCreateBlueprint$(Vertex, (
             in (Position),
@@ -30,10 +30,8 @@ namespace Test {
             out (Color)    = fColor::Better::White();
         ));
 
-        mBg = Graphics::Mesh<Vertex>::Combine(Spans::Vals({
-            Graphics::MeshUtils::Quad(blueprint, Transform2D { { 0, +240 }, { 320, 20 } }),
-            Graphics::MeshUtils::Quad(blueprint, Transform2D { { 0, -240 }, { 320, 20 } })
-        }));
+        Graphics::Meshes::Quad().Merge(blueprint, Transform2D { { 0, +240 }, { 320, 20 } }, mBg.NewBatch());
+        Graphics::Meshes::Quad().Merge(blueprint, Transform2D { { 0, -240 }, { 320, 20 } }, mBg.NewBatch());
 
         time = gdevice.GetIO().Time.currentTime;
         nextSpawnTime = 0;

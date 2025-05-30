@@ -1,6 +1,7 @@
 #pragma once
+#include "CameraController2D.h"
 #include "Test.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "Mesh.h"
 #include "Physics/World2D.h"
 
 namespace Test {
@@ -17,6 +18,7 @@ namespace Test {
         Vec<Object> bodyData;
         Physics2D::World world;
 
+        Graphics::CameraController2D camera;
         Math::fv2 lastDragPosition;
         Math::fv2 selectOffset;
         Math::fv2 controlOffset;
@@ -26,9 +28,6 @@ namespace Test {
         bool hasAddedForce = false;
         bool selectedIsStatic = false;
         Math::fv2 addedVelocity;
-
-        float zoomFactor = 1.0f;
-        Math::fv2 cameraPosition;
 
         u32 onPause = 0;
 

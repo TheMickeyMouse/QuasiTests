@@ -6,9 +6,9 @@ layout (location = 2) in vec3 normal;
 
 out vec3 gNormal;
 
-uniform mat4 u_view, u_model, normMat;
+uniform mat4 u_view, normMat;
 
 void main() {
-    gl_Position = u_view * u_model * position;
+    gl_Position = u_view * position;
     gNormal = vec3(normMat * vec4(normal, 0.0));
 }

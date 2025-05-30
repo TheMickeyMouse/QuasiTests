@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/CameraController.h"
+#include "../../../Quasi/src/Graphics/CameraController3D.h"
 #include "../../../Quasi/src/Graphics/Mesh.h"
 #include "Test.h"
 #include "GLs/Texture.h"
@@ -12,7 +12,7 @@ namespace Test {
 
         Vec<Graphics::Mesh<Graphics::VertexTextureNormal3D>> meshes;
         Graphics::Mesh<Graphics::VertexColor3D> lightSource;
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         Math::fv3 lightPos = { 0, 8, 2 };
         Math::fColor3 lightColor = 1;

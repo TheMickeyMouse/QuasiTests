@@ -2,7 +2,7 @@
 #include "Test.h"
 #include "GLs/FrameBuffer.h"
 #include "GLs/Texture.h"
-#include "../../../Quasi/src/Graphics/CameraController.h"
+#include "../../../Quasi/src/Graphics/CameraController3D.h"
 #include "../../../Quasi/src/Graphics/Mesh.h"
 
 namespace Test {
@@ -22,7 +22,7 @@ namespace Test {
         fRange clipDistance = { 1.0f, 100.0f };
         bool showDepthMap = false, useSmoothShadows = true;
 
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         DEFINE_TEST_T(TestShadowMap, ADVANCED);
     public:

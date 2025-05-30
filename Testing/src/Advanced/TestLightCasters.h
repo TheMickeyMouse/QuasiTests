@@ -1,5 +1,5 @@
 #pragma once
-#include "CameraController.h"
+#include "CameraController3D.h"
 #include "Light.h"
 #include "Test.h"
 #include "ModelLoading/OBJModel.h"
@@ -15,7 +15,7 @@ namespace Test {
             Math::fv3 Position, Normal;
             int MaterialID;
 
-            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(Normal, Graphics::NormTf)(MaterialID));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Position)(Normal, Normal)(MaterialID));
         };
     private:
         Graphics::RenderObject<Vertex> scene;
@@ -23,7 +23,7 @@ namespace Test {
         Vec<Graphics::Mesh<Vertex>> meshes;
         Vec<Graphics::Light> lights;
         static constexpr int MAX_LIGHTS = 8;
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;

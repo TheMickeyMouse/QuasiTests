@@ -11,12 +11,12 @@ namespace Test {
         using Math::fv2;
 
         scene = gdevice.CreateNewRender<Vertex>();
-        skybox = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+        Graphics::Meshes::Cube().Merge(QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position)          = Position;,
             out (TextureCoordinate) = Position;,
             out (Normal)            = Normal;
-        )));
+        )), skybox.NewBatch());
 
         cubemap = Graphics::Texture::LoadCubemapPNG(
             { res("right.jpg").IntoCStr(), res("left.jpg").IntoCStr(),
@@ -28,13 +28,13 @@ namespace Test {
         boxTex.Activate();
 
         u32 i = 0;
-        box = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+        Graphics::Meshes::Cube().Merge(QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position)          = Position;,
             out (TextureCoordinate) = (0.5f + fv2::FromCorner({ (bool)(i & 1), (bool)(i & 2) }) * 0.5f).AddZ(0);,
             out (Normal)            = Normal;,
             i++;
-        )));
+        )), box.NewBatch());
 
         cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert").IntoCStr(), res("cubemap.frag").IntoCStr());
         boxShader     = Graphics::Shader::FromFile(res("box.vert")    .IntoCStr(), res("box.frag")    .IntoCStr());

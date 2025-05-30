@@ -33,17 +33,23 @@ namespace Test {
             { .position = {    0, 130 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
             100, 2); // ceiling
         AddBodyTint(fColor::Gray());
+
+        camera.speed = 15.0f;
+        camera.scale = 15.0f;
     }
 
     void TestPhysicsPlayground2D::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
+        camera.Update(gdevice, deltaTime);
+
         const auto& imguiio = ImGui::GetIO();
         if (!imguiio.WantCaptureMouse && !imguiio.WantCaptureKeyboard) {
+            const Math::fRect2D viewport = camera.GetViewport();
             const auto& mouse = gdevice.GetIO().Mouse;
-            const Math::fv2
-                rawMouse = ((Math::fv2)mouse.GetMousePos()).MapFromUnit({ 0, { 40, -30 } }),
-                mousePos = rawMouse * zoomFactor + cameraPosition;
+
+            const Math::fv2 mousePos = (((Math::fv2)mouse.FlipMouseY(mouse.GetMousePos()) + 1) * 0.5f).MapFromUnit(viewport);
 
             if (mouse.LeftOnPress()) {
+                // Debug::QInfo$("mouse at ({})", mousePos);
                 SelectControl(mousePos);
                 if (controlIndex == ~0) {
                     if (const auto s = FindAt(mousePos); s != ~0) {
@@ -64,12 +70,6 @@ namespace Test {
                 controlIndex = ~0;
             }
 
-            if (mouse.MiddleOnPress()) lastDragPosition = rawMouse;
-            if (mouse.MiddlePressed()) {
-                cameraPosition += (lastDragPosition - rawMouse) * zoomFactor;
-                lastDragPosition = rawMouse;
-            }
-
             if (mouse.RightOnPress()) {
                 const u32 target = FindAt(mousePos);
                 if (target != ~0 && bodyData[target].body->IsDynamic()) {
@@ -88,8 +88,6 @@ namespace Test {
                 Unselect();
                 hasAddedForce = false;
             }
-
-            zoomFactor *= (float)(1 - 0.05f * mouse.GetMouseScrollDelta().y);
         }
 
         worldUpdate:
@@ -108,25 +106,23 @@ namespace Test {
             const auto& t = body->GetTransform();
             Qmatch$(body->shape, (
                 instanceof (const Physics2D::CircleShape& circ) {
-                    Graphics::MeshUtils::CircleCreator::Merge(
-                        { 16 },
+                    Graphics::Meshes::Circle(3).Merge(
                         QGLCreateBlueprint$(Vertex, (
                             in (Position),
                             out (Position) = Position * circ.radius + t.position;,
                             out (Color)    = color;
                         )),
-                        worldMesh
+                        worldMesh.NewBatch()
                     );
                     AddNewPoint(t.Transform({ circ.radius, 0 }), fColor::White());
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
-                    Graphics::MeshUtils::StadiumCreator::Merge(
-                        { .start = -cap.forward, .end = cap.forward, .radius = cap.radius, .subdivisions = 4 },
+                    Graphics::Meshes::Stadium(-cap.forward, cap.forward, cap.radius, 4).Merge(
                         QGLCreateBlueprint$(Vertex, (
                             in (Position),
                             out (Position) = t * Position;,
                             out (Color)    = color;
-                        )), worldMesh
+                        )), worldMesh.NewBatch()
                     );
                     AddNewPoint(t.Transform(cap.forward.Perpend() * (cap.invLength * cap.radius)), fColor::White());
                 },
@@ -166,14 +162,16 @@ namespace Test {
             ++i;
         }
 
+        const fRect2D viewport = camera.GetViewport();
         if (hasAddedForce) {
+            const auto& mouse = gdevice.GetIO().Mouse;
             const fColor blue = fColor::Blue();
-            const fv2 mouse = ((fv2)gdevice.GetIO().Mouse.GetMousePos()).MapFromUnit({ 0, { 40, -30 } }) * zoomFactor + cameraPosition,
-                      direction = (forceAddedPosition - mouse).Norm(0.2f);
+            const fv2 mousePos = (((fv2)mouse.FlipMouseY(mouse.GetMousePos()) + 1) * 0.5f).MapFromUnit(viewport),
+                      direction = (forceAddedPosition - mousePos).Norm(0.2f);
             auto meshp = worldMesh.NewBatch();
             meshp.PushV({ forceAddedPosition + direction.Perpend(), blue });
             meshp.PushV({ forceAddedPosition - direction.Perpend(), blue });
-            meshp.PushV({ mouse, blue });
+            meshp.PushV({ mousePos, blue });
             meshp.PushI(0, 1, 2);
         }
 
@@ -183,10 +181,7 @@ namespace Test {
 
         DrawControlPoints();
 
-        fRect3D viewport = fRect3D { { -40, -30, -1 }, { 40, 30, 1 } } * zoomFactor + cameraPosition.AddZ(0);
-        viewport.min.z = -1;
-        viewport.max.z = +1;
-        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", Matrix3D::OrthoProjection(viewport) }}, false));
+        scene.Draw(worldMesh, Graphics::UseArgs({{ "u_projection", Matrix3D::OrthoProjection(viewport.AddZ({ -1, 1 })) }}, false));
     }
 
     void TestPhysicsPlayground2D::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {

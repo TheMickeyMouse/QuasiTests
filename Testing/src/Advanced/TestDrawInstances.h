@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/CameraController.h"
+#include "../../../Quasi/src/Graphics/CameraController3D.h"
 #include "../../../Quasi/src/Graphics/Mesh.h"
 #include "Test.h"
 
@@ -16,7 +16,7 @@ namespace Test {
         Math::Radians lightYaw = -0.346_rad, lightPitch = 0.088_rad;
         float ambStrength = 0.2f;
 
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         DEFINE_TEST_T(TestDrawInstances, ADVANCED);
     public:

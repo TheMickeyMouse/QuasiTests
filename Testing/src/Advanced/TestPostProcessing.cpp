@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include "GLs/VertexBlueprint.h"
 #include "GUI/ImGuiExt.h"
-#include "Meshes/CubeNormless.h"
+#include "Meshes/Cube.h"
 #include "Meshes/Plane.h"
 #include "Meshes/Quad.h"
 
@@ -17,7 +17,7 @@ namespace Test {
         using namespace Math;
         constexpr float s = 0.3f;
         for (int i = 0; i < 8; ++i) {
-            cubes.Push(Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+            cubes.Push(Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color) = fColor::Better::Colors[i];
@@ -26,7 +26,7 @@ namespace Test {
             cubes[i].SetTransform(Transform3D::Translate(fv3::FromCorner({ (bool)(i & 1), (bool)(i & 2), (bool)(i & 4) }, 1)));
         }
         cubes.Push(
-        Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+        Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color) = fColor::Better::Gray();
@@ -55,7 +55,7 @@ namespace Test {
         fbo.Complete();
         fbo.Unbind();
 
-        screenQuad = Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
+        screenQuad = Graphics::Meshes::Quad().Create(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
             in (Position),
             out (Position) = Position;,
             out (TextureCoordinate) = (Position + 1) * 0.5f;

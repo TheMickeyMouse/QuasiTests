@@ -4,7 +4,7 @@
 
 #include "GLs/VertexBlueprint.h"
 #include "GUI/ImGuiExt.h"
-#include "Meshes/CubeNormless.h"
+#include "Meshes/Cube.h"
 #include "Meshes/Quad.h"
 #include "ModelLoading/OBJModelLoader.h"
 
@@ -53,7 +53,7 @@ namespace Test {
         shadowMapDisplay = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
         shadowMapDisplay.UseShaderFromFile(res("display.vert").IntoCStr(), res("display.frag").IntoCStr());
 
-        screenQuad = Graphics::MeshUtils::Quad(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
+        screenQuad = Graphics::Meshes::Quad().Create(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
             in (Position),
             out (Position) = Position;,
             out (TextureCoordinate) = (Position + 1) * 0.5f;

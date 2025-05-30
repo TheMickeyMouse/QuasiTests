@@ -30,7 +30,7 @@ namespace Test {
             colors[i] = fColor3 { (fv3)(colorTransformer * (pos * pos / 4)) };
         }
 
-        cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Vertex, (
+        cube = Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Vertex, (
             in (Position, Normal),
             out (Position) = Position;,
             out (Normal) = Normal;

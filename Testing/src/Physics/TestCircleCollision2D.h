@@ -1,6 +1,7 @@
 #pragma once
+#include "CameraController2D.h"
 #include "Test.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "Mesh.h"
 #include "Physics/World2D.h"
 
 namespace Test {
@@ -18,11 +19,10 @@ namespace Test {
         Physics2D::World world;
         OptRef<const Physics2D::Body> edge[4] = { nullptr };
 
-        Math::fRect2D viewport;
+        Graphics::CameraController2D camera;
 
         OptRef<Physics2D::Body> selected = nullptr;
         Math::fv2 selectOffset = 0;
-        Math::fv2 lastDragPosition;
 
         DEFINE_TEST_T(TestCircleCollision2D, SIM_PHYSICS);
     public:

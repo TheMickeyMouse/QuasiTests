@@ -1,19 +1,18 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/CameraController.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "CameraController3D.h"
+#include "Mesh.h"
 #include "Test.h"
 
 namespace Test {
     class TestGeometryShader : public Test {
         using Vertex = Graphics::VertexColorNormal3D;
         Graphics::RenderObject<Vertex> scene;
-        Graphics::Mesh<Vertex> sphere, icosphere;
+        Graphics::Mesh<Vertex> meshes;
 
         Graphics::Shader normalShader, flatShader;
 
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
-        Math::Radians lightYaw { 0 }, lightPitch { 0 };
         float ambStrength = 0.2f, normMag = 1.0f;
         Math::fColor normColor = Math::fColor::Better::White();
         bool useGeomShader = true, useFlatShading = false;

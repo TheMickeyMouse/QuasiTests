@@ -4,14 +4,16 @@ layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
 in vec4 vColor[];
+out vec3 gPosition;
 out vec3 gNormal;
 out vec4 gColor;
 
 uniform int faceIndex;
-uniform mat4 u_projection, u_view, u_model;
+uniform mat4 u_projection, u_view;
 
 void add_vertex(vec4 pos) {
-    gl_Position = u_projection * u_view * u_model * pos;
+    gl_Position = u_projection * u_view * pos;
+    gPosition = pos.xyz;
     EmitVertex();
 }
 
@@ -21,7 +23,7 @@ void main() {
         vec4 b = gl_in[1].gl_Position;
         vec4 c = gl_in[2].gl_Position;
 
-        gNormal = normalize(cross(vec3(b - a), vec3(c - a)));
+        gNormal = normalize(cross(vec3(c - a), vec3(b - a)));
         gColor = vColor[0];
         add_vertex(a);
         gColor = vColor[1];

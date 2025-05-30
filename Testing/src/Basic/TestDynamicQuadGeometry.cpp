@@ -56,7 +56,7 @@ namespace Test {
 
     Graphics::Mesh<Graphics::VertexColor2D> TestDynamicQuadGeometry::NewQuad() {
         const Math::fColor color = Math::fColor::FromHSV((f32)quads.Length() / (f32)(MAX_QUAD + 1), 0.8f, 1.0f);
-        return Graphics::MeshUtils::Quad([&] (const auto& m) {
+        return Graphics::Meshes::Quad().Create([&] (const auto& m) {
             return Graphics::VertexColor2D { .Position = m.Position * 80, .Color = color };
         });
     }

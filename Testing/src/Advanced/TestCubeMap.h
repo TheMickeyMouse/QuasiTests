@@ -1,6 +1,6 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/CameraController.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "CameraController3D.h"
+#include "Mesh.h"
 #include "Test.h"
 #include "GLs/Texture.h"
 
@@ -9,7 +9,7 @@ namespace Test {
         struct Vertex {
             Math::fv3 Position, TextureCoordinate, Normal;
 
-            QuasiDefineVertex$(Vertex, 3D, (Position, Graphics::PosTf)(TextureCoordinate)(Normal, Graphics::NormTf));
+            QuasiDefineVertex$(Vertex, 3D, (Position, Position)(TextureCoordinate)(Normal, Normal));
         };
 
         static constexpr u32 DIFFUSE_SHADER_ID = 0;
@@ -18,7 +18,7 @@ namespace Test {
     private:
         Graphics::RenderObject<Vertex> scene;
         Graphics::Mesh<Vertex> skybox, box;
-        Graphics::CameraController camera;
+        Graphics::CameraController3D camera;
 
         Graphics::Texture cubemap, boxTex;
         Graphics::Shader cubemapShader, boxShader, reflectShader, refractShader;

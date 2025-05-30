@@ -11,7 +11,7 @@ namespace Test {
         using namespace Math;
 
         u32 i = 0;
-        cube = Graphics::MeshUtils::Cube(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+        cube = Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
             out (Color) = fColor::Better::Colors[i / 4];,

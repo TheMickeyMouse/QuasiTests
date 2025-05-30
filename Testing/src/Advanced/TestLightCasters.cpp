@@ -4,7 +4,7 @@
 #include "GLs/VertexBlueprint.h"
 #include "GUI/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
-#include "Meshes/CubeNormless.h"
+#include "Meshes/Cube.h"
 
 namespace Test {
     void TestLightCasters::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -165,7 +165,7 @@ namespace Test {
         lights.Last().color = color;
 
         lightMeshes.Push(
-            Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+            Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
                 out (Color) = color;

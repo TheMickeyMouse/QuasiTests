@@ -13,6 +13,7 @@
 #include "Advanced/TestFontRender.h"
 #include "Advanced/TestPostProcessing.h"
 #include "Advanced/TestAdvancedLighting.h"
+#include "Advanced/TestBezierCurves.h"
 #include "Advanced/TestMaterialMaps.h"
 #include "Advanced/TestLightCasters.h"
 #include "Advanced/TestCubeMap.h"
@@ -72,7 +73,7 @@ namespace Test {
             menu->AddDescription("Draws a skybox using a cubemap texture.");
 
             menu->RegisterTest<TestGeometryShader>("Geometry Shader");
-            menu->AddDescription("Draws houses using geometry shaders.");
+            menu->AddDescription("Draws spheres using geometry shaders.");
 
             menu->RegisterTest<TestDrawInstances>("Draw Instanced");
             menu->AddDescription("Draws cubes using instancing.");
@@ -80,6 +81,8 @@ namespace Test {
             menu->RegisterTest<TestShadowMap>("Shadow Map");
             menu->AddDescription("Draws a scene with simple shadows.");
 
+            menu->RegisterTest<TestBezierCurves>("Bezier Curves");
+            menu->AddDescription("Draws resolution-independent bezier curves.");
             // =========================================================================
 
             menu->DeclareTestType(TestType::SIM_PHYSICS);

@@ -51,6 +51,8 @@ source_group("Source Files" FILES ${SOURCE_FILES})
 set(ALL_FILES
     ${HEADER_FILES}
     ${SOURCE_FILES}
+        src/Advanced/TestBezierCurves.cpp
+        src/Advanced/TestBezierCurves.h
 )
 
 add_executable(${PROJECT_NAME} ${ALL_FILES})

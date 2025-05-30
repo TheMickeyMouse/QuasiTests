@@ -3,7 +3,7 @@
 #include "GLs/VertexBlueprint.h"
 #include "GUI/ImGuiExt.h"
 #include "ModelLoading/OBJModelLoader.h"
-#include "Meshes/CubeNormless.h"
+#include "Meshes/Cube.h"
 
 namespace Test {
     void TestMaterialMaps::OnInit(Graphics::GraphicsDevice& gdevice) {
@@ -28,11 +28,11 @@ namespace Test {
         scene->shader.Unbind();
 
         using namespace Math;
-        lightSource = Graphics::MeshUtils::CubeNormless(QGLCreateBlueprint$(Graphics::VertexColor3D, (
+        Graphics::Meshes::Cube().Merge(QGLCreateBlueprint$(Graphics::VertexColor3D, (
             in (Position),
             out (Position) = Position;,
             out (Color)    = fColor::Better::Aqua();,
-        )));
+        )), lightSource.NewBatch());
         lightScene.UseShader(Graphics::Shader::StdColored);
 
         camera.position = { 6.3579054, 11.043502, 0.9266781 };

@@ -12,7 +12,7 @@ namespace Test {
             Math::fv2 TextureCoordinate;
             int TextureID;
 
-            QuasiDefineVertex$(Vertex, 2D, (Position, Graphics::PosTf)(Color)(TextureCoordinate)(TextureID));
+            QuasiDefineVertex$(Vertex, 2D, (Position, Position)(Color)(TextureCoordinate)(TextureID));
         };
     private:
         Graphics::RenderObject<Vertex> render;
