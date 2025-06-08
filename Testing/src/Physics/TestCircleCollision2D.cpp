@@ -12,7 +12,7 @@ namespace Test {
     void TestCircleCollision2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>();
 
-        circleMesh = Graphics::Meshes::Circle(4).Create(QGLCreateBlueprint$(Vertex, (
+        circleMesh = Graphics::Meshes::Circle().Create(QGLCreateBlueprint$(Vertex, (
             in (Position),
             out (Position) = Position;
         )));

@@ -4,6 +4,7 @@
 
 #include "GLs/VertexBlueprint.h"
 #include "GUI/ImGuiExt.h"
+#include "Meshes/Arrow3D.h"
 #include "Meshes/Capsule.h"
 #include "Meshes/Cube.h"
 #include "Meshes/Icosphere.h"
@@ -42,6 +43,9 @@ namespace Test {
         objectColor = fColor::Better::Magenta();
         Graphics::Meshes::Cube().Merge(blueprint,
             Matrix3D::Transform({ -30, 0, 0 }, { 8.0f }, {}).AsTransform(), meshes.NewBatch());
+
+        objectColor = fColor::Better::Orange();
+        Graphics::Meshes::Arrow3D({ -18, -10, -29 }, { -12, 10, -23 }, 2).Merge(blueprint, meshes.NewBatch());
 
         scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
         scene.SetProjection(Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));

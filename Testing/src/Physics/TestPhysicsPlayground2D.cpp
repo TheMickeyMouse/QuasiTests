@@ -106,10 +106,10 @@ namespace Test {
             const auto& t = body->GetTransform();
             Qmatch$(body->shape, (
                 instanceof (const Physics2D::CircleShape& circ) {
-                    Graphics::Meshes::Circle(3).Merge(
+                    Graphics::Meshes::Circle(circ.radius, 3).Merge(
                         QGLCreateBlueprint$(Vertex, (
                             in (Position),
-                            out (Position) = Position * circ.radius + t.position;,
+                            out (Position) = Position + t.position;,
                             out (Color)    = color;
                         )),
                         worldMesh.NewBatch()
@@ -117,7 +117,7 @@ namespace Test {
                     AddNewPoint(t.Transform({ circ.radius, 0 }), fColor::White());
                 },
                 instanceof (const Physics2D::CapsuleShape& cap) {
-                    Graphics::Meshes::Stadium(-cap.forward, cap.forward, cap.radius, 4).Merge(
+                    Graphics::Meshes::Stadium(-cap.forward, cap.forward, cap.radius, 3).Merge(
                         QGLCreateBlueprint$(Vertex, (
                             in (Position),
                             out (Position) = t * Position;,
