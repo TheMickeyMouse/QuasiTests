@@ -17,21 +17,21 @@ namespace Test {
         scene.SetProjection(Math::Matrix3D::OrthoProjection({ { -40, -30, -1 }, { 40, 30, 1 } }));
 
         using namespace Math;
-        world.CreateBody<Physics2D::RectShape>(
+        world.CreateBody(
             { .position = {    0, -30 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
-            100, 2); // floor
+            Physics2D::RectShape { 100, 2 }); // floor
         AddBodyTint(fColor::Gray());
-        world.CreateBody<Physics2D::RectShape>(
+        world.CreateBody(
             { .position = { -102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
-            2, 82); // left side
+            Physics2D::RectShape { 2, 82 }); // left side
         AddBodyTint(fColor::Gray());
-        world.CreateBody<Physics2D::RectShape>(
+        world.CreateBody(
             { .position = { +102,  50 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
-            2, 82); // right side
+            Physics2D::RectShape { 2, 82 }); // right side
         AddBodyTint(fColor::Gray());
-        world.CreateBody<Physics2D::RectShape>(
+        world.CreateBody(
             { .position = {    0, 130 }, .type = Physics2D::BodyType::STATIC, .density = 0.0f },
-            100, 2); // ceiling
+            Physics2D::RectShape { 100, 2 }); // ceiling
         AddBodyTint(fColor::Gray());
 
         camera.speed = 15.0f;
@@ -126,12 +126,14 @@ namespace Test {
                     );
                     AddNewPoint(t.Transform(cap.forward.Perpend() * (cap.invLength * cap.radius)), fColor::White());
                 },
-                instanceof (const Physics2D::TriangleShape& tri) {
-                    worldMesh.NewBatch().PushTri(
-                        { t * tri.points[0], color },
-                        { t * tri.points[1], color },
-                        { t * tri.points[2], color }
-                    );
+                instanceof (const Physics2D::StaticPolygonShape& poly) {
+                    for (u32 k = 2; k < poly.size; ++k) {
+                        worldMesh.NewBatch().PushTri(
+                            { t * poly.points[0], color },
+                            { t * poly.points[k - 1], color },
+                            { t * poly.points[k], color }
+                        );
+                    }
                 },
                 instanceof (const Physics2D::RectShape& rect) {
                     worldMesh.NewBatch().PushPolygon({
@@ -141,18 +143,10 @@ namespace Test {
                         { t * rect.Corner(false, true ), color },
                     });
                 },
-                instanceof (const Physics2D::QuadShape& quad) {
-                    worldMesh.NewBatch().PushPolygon({
-                        { t * quad.points[0], color },
-                        { t * quad.points[1], color },
-                        { t * quad.points[2], color },
-                        { t * quad.points[3], color },
-                    });
-                },
                 instanceof (const Physics2D::DynPolygonShape& poly) {
                     worldMesh.NewBatch().PushPolygon(
                         poly.data.Iter()
-                                 .Map(Operators::Member<&Physics2D::DynPolygonShape::PointWithInvDist::coords> {})
+                                 .Map(Operators::Member<&Physics2D::DynPolygonShape::PPoint::pos> {})
                                  .Map([&] (const Math::fv2& p) {
                                         return Vertex { body->rotation.Rotate(p) + body->position, color };
                         })
@@ -318,16 +312,9 @@ namespace Test {
                 SelectControlPoint(mouse, t * rect.Corner(true,  false), 2);
                 SelectControlPoint(mouse, t * rect.Corner(true,  true),  3);
             },
-            instanceof (const Physics2D::TriangleShape& tri) {
-                SelectControlPoint(mouse, t * tri.points[0], 0);
-                SelectControlPoint(mouse, t * tri.points[1], 1);
-                SelectControlPoint(mouse, t * tri.points[2], 2);
-            },
-            instanceof (const Physics2D::QuadShape& quad) {
-                SelectControlPoint(mouse, t * quad.points[0], 0);
-                SelectControlPoint(mouse, t * quad.points[1], 1);
-                SelectControlPoint(mouse, t * quad.points[2], 2);
-                SelectControlPoint(mouse, t * quad.points[3], 3);
+            instanceof (const Physics2D::StaticPolygonShape& poly) {
+                for (u32 k = 0; k < poly.size; ++k)
+                    SelectControlPoint(mouse, t * poly.points[k], k);
             },
             instanceof (const Physics2D::DynPolygonShape& poly) {
                 for (u32 i = 0; i < poly.Size(); ++i) {
@@ -377,18 +364,10 @@ namespace Test {
                 rect.hx = std::abs(corners[controlIndex].x);
                 rect.hy = std::abs(corners[controlIndex].y);
             });,
-            instanceof (Physics2D::TriangleShape& tri) {
-                EditControlPoint(mouse, tri.points[0], 0);
-                EditControlPoint(mouse, tri.points[1], 1);
-                EditControlPoint(mouse, tri.points[2], 2);
-                tri.FixPolygon();
-            },
-            instanceof (Physics2D::QuadShape& quad) {
-                EditControlPoint(mouse, quad.points[0], 0);
-                EditControlPoint(mouse, quad.points[1], 1);
-                EditControlPoint(mouse, quad.points[2], 2);
-                EditControlPoint(mouse, quad.points[3], 3);
-                quad.FixPolygon();
+            instanceof (Physics2D::StaticPolygonShape& poly) {
+                for (u32 j = 0; j < poly.size; ++j)
+                    EditControlPoint(mouse, poly.points[j], j);
+                poly.FixPolygon();
             },
             instanceof (Physics2D::DynPolygonShape& poly) {
                 for (u32 i = 0; i < poly.Size(); ++i) {
@@ -427,16 +406,9 @@ namespace Test {
                 AddNewPoint(t * rect.Corner(true,  false), CONTROL_GREEN);
                 AddNewPoint(t * rect.Corner(true,  true),  CONTROL_GREEN);
             });,
-            instanceof (Physics2D::TriangleShape& tri) {
-                AddNewPoint(t * tri.points[0], CONTROL_GREEN);
-                AddNewPoint(t * tri.points[1], CONTROL_GREEN);
-                AddNewPoint(t * tri.points[2], CONTROL_GREEN);
-            },
-            instanceof (Physics2D::QuadShape& quad) {
-                AddNewPoint(t * quad.points[0], CONTROL_GREEN);
-                AddNewPoint(t * quad.points[1], CONTROL_GREEN);
-                AddNewPoint(t * quad.points[2], CONTROL_GREEN);
-                AddNewPoint(t * quad.points[3], CONTROL_GREEN);
+            instanceof (Physics2D::StaticPolygonShape& poly) {
+                for (u32 j = 0; j < poly.size; ++j)
+                    AddNewPoint(t * poly.points[j], CONTROL_GREEN);
             },
             instanceof (Physics2D::DynPolygonShape& poly) {
                 for (u32 i = 0; i < poly.Size(); ++i) {
@@ -465,18 +437,13 @@ namespace Test {
                 rect.hx = half.x;
                 rect.hy = half.y;
             });,
-            instanceof (Physics2D::TriangleShape& tri) {
-                ImGui::EditVector("Point #1", tri.points[0]);
-                ImGui::EditVector("Point #2", tri.points[1]);
-                ImGui::EditVector("Point #3", tri.points[2]);
-                tri.FixPolygon();
-            },
-            instanceof (Physics2D::QuadShape& quad) {
-                ImGui::EditVector("Point #1", quad.points[0]);
-                ImGui::EditVector("Point #2", quad.points[1]);
-                ImGui::EditVector("Point #3", quad.points[2]);
-                ImGui::EditVector("Point #4", quad.points[3]);
-                quad.FixPolygon();
+            instanceof (Physics2D::StaticPolygonShape& poly) {
+                char title[] = "Point #_";
+                for (u32 j = 0; j < poly.size; ++j) {
+                    title[7] = '0' + j;
+                    ImGui::EditVector(Str::Slice(title, sizeof(title) - 1), poly.points[j]);
+                }
+                poly.FixPolygon();
             },
             instanceof (Physics2D::DynPolygonShape& poly) {
                 char title[] = "Point #01";
@@ -491,15 +458,15 @@ namespace Test {
     }
 
     void TestPhysicsPlayground2D::AddRandomCircle(Math::RandomGenerator& rand) {
-        world.CreateBody<Physics2D::CircleShape>({ .position = 0, .density = 1 },
-            rand.GetExponential(2.0f, 15.0f));
+        world.CreateBody({ .position = 0, .density = 1 },
+            Physics2D::CircleShape { rand.GetExponential(2.0f, 15.0f) });
         AddBodyTint(Math::fColor::Random(rand));
     }
 
     void TestPhysicsPlayground2D::AddRandomCapsule(Math::RandomGenerator& rand) {
         const float r = rand.GetExponential(2.0f, 15.0f);
-        world.CreateBody<Physics2D::CapsuleShape>({ .position = 0, .density = 1 },
-            Math::fv2::RandomOnUnit(rand) * r * rand.GetExponential(0.8f, 2.0f), r);
+        world.CreateBody({ .position = 0, .density = 1 },
+            Physics2D::CapsuleShape { Math::fv2::RandomOnUnit(rand) * r * rand.GetExponential(0.8f, 2.0f), r });
         AddBodyTint(Math::fColor::Random(rand));
     }
 
@@ -525,8 +492,7 @@ namespace Test {
         const float width  = rand.Get(3.0f, 15.0f),
                     height = width * rand.Get(0.8f, 1.2f);
 
-        world.CreateBody<Physics2D::RectShape>({ .position = 0, .density = 1 },
-            width, height);
+        world.CreateBody({ .position = 0, .density = 1 }, Physics2D::RectShape { width, height });
 
         AddBodyTint(Math::fColor::Random(rand));
     }

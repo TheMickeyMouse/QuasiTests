@@ -53,7 +53,8 @@ namespace Test {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
 
-        lightSource.GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = (Math::fColor)lightColor; });
+        for (auto& v : lightSource.vertices)
+            v.Color = (Math::fColor)lightColor;
         lightSource.SetTransform(Math::Transform3D::Translate(lightPos));
         lightScene.Draw(lightSource);
 

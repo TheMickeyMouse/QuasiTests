@@ -73,7 +73,7 @@ namespace Test {
             meshStr = (useMarkdown ?
                 font.RenderRichText(Text::RichString::ParseMarkdown(string), fontSize, alignment) :
                 font.RenderText(string, fontSize, alignment)
-            ).GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
+            ).GeometryConvert(QGLCreateBlueprint$(Vertex, (
                 in (Position, Color, RenderType, TextureCoord),
                 out (Position) = Position;,
                 out (Color) = RenderType ? color : Color;,

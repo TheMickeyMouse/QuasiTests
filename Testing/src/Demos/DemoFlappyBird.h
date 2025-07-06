@@ -5,6 +5,8 @@
 #include "Mesh.h"
 #include "Math/Geometry.h"
 #include "Fonts/Font.h"
+#include "Physics/PhysicsTransform2D.h"
+#include "Physics/World2D.h"
 
 namespace Test {
     class DemoFlappyBird : public Test {
@@ -17,23 +19,19 @@ namespace Test {
             QuasiDefineVertex$(Vertex, 2D, (Position, Position)(Color)(TextureCoord)(RenderType));
         };
 
-        struct Spike {
-            Graphics::Mesh<Vertex> mesh;
-            Math::fTriangle2D collider;
-            float xOff;
-        };
+        Graphics::RenderObject<Vertex> scene;
+        Physics2D::World world;
+        OptRef<Physics2D::Body> playerBody;
 
-        Graphics::RenderObject<Vertex> render;
         Graphics::Font font;
-        Graphics::Mesh<Vertex> mPlayer, mText, mBg;
-        Vec<Spike> spikes;
+        Graphics::Mesh<Vertex> mText, mBg;
         u32 loopStart = 0;
 
-        float velocityY = 0, yPos = 0;
         double time = 0, nextSpawnTime = 0;
 
         int score = 0;
         bool isEnd = false;
+        bool completedDeathAnim = false;
 
         DEFINE_TEST_T(DemoFlappyBird, DEMO)
     public:
@@ -46,7 +44,8 @@ namespace Test {
         void OnImGuiRender(Graphics::GraphicsDevice& gdevice) override;
         void OnDestroy(Graphics::GraphicsDevice& gdevice) override;
 
+        void DeathTrigger();
+        void SetObstacle(Physics2D::Body& obstacle);
         void ManageSpikes(Graphics::GraphicsDevice& gdevice);
-        void CheckPlayerCollisions();
     };
 }

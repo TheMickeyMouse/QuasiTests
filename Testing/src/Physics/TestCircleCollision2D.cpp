@@ -144,7 +144,7 @@ namespace Test {
 
         const Math::fv2 position = Math::fv2::Random(rand, { 3.0f, { 77.0f, 57.0f } });
         const float radius = rand.Get(1.0f, 3.0f);
-        world.CreateBody<Physics2D::CircleShape>({ .position = position, .density = 5.0f }, radius);
+        world.CreateBody({ .position = position, .density = 5.0f }, Physics2D::CircleShape { radius });
     }
 
     void TestCircleCollision2D::ResetBalls(Graphics::GraphicsDevice& gdevice) {
@@ -158,17 +158,17 @@ namespace Test {
 
         const fRect2D viewport = { 0, { 80.0f, 60.0f } };
         for (u32 i = 0; i < STATIC_BALL_COUNT; ++i) {
-            world.CreateBody<CircleShape>({
+            world.CreateBody({
                 .position = fv2::Random(rand, viewport),
                 .type = BodyType::STATIC,
                 .density = 0.0f },
-            rand.Get(4.0f, 6.0f));
+            CircleShape { rand.Get(4.0f, 6.0f) });
         }
 
-        edge[0] = world.CreateBody<RectShape>({ .position = {                0, +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.Height() * 0.5f - 1.0f);
-        edge[1] = world.CreateBody<RectShape>({ .position = { viewport.Width(), +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, 1.0f, viewport.Height() * 0.5f - 1.0f);
-        edge[2] = world.CreateBody<RectShape>({ .position = { viewport.Width() * 0.5f, +                0 }, .type = BodyType::STATIC }, viewport.Width() * 0.5f - 1.0f,  1.0f);
-        edge[3] = world.CreateBody<RectShape>({ .position = { viewport.Width() * 0.5f, +viewport.Height() }, .type = BodyType::STATIC }, viewport.Width() * 0.5f - 1.0f,  1.0f);
+        edge[0] = world.CreateBody({ .position = {                0, +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, RectShape { 1.0f, viewport.Height() * 0.5f - 1.0f });;
+        edge[1] = world.CreateBody({ .position = { viewport.Width(), +viewport.Height() * 0.5f }, .type = BodyType::STATIC }, RectShape { 1.0f, viewport.Height() * 0.5f - 1.0f });
+        edge[2] = world.CreateBody({ .position = { viewport.Width() * 0.5f, +                0 }, .type = BodyType::STATIC }, RectShape { viewport.Width() * 0.5f - 1.0f,  1.0f });
+        edge[3] = world.CreateBody({ .position = { viewport.Width() * 0.5f, +viewport.Height() }, .type = BodyType::STATIC }, RectShape { viewport.Width() * 0.5f - 1.0f,  1.0f });
     }
 
     OptRef<Physics2D::Body> TestCircleCollision2D::FindBallAt(const Math::fv2& mousePos) {

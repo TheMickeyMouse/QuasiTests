@@ -14,11 +14,11 @@ namespace Test {
 
         Graphics::OBJModelLoader mloader;
         mloader.LoadFile(res("untitled.obj").IntoCStr());
-        const Graphics::OBJModel model = mloader.RetrieveModel();
+        Graphics::OBJModel model = mloader.RetrieveModel();
 
         for (int i = 0; i < model.objects.Length(); ++i) {
             meshes.Push(
-                model.objects[i].mesh.GeometryMap<Vertex>(QGLCreateBlueprint$(Vertex, (
+                std::move(model.objects[i].mesh).GeometryConvert(QGLCreateBlueprint$(Vertex, (
                     in (Position, Normal),
                     out (Position) = Position;,
                     out (Color) = Math::fColor::Better::Colors[i];,

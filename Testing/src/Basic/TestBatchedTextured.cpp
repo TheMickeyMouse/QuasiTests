@@ -44,7 +44,8 @@ namespace Test {
     }
 
     void TestBatchedTextured::OnRender(Graphics::GraphicsDevice& gdevice) {
-        mesh.GeometryPass([&] (Vertex& v) { v.Color = color; });
+        for (auto& v : mesh.vertices)
+            v.Color = color;
         render.Draw(mesh);
     }
 

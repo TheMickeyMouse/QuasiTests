@@ -108,5 +108,6 @@ namespace Test {
 
     void TestGeometryShader::OnDestroy(Graphics::GraphicsDevice& gdevice) {
         scene.Destroy();
+        Graphics::Render::DisableCullFace();
     }
 } // Test

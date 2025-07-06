@@ -17,9 +17,9 @@ namespace Test {
 
         materials = std::move(model.materials);
         meshes.Reserve(model.objects.Length());
-        for (const Graphics::OBJObject& obj : model.objects) {
+        for (Graphics::OBJObject& obj : model.objects) {
             meshes.Push(
-                obj.mesh.GeometryMap<Vertex>(
+                std::move(obj.mesh).GeometryConvert(
                     [&] (const Graphics::OBJVertex& v) { return Vertex { v.Position, v.Normal, obj.materialIndex }; }
             ));
         }
@@ -115,7 +115,8 @@ namespace Test {
 
             for (u32 i = 0; i < lights.Length(); ++i) {
                 ImGui::EditLight(Text::Format("Light {}", i + 1), lights[i]);
-                lightMeshes[i].GeometryPass([&] (Graphics::VertexColor3D& v) { v.Color = lights[i].color; });
+                for (auto& v : lightMeshes[i].vertices)
+                    v.Color = lights[i].color;
                 lightMeshes[i].SetTransform(Math::Transform3D::Translate(lights[i].Position()));
             }
             ImGui::TreePop();
