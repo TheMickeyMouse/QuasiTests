@@ -45,7 +45,7 @@ namespace Test {
             }
         );
         depthMap.Bind();
-        depthMap.Attach(depthTex, Graphics::AttachmentType::DEPTH);
+        depthMap.Attach(depthTex, 0, Graphics::AttachmentType::DEPTH);
         Graphics::Render::SetColorWrite(Graphics::BufferMode::NONE);
         depthMap.Complete();
         depthMap.Unbind();

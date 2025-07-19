@@ -1,7 +1,7 @@
 #include "TestBezierCurves.h"
 
 #include "GUI/ImGuiExt.h"
-#include "Math/Geometry.h"
+#include "Utils/Math/Geometry.h"
 
 namespace Test {
     void TestBezierCurves::OnInit(Graphics::GraphicsDevice& gdevice) {

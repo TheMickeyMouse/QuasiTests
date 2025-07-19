@@ -2,6 +2,7 @@
 #include "CameraController3D.h"
 #include "Light.h"
 #include "Test.h"
+#include "Effects/Bloom.h"
 #include "ModelLoading/OBJModel.h"
 
 namespace Quasi::Graphics {
@@ -24,11 +25,14 @@ namespace Test {
         Vec<Graphics::Light> lights;
         static constexpr int MAX_LIGHTS = 8;
         Graphics::CameraController3D camera;
+        Graphics::Bloom bloom {{ 1200, 900 }};
 
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;
 
         float ambientStrength = 0.03f, specularStrength = 1.2f;
+
+        int mipLod = 0;
 
         DEFINE_TEST_T(TestLightCasters, ADVANCED)
     public:

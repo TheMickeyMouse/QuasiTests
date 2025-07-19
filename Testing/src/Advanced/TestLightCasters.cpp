@@ -39,7 +39,7 @@ namespace Test {
         lights.Reserve(MAX_LIGHTS);
         AddPointLight({
             .position = { -0, 7, 0 },
-            .constant = 1,
+            .constant = 1.7f,
             .linear = 0,
             .quadratic = 0
         }, { 1, 1, 1 });
@@ -49,21 +49,21 @@ namespace Test {
             .constant = 1,
             .linear = 0,
             .quadratic = 0.001f,
-         }, { 1, 0, 0 });
+         }, { 1, 0.3f, 0.3f });
 
         AddPointLight({
             .position = { -9, 3, 6 },
-            .constant = 1,
+            .constant = 1.4f,
             .linear = 0,
             .quadratic = 0.001f,
-         }, { 0, 0.6176472f, 1 });
+         }, { 0.3f, 0.6f, 1 });
 
         AddPointLight({
             .position = { 12, 3, 16 },
-            .constant = 1,
+            .constant = 1.4f,
             .linear = 0,
             .quadratic = 0.001f,
-         }, { 0.2647059f, 1, 0 });
+         }, { 0.4f, 1, 0.2f });
 
         lightScene.UseShader(Graphics::Shader::StdColored);
     }
@@ -75,6 +75,8 @@ namespace Test {
     void TestLightCasters::OnRender(Graphics::GraphicsDevice& gdevice) {
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
+        bloom.PreRender();
+        Graphics::Render::Clear();
         lightScene.Draw(lightMeshes);
 
         scene->shader.Bind();
@@ -93,6 +95,7 @@ namespace Test {
             { "viewPosition",      camera.position },
             { "specularIntensity", specularStrength },
         }));
+        bloom.ApplyEffect();
     }
 
     void TestLightCasters::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
@@ -115,12 +118,17 @@ namespace Test {
 
             for (u32 i = 0; i < lights.Length(); ++i) {
                 ImGui::EditLight(Text::Format("Light {}", i + 1), lights[i]);
+                const Math::fColor lightColor = (lights[i].color * 2).AddAlpha(1);
                 for (auto& v : lightMeshes[i].vertices)
-                    v.Color = lights[i].color;
+                    v.Color = lightColor;
                 lightMeshes[i].SetTransform(Math::Transform3D::Translate(lights[i].Position()));
             }
             ImGui::TreePop();
         }
+
+        ImGui::SliderFloat("Bloom Threshold", &bloom.threshold, 0.0f, 1.0f);
+        ImGui::SliderFloat("Bloom Knee Off", &bloom.kneeOff, 0.0f, 1.0f);
+        ImGui::SliderFloat("Bloom Intensity", &bloom.intensity, 0.0f, 1.0f);
     }
 
     void TestLightCasters::OnDestroy(Graphics::GraphicsDevice& gdevice) {
@@ -169,7 +177,7 @@ namespace Test {
             Graphics::Meshes::Cube().Create(QGLCreateBlueprint$(Graphics::VertexColor3D, (
                 in (Position),
                 out (Position) = Position;,
-                out (Color) = color;
+                out (Color) = (color * 2).AddAlpha(1);
             )))
         );
         lightMeshes.Last().SetTransform(Math::Transform3D::Translate(point.position));

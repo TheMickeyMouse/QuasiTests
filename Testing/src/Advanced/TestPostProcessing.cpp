@@ -9,7 +9,7 @@
 
 namespace Test {
     void TestPostProcessing::OnInit(Graphics::GraphicsDevice& gdevice) {
-        scene = gdevice.CreateNewRender<Graphics::VertexColor3D>(72, 108);
+        scene = gdevice.CreateNewRender<Graphics::VertexColor3D>(216, 324);
         postProcessingQuad = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
 
         cubes.Reserve(9);

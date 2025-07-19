@@ -1,6 +1,5 @@
 #include "DemoFlappyBird.h"
 
-#include <imgui.h>
 #include "GLs/VertexBlueprint.h"
 #include "Meshes/Circle.h"
 #include "Meshes/Quad.h"
