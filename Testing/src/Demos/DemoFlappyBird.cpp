@@ -33,9 +33,11 @@ namespace Test {
         Graphics::Render::SetClearColor(fColor::Better::Black());
 
         world.gravity = { 0, -600 };
-        playerBody = world.CreateBody({ { -150, 0 } }, Physics2D::CircleShape { 30.0f });
+        playerBody = world.CreateBody({ { -150, 120 } }, Physics2D::CircleShape { 30.0f });
         SetObstacle(world.CreateBody({ { 0, +240 }, 0, Physics2D::BodyType::STATIC }, Physics2D::RectShape { 320.0f, 20.0f }));
         SetObstacle(world.CreateBody({ { 0, -240 }, 0, Physics2D::BodyType::STATIC }, Physics2D::RectShape { 320.0f, 20.0f }));
+
+        bloom.kneeOff = 0.6;
     }
 
     void DemoFlappyBird::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -66,10 +68,13 @@ namespace Test {
 
     void DemoFlappyBird::OnRender(Graphics::GraphicsDevice& gdevice) {
         using namespace Graphics;
+        bloom.SetToRenderTarget();
+        Render::Clear();
+
         mText = font.RenderText(Text::Format("{}", score), 80,
             TextAlign { {{ -20, 100 }, { 20, 140 }} }.SpaceOut(1, -16))
             .GeometryConvert([](const Font::Vertex& v) -> Vertex {
-                return { v.Position, v.Color, v.TextureCoord, 1 };
+                return { v.Position, Math::fColor::Better::Gray(), v.TextureCoord, 1 };
         });
 
         scene.BeginContext();
@@ -94,6 +99,8 @@ namespace Test {
         }
         scene.EndContext();
         scene.DrawContext();
+
+        bloom.ApplyEffect();
     }
 
     void DemoFlappyBird::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {}

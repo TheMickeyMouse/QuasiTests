@@ -3,6 +3,7 @@
 
 #include "Test.h"
 #include "Mesh.h"
+#include "Effects/Bloom.h"
 #include "Utils/Math/Geometry.h"
 #include "Fonts/Font.h"
 #include "Physics/PhysicsTransform2D.h"
@@ -20,6 +21,7 @@ namespace Test {
         };
 
         Graphics::RenderObject<Vertex> scene;
+        Graphics::Bloom bloom {{ 1200, 900 }};
         Physics2D::World world;
         OptRef<Physics2D::Body> playerBody;
 

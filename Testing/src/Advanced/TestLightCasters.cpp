@@ -73,10 +73,11 @@ namespace Test {
     }
 
     void TestLightCasters::OnRender(Graphics::GraphicsDevice& gdevice) {
+        bloom.SetToRenderTarget();
+        Graphics::Render::Clear();
+
         lightScene.SetProjection(camera.GetProjMat());
         lightScene.SetCamera(camera.GetViewMat());
-        bloom.PreRender();
-        Graphics::Render::Clear();
         lightScene.Draw(lightMeshes);
 
         scene->shader.Bind();
