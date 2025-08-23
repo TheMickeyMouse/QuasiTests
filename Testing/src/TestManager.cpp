@@ -22,6 +22,7 @@
 #include "Advanced/TestShadowMap.h"
 
 #include "Demos/DemoFlappyBird.h"
+#include "Demos/DemoUIPlayground.h"
 
 #include "Physics/TestCircleCollision2D.h"
 #include "Physics/TestPhysicsPlayground2D.h"
@@ -101,6 +102,9 @@ namespace Test {
 
             menu->RegisterTest<DemoFlappyBird>("Flappy Bird");
             menu->AddDescription("A dumb-down version of Flappy Bird.");
+
+            menu->RegisterTest<DemoUIPlayground>("UI Playground");
+            menu->AddDescription("A Simple UI Renderer.");
 
             // =========================================================================
 

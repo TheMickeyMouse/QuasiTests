@@ -50,7 +50,7 @@ namespace Test {
 
                 for (u32 i = 0; i < 10; ++i)
                     world.CreateBody({
-                        playerCenter + Math::fv2::FromPolar(24, Math::Radians::FromDegrees(36 * (float)i))
+                        playerCenter + Math::fv2::FromPolar(24, Math::Degrees(36 * (float)i))
                     }, Physics2D::CircleShape { 6.0f });
                 completedDeathAnim = true;
             }

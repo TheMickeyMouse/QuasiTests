@@ -18,6 +18,8 @@ set(HEADER_FILES
     src/Advanced/TestShadowMap.h
     src/Physics/TestCircleCollision2D.h
     src/Physics/TestPhysicsPlayground2D.h
+    src/Advanced/TestBezierCurves.h
+    src/Demos/DemoUIPlayground.h
     src/Test.h
     src/TestManager.h
     src/TestMenu.h
@@ -40,8 +42,10 @@ set(SOURCE_FILES
     src/Advanced/TestGeometryShader.cpp
     src/Advanced/TestDrawInstances.cpp
     src/Advanced/TestShadowMap.cpp
+    src/Advanced/TestBezierCurves.cpp
     src/Physics/TestCircleCollision2D.cpp
     src/Physics/TestPhysicsPlayground2D.cpp
+    src/Demos/DemoUIPlayground.cpp
     src/TestManager.cpp
     src/TestMenu.cpp
     Testing.cpp
@@ -51,8 +55,6 @@ source_group("Source Files" FILES ${SOURCE_FILES})
 set(ALL_FILES
     ${HEADER_FILES}
     ${SOURCE_FILES}
-        src/Advanced/TestBezierCurves.cpp
-        src/Advanced/TestBezierCurves.h
 )
 
 add_executable(${PROJECT_NAME} ${ALL_FILES})
