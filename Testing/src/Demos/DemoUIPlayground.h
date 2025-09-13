@@ -9,6 +9,8 @@ namespace Test {
         int joinMode = 0;
         int arcDirection = Graphics::Canvas::CCW;
         int arcMode = Graphics::Canvas::OPEN;
+
+        Math::fv2 bezPoints[3] = { { 200, 700 }, { 600, 1100 }, { 500, 400 } };
     public:
         DemoUIPlayground() = default;
         ~DemoUIPlayground() override = default;
