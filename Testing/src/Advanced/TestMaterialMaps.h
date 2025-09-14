@@ -17,7 +17,7 @@ namespace Test {
         Math::fv3 lightPos = { 0, 8, 2 };
         Math::fColor3 lightColor = 1;
         float ambientStrength = 0.03f, specularStrength = 1.2f;
-        Graphics::Texture diffuseMap, specularMap;
+        Graphics::Texture2D diffuseMap, specularMap;
 
         DEFINE_TEST_T(TestMaterialMaps, ADVANCED)
     public:

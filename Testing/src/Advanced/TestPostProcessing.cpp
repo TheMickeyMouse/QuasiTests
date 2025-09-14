@@ -39,9 +39,9 @@ namespace Test {
         fbo = Graphics::FrameBuffer::New();
         fbo.Bind();
 
-        renderResult = Graphics::Texture::New(
+        renderResult = Graphics::Texture2D::New(
             nullptr, { (u32)winX, (u32)winY },
-            { .load = { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 } }
+            { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 }
         );
 
         fbo.Attach(renderResult);
@@ -115,7 +115,7 @@ namespace Test {
             Graphics::Render::ClearColorBit();
 
             currShader->Bind();
-            currShader->SetUniformTex("screenTexture", renderResult);
+            currShader->SetUniformTex("screenTexture", renderResult, 1);
             if (currShader == &shaderBlur) {
                 currShader->SetUniformFv2("blurOff", effectOff);
             } else if (currShader == &shaderEdgeDetect) {

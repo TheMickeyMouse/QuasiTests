@@ -14,9 +14,8 @@ namespace Test {
         font = Graphics::Font::LoadFile(res("consola.ttf").IntoCStr());
         font.SetSize(48);
         font.RenderBitmap();
-        font.GetTexture().Activate(0);
 
-        scene->shader.SetUniformTex("u_font", font.GetTexture());
+        scene->shader.SetUniformTex("u_font", font.GetTexture(), 1);
 
         using namespace Math;
         const auto blueprint = QGLCreateBlueprint$(Vertex, (

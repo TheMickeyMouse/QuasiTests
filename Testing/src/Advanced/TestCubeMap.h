@@ -20,7 +20,8 @@ namespace Test {
         Graphics::Mesh<Vertex> skybox, box;
         Graphics::CameraController3D camera;
 
-        Graphics::Texture cubemap, boxTex;
+        Graphics::TextureCubemap cubemap;
+        Graphics::Texture2D boxTex;
         Graphics::Shader cubemapShader, boxShader, reflectShader, refractShader;
 
         Math::Radians lightYaw = 0.61_rad, lightPitch = -0.979_rad;

@@ -18,14 +18,12 @@ namespace Test {
             out (Normal)            = Normal;
         )), skybox.NewBatch());
 
-        cubemap = Graphics::Texture::LoadCubemapPNG(
+        cubemap = Graphics::TextureCubemap::LoadCubemapPNG(
             { res("right.jpg").IntoCStr(), res("left.jpg").IntoCStr(),
               res("top.jpg").IntoCStr(),   res("bottom.jpg").IntoCStr(),
               res("front.jpg").IntoCStr(), res("back.jpg").IntoCStr() });
-        cubemap.Activate();
 
-        boxTex = Graphics::Texture::LoadPNG(res("box.png").IntoCStr());
-        boxTex.Activate();
+        boxTex = Graphics::Texture2D::LoadPNG(res("box.png").IntoCStr());
 
         u32 i = 0;
         Graphics::Meshes::Cube().Merge(QGLCreateBlueprint$(Vertex, (
@@ -61,26 +59,26 @@ namespace Test {
         scene.SetProjection(camera.GetProjMat());
         scene.SetCamera(camera.GetViewMat());
 
-        scene.Draw(skybox, UseShaderWithArgs(cubemapShader, {{ "cubemap", cubemap }}));
+        scene.Draw(skybox, UseShaderWithArgs(cubemapShader, {{ "cubemap", cubemap, 1 }}));
 
         switch (shaderID) {
             case DIFFUSE_SHADER_ID:
                 scene.Draw(box, UseShaderWithArgs(boxShader, {
-                    { "boxTex", boxTex },
+                    { "boxTex", boxTex, 2 },
                     { "lightPosition", Math::fv3::FromSpheric(10.0f, lightYaw, lightPitch) },
                     { "ambientStrength", ambStrength }
                 }));
             break;
             case REFLECTION_SHADER_ID:
                 scene.Draw(box, UseShaderWithArgs(reflectShader, {
-                    { "skybox", cubemap },
+                    { "skybox", cubemap, 1 },
                     { "viewPosition", camera.position },
                     { "ambStrength", ambStrength }
                 }));
             break;
             case REFRACTION_SHADER_ID:
                 scene.Draw(box, UseShaderWithArgs(refractShader, {
-                    { "skybox", cubemap },
+                    { "skybox", cubemap, 1 },
                     { "viewPosition", camera.position },
                     { "ambStrength", ambStrength },
                     { "invRefractIndex", 1.0f / refractiveIndex }

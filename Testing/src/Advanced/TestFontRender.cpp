@@ -22,9 +22,8 @@ namespace Test {
 
         font.SetSize(48);
         font.RenderBitmap();
-        font.GetTexture().Activate();
 
-        const float aspect = font.GetTexture().Size2D().AspectRatio();
+        const float aspect = font.GetTexture().Size().AspectRatio();
         Vec<Vertex> atlVertices = Vec<Vertex>::New({
             { { -100.0f * aspect, -100.0f }, 1, { 0.0f, 1.0f }, 1 },
             { { +100.0f * aspect, -100.0f }, 1, { 1.0f, 1.0f }, 1 },
@@ -82,7 +81,7 @@ namespace Test {
             )));
         }
         render.Draw({ &meshBg, showAtlas ? &meshAtlas : &meshStr }, Graphics::UseArgs({
-            { "u_font",           font.GetTexture() },
+            { "u_font",           font.GetTexture(), 0 },
             { "u_thickness",      thickness },
             { "u_softness",       softness },
             { "u_shadowColor",    shadowColor },

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Test.h"
 #include "GLs/Texture.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "Graphics/Mesh.h"
 
 namespace Test {
     class TestBatchedTextured : public Test {
@@ -17,7 +17,7 @@ namespace Test {
     private:
         Graphics::RenderObject<Vertex> render;
         Graphics::Mesh<Vertex> mesh;
-        Graphics::Texture textures[2];
+        Graphics::Texture2D textures[2];
 
         Math::fColor color = 1;
 

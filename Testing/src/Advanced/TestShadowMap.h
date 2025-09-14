@@ -2,8 +2,8 @@
 #include "Test.h"
 #include "GLs/FrameBuffer.h"
 #include "GLs/Texture.h"
-#include "../../../Quasi/src/Graphics/CameraController3D.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "Graphics/CameraController3D.h"
+#include "Graphics/Mesh.h"
 
 namespace Test {
     class TestShadowMap : public Test {
@@ -11,7 +11,7 @@ namespace Test {
         Graphics::RenderObject<Vertex> scene;
         Vec<Graphics::Mesh<Vertex>> meshes;
         Graphics::FrameBuffer depthMap;
-        Graphics::Texture depthTex;
+        Graphics::Texture2D depthTex;
         Graphics::Shader depthShader;
 
         Graphics::RenderObject<Graphics::VertexTexture2D> shadowMapDisplay;

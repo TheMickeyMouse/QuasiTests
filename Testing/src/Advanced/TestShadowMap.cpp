@@ -31,19 +31,15 @@ namespace Test {
         scene.UseShaderFromFile(res("shadow.vert").IntoCStr(), res("shadow.frag").IntoCStr());
 
         depthMap = Graphics::FrameBuffer::New();
-        depthTex = Graphics::Texture::New(
+        depthTex = Graphics::Texture2D::New(
             nullptr, (Math::uv2)gdevice.GetWindowSize(), {
-                .load = {
-                    .format = Graphics::TextureFormat::DEPTH,
-                    .internalformat = Graphics::TextureIFormat::DEPTH_16,
-                    .type = Graphics::GLTypeID::FLOAT
-                },
-                .params = {
-                    { Graphics::TextureParamName::XT_WRAPPING, Graphics::TextureBorder::CLAMP_TO_BORDER },
-                    { Graphics::TextureParamName::BORDER_COLOR, AsConst(Math::fv4::One()).Data() }
-                }
+                .format = Graphics::TextureFormat::DEPTH,
+                .internalformat = Graphics::TextureIFormat::DEPTH_16,
+                .type = Graphics::GLTypeID::FLOAT
             }
         );
+        depthTex.Bind();
+        depthTex.SetBorderColor(Math::fColor::White());
         depthMap.Bind();
         depthMap.Attach(depthTex, 0, Graphics::AttachmentType::DEPTH);
         Graphics::Render::SetColorWrite(Graphics::BufferMode::NONE);
@@ -58,7 +54,6 @@ namespace Test {
             out (Position) = Position;,
             out (TextureCoordinate) = (Position + 1) * 0.5f;
         )));
-        depthTex.Activate(0);
 
         Graphics::Render::EnableCullFace();
         Graphics::Render::SetFrontFacing(Graphics::OrientationMode::CLOCKWISE);
@@ -96,7 +91,7 @@ namespace Test {
         Graphics::Render::ClearDepthBit();
         if (showDepthMap) {
             shadowMapDisplay.Draw(screenQuad, Graphics::UseArgs({
-                { "displayTex", depthTex },
+                { "displayTex", depthTex, 1 },
                 { "near", clipDistance.min },
                 { "far", clipDistance.max }
             }, false));
@@ -106,7 +101,7 @@ namespace Test {
 
             scene.Draw(meshes, Graphics::UseArgs({
                 { "lightSpaceMat", lightProj * lightView },
-                { "depthMap", depthTex },
+                { "depthMap", depthTex, 1 },
                 { "lightPos", lightPosition },
                 { "viewPos", camera.position },
                 { "ambStrength", ambStrength },

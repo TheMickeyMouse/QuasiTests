@@ -15,16 +15,16 @@ namespace Test {
 
         meshes = mloader.GetModel().RetrieveMeshes();
 
-        diffuseMap = Graphics::Texture::LoadPNG(res("diffuse.png").IntoCStr());
-        specularMap = Graphics::Texture::LoadPNG(res("specular.png").IntoCStr());
+        diffuseMap = Graphics::Texture2D::LoadPNG(res("diffuse.png").IntoCStr());
+        specularMap = Graphics::Texture2D::LoadPNG(res("specular.png").IntoCStr());
         diffuseMap.Activate(0);
         specularMap.Activate(1);
 
         scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
 
         scene->shader.Bind();
-        scene->shader.SetUniformTex("diffuseMap", diffuseMap);
-        scene->shader.SetUniformTex("specularMap", specularMap);
+        scene->shader.SetUniformTex("diffuseMap", diffuseMap, 1);
+        scene->shader.SetUniformTex("specularMap", specularMap, 2);
         scene->shader.Unbind();
 
         using namespace Math;

@@ -13,7 +13,7 @@ namespace Test {
         Graphics::RenderObject<Graphics::VertexTexture2D> postProcessingQuad;
 
         Graphics::FrameBuffer fbo;
-        Graphics::Texture renderResult;
+        Graphics::Texture2D renderResult;
         Graphics::RenderBuffer depthStencilAttachment;
 
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> cubes;
