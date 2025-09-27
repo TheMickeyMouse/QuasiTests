@@ -13,7 +13,7 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>(3200, 1280);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("untitled.obj").IntoCStr());
+        mloader.LoadFile(RES("untitled.obj"));
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         for (int i = 0; i < model.objects.Length(); ++i) {
@@ -27,12 +27,12 @@ namespace Test {
             ));
         }
 
-        depthShader = Graphics::Shader::FromFile(res("depth.vert").IntoCStr(), res("depth.frag").IntoCStr());
-        scene.UseShaderFromFile(res("shadow.vert").IntoCStr(), res("shadow.frag").IntoCStr());
+        depthShader = Graphics::Shader::FromFile(RES("depth.vert"), RES("depth.frag"));
+        scene.UseShaderFromFile(RES("shadow.vert"), RES("shadow.frag"));
 
         depthMap = Graphics::FrameBuffer::New();
         depthTex = Graphics::Texture2D::New(
-            nullptr, (Math::uv2)gdevice.GetWindowSize(), {
+            nullptr, gdevice.GetWindowSize(), {
                 .format = Graphics::TextureFormat::DEPTH,
                 .internalformat = Graphics::TextureIFormat::DEPTH_16,
                 .type = Graphics::GLTypeID::FLOAT
@@ -47,7 +47,7 @@ namespace Test {
         depthMap.Unbind();
 
         shadowMapDisplay = gdevice.CreateNewRender<Graphics::VertexTexture2D>(4, 2);
-        shadowMapDisplay.UseShaderFromFile(res("display.vert").IntoCStr(), res("display.frag").IntoCStr());
+        shadowMapDisplay.UseShaderFromFile(RES("display.vert"), RES("display.frag"));
 
         screenQuad = Graphics::Meshes::Quad().Create(QGLCreateBlueprint$(Graphics::VertexTexture2D, (
             in (Position),

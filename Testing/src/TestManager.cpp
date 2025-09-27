@@ -10,7 +10,7 @@
 #include "Basic/TestDynamicQuadGeometry.h"
 #include "Basic/TestCubeRender.h"
 
-#include "Advanced/TestFontRender.h"
+// #include "Advanced/TestFontRender.h"
 #include "Advanced/TestPostProcessing.h"
 #include "Advanced/TestAdvancedLighting.h"
 #include "Advanced/TestBezierCurves.h"
@@ -55,8 +55,8 @@ namespace Test {
             menu->DeclareTestType(TestType::ADVANCED);
             menu->AddSectionDescription("Advanced OpenGL Tests focused on more realistic rendering. \nIncluding: Text Rendering, Post Processing Effects and Lighting");
 
-            menu->RegisterTest<TestFontRender>("Font Rendering");
-            menu->AddDescription("Draws text (not 100% finished yet: markdown).");
+            // menu->RegisterTest<TestFontRender>("Font Rendering");
+            // menu->AddDescription("Draws text (not 100% finished yet: markdown).");
 
             menu->RegisterTest<TestPostProcessing>("Post Processing");
             menu->AddDescription("Draws a simple scene with post processing.");

@@ -17,8 +17,8 @@ namespace Test {
             out (Position) = Position;
         )));
 
-        scene.UseShaderFromFile(res("circle.vert").IntoCStr(), res("circle.frag").IntoCStr());
-        lineShader = Graphics::Shader::FromFile(res("line.vert").IntoCStr(), res("line.frag").IntoCStr(), res("line.geom").IntoCStr());
+        scene.UseShaderFromFile(RES("circle.vert"), RES("circle.frag"));
+        lineShader = Graphics::Shader::FromFile(RES("line.vert"), RES("line.frag"), RES("line.geom"));
 
         world = { { 0, -40.0f } };
         ResetBalls(gdevice);

@@ -5,9 +5,10 @@
 #define DEFINE_TEST_T(T, S) \
     using _Test_t = T; \
     inline static const TestType _Test_Category_t = TestType::S; \
-    inline static String res(Str resource) { \
-        return Text::Format("{}res\\{}\\" #T "\\{}", PROJECT_DIRECTORY, _Test_Category_t->name, resource); \
-    }
+    inline static const String _Test_Resource_Directory = Text::Format("{}res\\{}\\" #T "\\", PROJECT_DIRECTORY, _Test_Category_t->name); \
+
+#define RES_STR(RES_NAME) (_Test_Resource_Directory + RES_NAME)
+#define RES(RES_NAME) RES_STR(RES_NAME).IntoCStr()
 
 namespace Test {
     using namespace Quasi;

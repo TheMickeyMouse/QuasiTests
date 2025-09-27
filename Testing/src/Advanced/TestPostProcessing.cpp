@@ -61,15 +61,15 @@ namespace Test {
             out (TextureCoordinate) = (Position + 1) * 0.5f;
         )));
 
-        String vert = res("vertex.vert");
+        String vert = RES_STR("vertex.vert");
         const CStr vertloc = vert.IntoCStr();
-        postProcessingQuad.UseShaderFromFile(vertloc, res("none.frag").IntoCStr());
+        postProcessingQuad.UseShaderFromFile(vertloc, RES("none.frag"));
 
-        shaderInv        = Graphics::Shader::FromFile(vertloc, res("invert.frag").IntoCStr());
-        shaderHsv        = Graphics::Shader::FromFile(vertloc, res("hsv.frag").IntoCStr());
-        shaderBlur       = Graphics::Shader::FromFile(vertloc, res("simple_blur.frag").IntoCStr());
-        shaderEdgeDetect = Graphics::Shader::FromFile(vertloc, res("simple_ed.frag").IntoCStr());
-        shaderOutline    = Graphics::Shader::FromFile(res("outline.vert").IntoCStr(), res("outline.frag").IntoCStr());
+        shaderInv        = Graphics::Shader::FromFile(vertloc, RES("invert.frag"));
+        shaderHsv        = Graphics::Shader::FromFile(vertloc, RES("hsv.frag"));
+        shaderBlur       = Graphics::Shader::FromFile(vertloc, RES("simple_blur.frag"));
+        shaderEdgeDetect = Graphics::Shader::FromFile(vertloc, RES("simple_ed.frag"));
+        shaderOutline    = Graphics::Shader::FromFile(RES("outline.vert"), RES("outline.frag"));
 
         currShader = &postProcessingQuad->shader;
         renderResult.Activate(0);

@@ -8,8 +8,8 @@ namespace Test {
         render = gdevice.CreateNewRender<Vertex>(8, 4);
 
         using namespace Graphics;
-        textures[0] = Texture2D::LoadPNG(res("image.png").IntoCStr());
-        textures[1] = Texture2D::LoadPNG(res("img1.png").IntoCStr(), { .pixelated = true });
+        textures[0] = Texture2D::LoadPNG(RES("image.png"));
+        textures[1] = Texture2D::LoadPNG(RES("img1.png"), { .pixelated = true });
 
         textures[0].Activate(1);
         textures[1].Activate(2);
@@ -35,7 +35,7 @@ namespace Test {
 
         render.SetProjection(projection);
 
-        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        render.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
 
         constexpr int slots[] = { 1, 2 };
         render->shader.Bind();

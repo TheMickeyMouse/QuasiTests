@@ -7,7 +7,7 @@ namespace Test {
     void TestBezierCurves::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<BVertex>();
 
-        scene.UseShaderFromFile(res("bez.vert").IntoCStr(), res("bez.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("bez.vert"), RES("bez.frag"));
         scene.SetProjection(Math::Matrix3D::OrthoProjection({ { -4, -3, -1 }, { 4, 3, 1 } }));
 
         mesh.PushTriangle(

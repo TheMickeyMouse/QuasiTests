@@ -26,7 +26,7 @@ namespace Test {
         OptRef<Physics2D::Body> playerBody;
 
         Graphics::Font font;
-        Graphics::Mesh<Vertex> mText, mBg;
+        Graphics::Mesh<Vertex> mBg;
         u32 loopStart = 0;
 
         double time = 0, nextSpawnTime = 0;

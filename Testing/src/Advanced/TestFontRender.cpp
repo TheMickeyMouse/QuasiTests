@@ -8,17 +8,17 @@ namespace Test {
     void TestFontRender::OnInit(Graphics::GraphicsDevice& gdevice) {
         render = gdevice.CreateNewRender<Vertex>(1024, 1024);
 
-        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        render.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
         render.SetProjection(projection);
 
-        font = Graphics::Font::LoadFile(res("arial.ttf").IntoCStr());
-        font.AddDefaultFontStyle(res("arialbd.ttf").IntoCStr(), Graphics::FontStyle::BOLD);
-        font.AddDefaultFontStyle(res("ariali.ttf").IntoCStr(),  Graphics::FontStyle::ITALIC);
-        font.AddDefaultFontStyle(res("arialbi.ttf").IntoCStr(), Graphics::FontStyle::BOLD_ITALIC);
-        font.AddMonoFontStyle(res("JetBrainsMono-Regular.ttf").IntoCStr());
-        font.AddMonoFontStyle(res("JetBrainsMono-Bold.ttf").IntoCStr(),       Graphics::FontStyle::BOLD);
-        font.AddMonoFontStyle(res("JetBrainsMono-Italic.ttf").IntoCStr(),     Graphics::FontStyle::ITALIC);
-        font.AddMonoFontStyle(res("JetBrainsMono-BoldItalic.ttf").IntoCStr(), Graphics::FontStyle::BOLD_ITALIC);
+        font = Graphics::Font::LoadFile(RES("arial.ttf"));
+        font.AddDefaultFontStyle(RES("arialbd.ttf"), Graphics::FontStyle::BOLD);
+        font.AddDefaultFontStyle(RES("ariali.ttf"),  Graphics::FontStyle::ITALIC);
+        font.AddDefaultFontStyle(RES("arialbi.ttf"), Graphics::FontStyle::BOLD_ITALIC);
+        font.AddMonoFontStyle(RES("JetBrainsMono-Regular.ttf"));
+        font.AddMonoFontStyle(RES("JetBrainsMono-Bold.ttf"),       Graphics::FontStyle::BOLD);
+        font.AddMonoFontStyle(RES("JetBrainsMono-Italic.ttf"),     Graphics::FontStyle::ITALIC);
+        font.AddMonoFontStyle(RES("JetBrainsMono-BoldItalic.ttf"), Graphics::FontStyle::BOLD_ITALIC);
 
         font.SetSize(48);
         font.RenderBitmap();

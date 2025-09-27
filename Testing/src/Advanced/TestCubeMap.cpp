@@ -19,11 +19,11 @@ namespace Test {
         )), skybox.NewBatch());
 
         cubemap = Graphics::TextureCubemap::LoadCubemapPNG(
-            { res("right.jpg").IntoCStr(), res("left.jpg").IntoCStr(),
-              res("top.jpg").IntoCStr(),   res("bottom.jpg").IntoCStr(),
-              res("front.jpg").IntoCStr(), res("back.jpg").IntoCStr() });
+            { RES("right.jpg"), RES("left.jpg"),
+              RES("top.jpg"),   RES("bottom.jpg"),
+              RES("front.jpg"), RES("back.jpg") });
 
-        boxTex = Graphics::Texture2D::LoadPNG(res("box.png").IntoCStr());
+        boxTex = Graphics::Texture2D::LoadPNG(RES("box.png"));
 
         u32 i = 0;
         Graphics::Meshes::Cube().Merge(QGLCreateBlueprint$(Vertex, (
@@ -34,10 +34,10 @@ namespace Test {
             i++;
         )), box.NewBatch());
 
-        cubemapShader = Graphics::Shader::FromFile(res("cubemap.vert").IntoCStr(), res("cubemap.frag").IntoCStr());
-        boxShader     = Graphics::Shader::FromFile(res("box.vert")    .IntoCStr(), res("box.frag")    .IntoCStr());
-        reflectShader = Graphics::Shader::FromFile(res("reflect.vert").IntoCStr(), res("reflect.frag").IntoCStr());
-        refractShader = Graphics::Shader::FromFile(res("refract.vert").IntoCStr(), res("refract.frag").IntoCStr());
+        cubemapShader = Graphics::Shader::FromFile(RES("cubemap.vert"), RES("cubemap.frag"));
+        boxShader     = Graphics::Shader::FromFile(RES("box.vert"),     RES("box.frag"));
+        reflectShader = Graphics::Shader::FromFile(RES("reflect.vert"), RES("reflect.frag"));
+        refractShader = Graphics::Shader::FromFile(RES("refract.vert"), RES("refract.frag"));
 
         scene.SetProjection(Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 

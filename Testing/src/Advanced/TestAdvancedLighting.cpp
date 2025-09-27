@@ -8,7 +8,7 @@ namespace Test {
         scene = gdevice.CreateNewRender<Vertex>(1024, 512);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("untitled.obj").IntoCStr());
+        mloader.LoadFile(RES("untitled.obj"));
         Graphics::OBJModel model = mloader.RetrieveModel();
 
         materials = std::move(model.materials);
@@ -21,7 +21,7 @@ namespace Test {
             ));
         }
 
-        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
         scene.SetProjection(Math::Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
         camera.position = { 4.7875953, 9.015127, 0.9847422 };

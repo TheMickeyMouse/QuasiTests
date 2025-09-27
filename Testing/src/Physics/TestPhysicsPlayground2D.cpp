@@ -11,7 +11,7 @@
 namespace Test {
     void TestPhysicsPlayground2D::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 2048);
-        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
 
         world = { { 0, -80.0f } };
         scene.SetProjection(Math::Matrix3D::OrthoProjection({ { -40, -30, -1 }, { 40, 30, 1 } }));

@@ -3,7 +3,6 @@ set(PROJECT_NAME Testing)
 set(HEADER_FILES
     src/Advanced/TestAdvancedLighting.h
     src/Advanced/TestCubeMap.h
-    src/Advanced/TestFontRender.h
     src/Advanced/TestLightCasters.h
     src/Advanced/TestMaterialMaps.h
     src/Advanced/TestPostProcessing.h
@@ -29,7 +28,6 @@ source_group("Header Files" FILES ${HEADER_FILES})
 set(SOURCE_FILES
     src/Advanced/TestAdvancedLighting.cpp
     src/Advanced/TestCubeMap.cpp
-    src/Advanced/TestFontRender.cpp
     src/Advanced/TestLightCasters.cpp
     src/Advanced/TestMaterialMaps.cpp
     src/Advanced/TestPostProcessing.cpp

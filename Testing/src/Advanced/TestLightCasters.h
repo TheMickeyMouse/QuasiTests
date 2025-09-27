@@ -25,7 +25,7 @@ namespace Test {
         Vec<Graphics::Light> lights;
         static constexpr int MAX_LIGHTS = 8;
         Graphics::CameraController3D camera;
-        Graphics::Bloom bloom {{ 1200, 900 }};
+        Graphics::Bloom bloom {{ 1920, 1080 }};
 
         Graphics::RenderObject<Graphics::VertexColor3D> lightScene;
         Vec<Graphics::Mesh<Graphics::VertexColor3D>> lightMeshes;

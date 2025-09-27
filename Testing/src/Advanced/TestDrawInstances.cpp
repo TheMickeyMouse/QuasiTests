@@ -36,7 +36,7 @@ namespace Test {
             out (Normal) = Normal;
         )));
 
-        scene.UseShaderFromFile(res("instanced.vert").IntoCStr(), res("instanced.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("instanced.vert"), RES("instanced.frag"));
 
         camera.position = { -6.8653593, -7.7674685, -6.846223 };
         camera.yaw = -2.2986794; camera.pitch = -0.55294377;

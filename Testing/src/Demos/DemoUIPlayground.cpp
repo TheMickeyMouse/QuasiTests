@@ -7,6 +7,8 @@ namespace Test {
     void DemoUIPlayground::OnInit(Graphics::GraphicsDevice& gdevice) {
         canvas = Graphics::Canvas { gdevice };
         Graphics::Render::SetClearColor(Math::fColor::LightGray());
+
+        sprite = Graphics::Texture2D::LoadPNG(RES("sprite_minecraft.png"));
     }
 
     void DemoUIPlayground::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
@@ -45,6 +47,10 @@ namespace Test {
         }
         rsquare.OverlayGradient(Graphics::Gradient::Vertical(400, 0, Math::fColor::Lime(), Math::fColor::Cyan()));
         canvas.DrawMesh(rsquare);
+
+
+        canvas.DrawText("Hello, World!", 120.0f, { 200, 400 });
+        canvas.DrawTextureW(sprite, { 600, 700 }, 300);
 
         canvas.EndFrame();
     }

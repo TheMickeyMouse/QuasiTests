@@ -47,11 +47,11 @@ namespace Test {
         objectColor = fColor::Better::Orange();
         Graphics::Meshes::Arrow3D({ -18, -10, -29 }, { -12, 10, -23 }, 2).Merge(blueprint, meshes.NewBatch());
 
-        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
         scene.SetProjection(Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
-        flatShader = Graphics::Shader::FromFile(res("flat.vert").IntoCStr(), res("flat.frag").IntoCStr(), res("flat.geom").IntoCStr());
-        normalShader = Graphics::Shader::FromFile(res("norm.vert").IntoCStr(), res("norm.frag").IntoCStr(), res("norm.geom").IntoCStr());
+        flatShader = Graphics::Shader::FromFile(RES("flat.vert"), RES("flat.frag"), RES("flat.geom"));
+        normalShader = Graphics::Shader::FromFile(RES("norm.vert"), RES("norm.frag"), RES("norm.geom"));
 
         camera.position = { 0, 0, 0 };
         camera.yaw = 2.1558828f; camera.pitch = -0.891116f;

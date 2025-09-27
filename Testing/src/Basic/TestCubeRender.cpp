@@ -18,7 +18,7 @@ namespace Test {
             i++;
         )));
 
-        render.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        render.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
         render.SetProjection(projection);
     }
 

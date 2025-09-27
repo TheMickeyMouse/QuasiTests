@@ -1,5 +1,5 @@
 #pragma once
-#include "Canvas.h"
+#include "../../../Quasi/src/Graphics/GUI/Canvas.h"
 #include "Test.h"
 
 namespace Test {
@@ -9,8 +9,11 @@ namespace Test {
         int joinMode = 0;
         int arcDirection = Graphics::Canvas::CCW;
         int arcMode = Graphics::Canvas::OPEN;
+        Graphics::Texture2D sprite;
 
         Math::fv2 bezPoints[3] = { { 200, 700 }, { 600, 1100 }, { 500, 400 } };
+
+        DEFINE_TEST_T(DemoUIPlayground, DEMO)
     public:
         DemoUIPlayground() = default;
         ~DemoUIPlayground() override = default;

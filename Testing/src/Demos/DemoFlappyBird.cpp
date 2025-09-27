@@ -8,12 +8,10 @@
 namespace Test {
     void DemoFlappyBird::OnInit(Graphics::GraphicsDevice& gdevice) {
         scene = gdevice.CreateNewRender<Vertex>(2048, 2048);
-        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
         scene.SetProjection(Math::Matrix3D::OrthoProjection({ { -320, -240, -1 }, { 320, 240, 1 } }));
 
-        font = Graphics::Font::LoadFile(res("consola.ttf").IntoCStr());
-        font.SetSize(48);
-        font.RenderBitmap();
+        font = Graphics::Font::LoadFile(RES("consola.ttf"), 48);
 
         scene->shader.SetUniformTex("u_font", font.GetTexture(), 1);
 
@@ -70,15 +68,15 @@ namespace Test {
         bloom.SetToRenderTarget();
         Render::Clear();
 
-        mText = font.RenderText(Text::Format("{}", score), 80,
-            TextAlign { {{ -20, 100 }, { 20, 140 }} }.SpaceOut(1, -16))
-            .GeometryConvert([](const Font::Vertex& v) -> Vertex {
-                return { v.Position, Math::fColor::Better::Gray(), v.TextureCoord, 1 };
-        });
+        // mText = font.RenderText(Text::Format("{}", score), 80,
+        //     TextAlign { {{ -20, 100 }, { 20, 140 }} }.SpaceOut(1, -16))
+        //     .GeometryConvert([](const Font::Vertex& v) -> Vertex {
+        //         return { v.Position, Math::fColor::Better::Gray(), v.TextureCoord, 1 };
+        // });
 
         scene.BeginContext();
         scene.AddMesh(mBg);
-        scene.AddMesh(mText);
+        // scene.AddMesh(mText);
         Mesh<Vertex> spikeMesh;
         spikeMesh.vertices.ResizeWith(3, [] { return Vertex { 0, Math::fColor::Better::Lime(), 0, 0 }; });
         spikeMesh.indices.Push({ 0, 1, 2 });

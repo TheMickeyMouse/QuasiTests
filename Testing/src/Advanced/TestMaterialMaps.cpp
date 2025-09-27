@@ -11,16 +11,16 @@ namespace Test {
         lightScene = gdevice.CreateNewRender<Graphics::VertexColor3D>(8, 12);
 
         Graphics::OBJModelLoader mloader;
-        mloader.LoadFile(res("boxes.obj").IntoCStr());
+        mloader.LoadFile(RES("boxes.obj"));
 
         meshes = mloader.GetModel().RetrieveMeshes();
 
-        diffuseMap = Graphics::Texture2D::LoadPNG(res("diffuse.png").IntoCStr());
-        specularMap = Graphics::Texture2D::LoadPNG(res("specular.png").IntoCStr());
+        diffuseMap = Graphics::Texture2D::LoadPNG(RES("diffuse.png"));
+        specularMap = Graphics::Texture2D::LoadPNG(RES("specular.png"));
         diffuseMap.Activate(0);
         specularMap.Activate(1);
 
-        scene.UseShaderFromFile(res("shader.vert").IntoCStr(), res("shader.frag").IntoCStr());
+        scene.UseShaderFromFile(RES("shader.vert"), RES("shader.frag"));
 
         scene->shader.Bind();
         scene->shader.SetUniformTex("diffuseMap", diffuseMap, 1);
