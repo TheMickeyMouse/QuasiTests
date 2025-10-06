@@ -1,14 +1,13 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/GUI/Canvas.h"
+#include "Graphics/GUI/Canvas.h"
 #include "Test.h"
 
 namespace Test {
     class DemoUIPlayground : public Test {
         Graphics::Canvas canvas;
-        int capMode = 0;
-        int joinMode = 0;
-        int arcDirection = Graphics::Canvas::CCW;
-        int arcMode = Graphics::Canvas::OPEN;
+        int alignmode = 0;
+        float size = 120.0f;
+        String text = "This is a test for text rendering. \n How is your day? Hello, \n World! abc 123";
         Graphics::Texture2D sprite;
 
         Math::fv2 bezPoints[3] = { { 200, 700 }, { 600, 1100 }, { 500, 400 } };
