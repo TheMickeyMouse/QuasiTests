@@ -5,12 +5,14 @@
 namespace Test {
     class DemoUIPlayground : public Test {
         Graphics::Canvas canvas;
-        int alignmode = 0;
-        float size = 120.0f;
-        String text = "This is a test for text rendering. \n How is your day? Hello, \n World! abc 123";
+        float size = 20.0f;
+        String text = "click";
         Graphics::Texture2D sprite;
+        Math::fColor buttonColor;
 
         Math::fv2 bezPoints[3] = { { 200, 700 }, { 600, 1100 }, { 500, 400 } };
+
+        Box<Interactable> button;
 
         DEFINE_TEST_T(DemoUIPlayground, DEMO)
     public:

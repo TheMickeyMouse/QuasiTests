@@ -9,10 +9,22 @@ namespace Test {
         Graphics::Render::SetClearColor(Math::fColor::LightGray());
 
         sprite = Graphics::Texture2D::LoadPNG(RES("sprite_minecraft.png"));
+
+        button = Box<Clickable>::New({
+            { {{ 300, 200 }, { 600, 300 }} },
+            [&] (MouseEventType::E, IO::IO&) {
+                // QInfo$("Click!");
+                this->buttonColor = Math::fColor::Better::White();
+            }
+        });
+
+        canvas.AddInteractable(button.AsRef());
+        buttonColor = Math::fColor::Better::Lime();
     }
 
     void DemoUIPlayground::OnUpdate(Graphics::GraphicsDevice& gdevice, float deltaTime) {
-
+        canvas.Update(deltaTime);
+        buttonColor = buttonColor.Lerp(button->hovered ? Math::fColor::Better::Green() : Math::fColor::Better::Lime(), 0.1f);
     }
 
     void DemoUIPlayground::OnRender(Graphics::GraphicsDevice& gdevice) {
@@ -48,17 +60,14 @@ namespace Test {
         rsquare.OverlayGradient(Graphics::Gradient::Vertical(400, 0, Math::fColor::Lime(), Math::fColor::Cyan()));
         canvas.DrawMesh(rsquare);
 
-        canvas.StrokeWeight(1);
-        canvas.DrawRect({ { 200, 700 }, { 800, 500 } });
-        canvas.DrawText(text, size, { 200, 500 }, { .alignment = alignmode, .rect = { 600, 200 } });
-        canvas.DrawTextureW(sprite, { 600, 700 }, 300);
+        canvas.Fill(buttonColor);
+        canvas.DrawRoundedRect({{ 300, 200 }, { 600, 300 }}, 10);
+        canvas.DrawText(text, size, { 300, 300 }, { .rect = { 300, 100 } });
 
         canvas.EndFrame();
     }
 
     void DemoUIPlayground::OnImGuiRender(Graphics::GraphicsDevice& gdevice) {
-        ImGui::Combo("Text Alignment", &alignmode, "Center\0Left\0Right\0Justify\0");
-
         ImGui::InputFloat("Text Size", &size);
         ImGui::EditString("String", text);
     }
