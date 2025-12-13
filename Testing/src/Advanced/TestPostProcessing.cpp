@@ -35,12 +35,11 @@ namespace Test {
         scene.UseShader(Graphics::Shader::StdColored);
         scene.SetProjection(Matrix3D::PerspectiveFov(90.0_deg, gdevice.GetAspectRatio(), 0.01f, 100.0f));
 
-        const auto [winX, winY] = gdevice.GetWindowSize();
         fbo = Graphics::FrameBuffer::New();
         fbo.Bind();
 
         renderResult = Graphics::Texture2D::New(
-            nullptr, { (u32)winX, (u32)winY },
+            nullptr, gdevice.GetWindowSize(),
             { .format = Graphics::TextureFormat::RGB, .internalformat = Graphics::TextureIFormat::RGB_8 }
         );
 

@@ -28,6 +28,12 @@
 #include "Physics/TestPhysicsPlayground2D.h"
 
 namespace Test {
+    TestManager::TestManager()
+    : gdevice(Graphics::GraphicsDevice::Initialize(
+        { 1200, 900 },
+        { .decorated = false, .beginPosition = { 360, 90 } }))
+    {}
+
     void TestManager::OnInit() {
         menu = Box<TestMenu>::Build(*this);
         currentTest = *menu;

@@ -11,7 +11,7 @@ namespace Test {
         Box<TestMenu> menu;
         OptRef<Test> currentTest;
     public:
-        TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
+        TestManager();
 
         void OnInit();
         void OnUpdate(float deltaTime = f32s::NAN);
