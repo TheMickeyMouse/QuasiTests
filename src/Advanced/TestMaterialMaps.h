@@ -1,6 +1,6 @@
 #pragma once
-#include "../../../Quasi/src/Graphics/CameraController3D.h"
-#include "../../../Quasi/src/Graphics/Mesh.h"
+#include "Graphics/CameraController3D.h"
+#include "Graphics/Mesh.h"
 #include "Test.h"
 #include "GLs/Texture.h"
 

@@ -1,4 +1,10 @@
-set(PROJECT_NAME Testing)
+cmake_minimum_required(VERSION 4.0.2)
+project(QuasiTests)
+set(PROJECT_NAME QuasiTests)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_subdirectory(Quasi)
 
 set(HEADER_FILES
     src/Advanced/TestAdvancedLighting.h
@@ -16,6 +22,7 @@ set(HEADER_FILES
     src/Test.h
     src/TestManager.h
     src/TestMenu.h
+    src/Demos/DemoGlass.h
 )
 source_group("Header Files" FILES ${HEADER_FILES})
 
@@ -32,6 +39,7 @@ set(SOURCE_FILES
     src/Physics/TestPhysicsPlayground2D.cpp
     src/Demos/DemoFlappyBird.cpp
     src/Demos/DemoUIPlayground.cpp
+    src/Demos/DemoGlass.cpp
     src/TestManager.cpp
     src/TestMenu.cpp
     Testing.cpp
@@ -41,12 +49,11 @@ source_group("Source Files" FILES ${SOURCE_FILES})
 set(ALL_FILES
     ${HEADER_FILES}
     ${SOURCE_FILES}
-        src/Demos/DemoGlass.cpp
-        src/Demos/DemoGlass.h
 )
 
 add_executable(${PROJECT_NAME} ${ALL_FILES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE src)
-
 target_link_libraries(${PROJECT_NAME} PUBLIC Quasi)
+target_include_directories(${PROJECT_NAME}
+    PRIVATE src
+)

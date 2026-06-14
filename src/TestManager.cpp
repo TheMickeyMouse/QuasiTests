@@ -24,7 +24,7 @@
 namespace Test {
     class DemoGlass;
 
-    TestManager::TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1600, 900 })) {}
+    TestManager::TestManager() : gdevice(Graphics::GraphicsDevice::Initialize({ 1200, 900 })) {}
 
     void TestManager::OnInit() {
         menu = Box<TestMenu>::Build(*this);
